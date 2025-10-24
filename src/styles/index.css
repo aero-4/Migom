@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(31, 31, 31, 0.87);
+  background-color: #f6f6f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+@layer components {
+  /* Базовая кнопка (ваша) */
+  .add__button {
+    /* базовые утилиты — вы можете менять их на свои */
+    @apply inline-flex items-center justify-center gap-2 text-white bg-red-500 p-2 rounded-full duration-500;
+  }
+
+  /* состояния (надежнее в виде отдельных селекторов) */
+  .add__button:hover { @apply bg-red-400/90; }
+  .add__button:active { @apply bg-red-500/30; }
+
+  /* Варианты / модификаторы (BEM-like) */
+  .add__button--sm   { @apply p-1 text-sm rounded-md; }       /* маленькая */
+  .add__button--lg   { @apply p-3 text-base rounded-xl; }     /* большая */
+  .add__button--icon { @apply w-10 h-10 p-0 rounded-full; }   /* только иконка */
+  .add__button--pill { @apply rounded-full px-4; }            /* пильная кнопка (шире) */
+
+  /* disabled состояние (включает pointer-events и визуал) */
+  .add__button[disabled],
+  .add__button--disabled {
+    @apply bg-red-200 text-red-800 pointer-events-none opacity-60;
+  }
+
+  /* пример: кнопка, показывающая кол-во (чтобы использовать рядом с count) */
+  .add__button--count {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500 text-white;
+  }
+
+  /* Ваша большая кнопка — исправил мелкий опечаточный класс my-text-center -> text-center */
+  .big__button {
+    @apply text-white bg-red-500 p-3 text-center rounded-xl inline-flex items-center justify-center gap-2;
+  }
+  .big__button:hover { @apply bg-red-500/90; }
+  .big__button:active { @apply bg-red-500/80; }
+
+  /* Responsive-variant example: меняет размер на мобильном/десктопе */
+  .add__button-responsive {
+    @apply p-2 text-sm;
+  }
+  @screen md {
+    .add__button-responsive { @apply p-3 text-base; }
+  }
+
+  /* Карточки продукта — ваши имена, чтобы легко подключать */
+  .product__card {
+    @apply flex flex-col gap-2 w-50 bg-white rounded-2xl overflow-hidden;
+  }
+  .product__img {
+    @apply w-50 h-50 lg:w-100 rounded-xl object-cover bg-gray-100 transition-transform transform hover:scale-105;
+  }
+
+  /* Имя продукта — используем min-w-0 и truncate чтобы не "вылазило" внутри flex */
+  .product__name {
+    @apply font-bold text-xs text-gray-700 truncate min-w-0;
+  }
+
+  /* Если нужно 2 строки с многоточием — модификатор через line-clamp */
+  .product__name--2lines {
+    @apply line-clamp-2 min-w-0;
+  }
+
+  /* Небольшая утилита (ваша) для визуального раздела */
+  .meta__row {
+    @apply flex items-center justify-between gap-2;
+  }
+}
+
