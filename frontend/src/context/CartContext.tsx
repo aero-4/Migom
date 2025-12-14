@@ -67,13 +67,23 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({children}
         setItems((prev) => prev.filter((p) => p.id !== id));
     };
 
-    const setQty = (id: Product["id"], qty: number) => {
-        if (qty <= 0) {
-            removeItem(id);
-            return;
-        }
-        setItems((prev) => prev.map((p) => (p.id === id ? {...p, qty} : p)));
+    const setQty = (id: Product["id"], delta: number) => {
+        setItems(prev => {
+            const item = prev.find(p => p.id === id);
+            if (!item) return prev;
+
+            const newQty = item.qty + delta;
+
+            if (newQty <= 0) {
+                return prev.filter(p => p.id !== id);
+            }
+
+            return prev.map(p =>
+                p.id === id ? { ...p, qty: newQty } : p
+            );
+        });
     };
+
 
     const clear = () => setItems([]);
 

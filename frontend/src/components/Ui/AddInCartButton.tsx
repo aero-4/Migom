@@ -1,69 +1,88 @@
-import React, {JSX, useState} from "react";
+import React from "react";
 import plusPng from "../../assets/plus.png";
 import minusPng from "../../assets/minus-sign.png";
-import {useCart} from "../../context/CartContext.tsx";
+import { useCart } from "../../context/CartContext.tsx";
 
+export default function AddInCartBtn({ product, className = "", label = "" }) {
+    const { items, addItem, setQty, removeItem } = useCart();
 
-export default function AddInCartBtn({product, className="", label=""}): JSX.Element {
-    const [count, setCount] = useState<number>(0);
-    const {addItem} = useCart();
-    const {removeItem} = useCart()
-    const setCountHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        const name = e.currentTarget.name;
-        const delta = name === "plus" ? 1 : name === "minus" ? -1 : 0;
-        const newCount = count + delta;
+    const cartItem = items.find(i => i.id === product.id);
+    const qty = cartItem?.qty ?? 0;
 
-        if (newCount < 0 || newCount > product.count)
-            return;
+    const isBig = Boolean(label);
 
+    const baseBtn =
+        "add__button flex items-center justify-center rounded-full transition";
+    const sizeBtn = isBig
+        ? "px-6 py-6 text-base min-h-[48px]"
+        : "p-4 min-h-[32px]";
 
-        setCount(newCount);
-        if (delta == 1) {
-            addItem({...product, id: product.id, image: product.photo});
+    const inc = () => {
+        if (qty === 0) {
+            addItem({ ...product, image: product.photo });
         } else {
-            removeItem(product.id)
+            setQty(product.id, +1);
+        }
+    };
+
+    const dec = () => {
+        if (qty <= 1) {
+            removeItem(product.id);
+        } else {
+            setQty(product.id, -1);
         }
     };
 
     return (
-        <div className={`${className} flex flex-row flex-wrap ml-auto bg-red-100/30 rounded-full`}>
-            {count <= 0 ? (
-                <div>
-                    <button
-                        type="button"
-                        name="plus"
-                        className="add__button"
-                        onClick={setCountHandler}
-                        aria-label="Добавить"
-                    >
-                        <img src={plusPng} className={`w-3 lg:w-4`} alt="Добавить"/>
-                        {label && <span className="text-sm my-3 px-3 text-black">{label}</span>}
-                    </button>
-                </div>
+        <div className={`${className} flex flex-row ml-auto bg-red-100 rounded-full`}>
+            {qty === 0 ? (
+                <button
+                    type="button"
+                    onClick={inc}
+                    className={`${baseBtn} ${sizeBtn} gap-2`}
+                    aria-label="Добавить"
+                >
+                    <img
+                        src={plusPng}
+                        className={isBig ? "w-4 h-4" : "w-3 h-3"}
+                        alt="Добавить"
+                    />
+                    {label && (
+                        <span className="text-gray-700 whitespace-nowrap">
+                            {label}
+                        </span>
+                    )}
+                </button>
             ) : (
                 <div className="flex flex-row gap-2 items-center">
                     <button
-                        name="minus"
-                        className="add__button"
-                        onClick={setCountHandler}
+                        type="button"
+                        onClick={dec}
+                        className={`${baseBtn} ${sizeBtn}`}
                         aria-label="Уменьшить"
                     >
-                        <img src={minusPng} className={`w-3 lg:w-5`} alt="Уменьшить"/>
-
-                        {label && <span className="text-sm my-3 px-3 text-black">Убрать</span>}
+                        <img
+                            src={minusPng}
+                            className={isBig ? "w-4 h-4" : "w-3 h-3"}
+                            alt="Уменьшить"
+                        />
                     </button>
 
-                    <span className="text-center text-xs">{count}</span>
+                    <span className={`text-center text-gray-700 font-semibold ${isBig ? "text-base px-2" : "text-xs"}`}>
+                        {qty}
+                    </span>
 
                     <button
-                        name="plus"
-                        className="add__button"
-                        onClick={setCountHandler}
+                        type="button"
+                        onClick={inc}
+                        className={`${baseBtn} ${sizeBtn}`}
                         aria-label="Добавить ещё"
                     >
-                        <img src={plusPng} className={`w-3 lg:w-5`} alt="Добавить"/>
-
-                        {label && <span className="text-sm my-3 px-3 text-black">Добавить</span>}
+                        <img
+                            src={plusPng}
+                            className={isBig ? "w-4 h-4" : "w-3 h-3"}
+                            alt="Добавить"
+                        />
                     </button>
                 </div>
             )}

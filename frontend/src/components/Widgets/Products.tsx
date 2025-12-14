@@ -85,7 +85,12 @@ export default function Products({products_data = []}: { products_data?: Product
                                     className="product__img"
                                     loading="lazy"
                                 />
+
                             </a>
+
+                            <div className="absolute " style={{alignSelf: "flex-end"}}>
+                                <AddInCartBtn product={product}/>
+                            </div>
 
                             <p className="product__name"
                                title={product.name}>
@@ -128,9 +133,7 @@ export default function Products({products_data = []}: { products_data?: Product
                                     )}
                                 </div>
 
-                                <div className="ml-auto mt-8" style={{alignSelf: "flex-end"}}>
-                                    <AddInCartBtn product={product}/>
-                                </div>
+
                             </div>
                         </div>
                     ))}

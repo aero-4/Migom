@@ -287,7 +287,7 @@ export const CartWidget: React.FC = () => {
                                                         <div className="mt-4 flex items-center gap-3">
                                                             <QuantityInput item={item}
                                                                            setQty={setQty}
-                                                                           max={item.qty}/>
+                                                                           />
                                                             <div className="ml-auto text-lg text-gray-600">
                                                                 <span className="font-semibold text-gray-800">
                                                                     {item.discount_price ? item.discount_price : item.price} ₽
@@ -328,7 +328,7 @@ export const CartWidget: React.FC = () => {
                                                 onClick={handleSwitchToDeliveringForm}
                                                 disabled={loading || items.length === 0}
                                                 className={`w-full flex items-center justify-center text-white btn__circle ${
-                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600"
                                                 } focus:outline-none`}
                                             >
                                                 Оформить заказ
@@ -339,7 +339,7 @@ export const CartWidget: React.FC = () => {
                                                 onClick={() => window.location.assign("/login")}
                                                 disabled={loading || items.length === 0}
                                                 className={`w-full flex items-center justify-center текст-white btn__circle ${
-                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600"
                                                 } focus:outline-none`}
                                             >
                                                 Оформить заказ и войти
