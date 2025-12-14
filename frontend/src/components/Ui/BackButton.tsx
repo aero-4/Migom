@@ -11,7 +11,7 @@ const BackButton: React.FC<Props> = ({onBack}) => {
             <button
                 type="button"
                 onClick={onBack}
-                className="btn__circle bg-gray-500"
+                className="big__button btn__circle bg-gray-500"
             >
                 Назад
             </button>

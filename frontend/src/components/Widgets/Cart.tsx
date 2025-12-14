@@ -1,9 +1,24 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useCart} from "../../context/CartContext";
-import DeliveryForm from "../Forms/DeliveryForm";
 import QuantityInput from "../Ui/QuantityInput.tsx";
 import CloseButton from "../Ui/CloseButton.tsx";
 import {useAuth} from "../../context/AuthContext.tsx";
+import PaymentForm from "../Forms/PaymentForm.tsx";
+import {DeliveryForm} from "../Forms/DeliveryForm.tsx";
+
+export type DeliveryAddress = {
+    id?: number | string;
+    addressLine?: string;
+    street?: string;
+    house?: string;
+    flat?: string;
+    floor?: string;
+    intercom?: string;
+    comment?: string;
+    leaveAtDoor?: boolean;
+};
+
+type Step = "cart" | "address" | "payment";
 
 export const CartWidget: React.FC = () => {
     const {
@@ -21,14 +36,78 @@ export const CartWidget: React.FC = () => {
     } = useCart();
     const {isAuthenticated} = useAuth();
     const [loading, setLoading] = useState(false);
-    const [isDeliveringForm, setDeliveringForm] = useState(false);
     const closeButtonRef = useRef<HTMLButtonElement | null>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
-    const [step, setStep] = useState<"cart" | "address" | "payment">("address");
+    const [step, setStep] = useState<Step>("cart");
+
+    const [addresses, setAddresses] = useState<DeliveryAddress[]>([]);
+    const [selectedAddress, setSelectedAddress] = useState<DeliveryAddress | null>(null);
+    const [loadingAddresses, setLoadingAddresses] = useState(false);
+
+    const fetchAddresses = useCallback(
+        async (signal?: AbortSignal) => {
+            if (loadingAddresses) return;
+
+            setLoadingAddresses(true);
+
+            try {
+                const res = await fetch("/api/addresses/", { signal });
+
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 403) {
+                        window.location.assign("/login");
+                    }
+                    setAddresses([]);
+                    return;
+                }
+
+                const list = await res.json();
+                if (!Array.isArray(list)) {
+                    setAddresses([]);
+                    return;
+                }
+
+                const mapped: DeliveryAddress[] = list.map((last: any) => ({
+                    id: last.id,
+                    addressLine: last.city ?? "",
+                    street: last.street ?? "",
+                    house: last.house_number != null ? String(last.house_number) : "",
+                    flat: last.apartment_number != null ? String(last.apartment_number) : "",
+                    floor: last.floor != null ? String(last.floor) : "",
+                    intercom: last.entrance != null ? String(last.entrance) : "",
+                    comment: last.comment ?? "",
+                    leaveAtDoor: !!last.is_leave_at_door,
+                }));
+
+                setAddresses(prev => {
+                    if (
+                        prev.length === mapped.length &&
+                        prev.every((a, i) => a.id === mapped[i].id)
+                    ) {
+                        return prev;
+                    }
+                    return mapped;
+                });
+
+                if (!selectedAddress && mapped.length > 0) {
+                    setSelectedAddress(mapped[0]);
+                }
+            } catch (e) {
+                if ((e as any)?.name === "AbortError") return;
+                console.error("Failed to fetch addresses", e);
+                setAddresses([]);
+            } finally {
+                setLoadingAddresses(false);
+            }
+        },
+        [loadingAddresses, selectedAddress]
+    );
+
+
+
 
     useEffect(() => {
         let timer: number | undefined;
-
         if (isOpen) {
             document.body.style.overflow = "hidden";
             timer = window.setTimeout(() => closeButtonRef.current?.focus(), 120);
@@ -36,7 +115,6 @@ export const CartWidget: React.FC = () => {
             document.body.style.overflow = "";
             triggerRef.current?.focus();
         }
-
         return () => {
             document.body.style.overflow = "";
             if (timer) clearTimeout(timer);
@@ -45,53 +123,75 @@ export const CartWidget: React.FC = () => {
 
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape" && isOpen) close();
+            if (e.key === "Escape" && isOpen) handleClose();
         };
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
-    }, [isOpen, close]);
+    }, [isOpen]);
 
+    const handleClose = () => {
+        setStep("cart");
+        close();
+    };
 
     const handleSwitchToDeliveringForm = () => {
-        setDeliveringForm(true);
+        if (addresses.length > 0) {
+            setSelectedAddress(addresses[0]);
+        }
         setStep("address");
     };
 
-    const handleCheckout = async (addr?: any) => {
+    const handleCheckout = async (addr?: DeliveryAddress | null) => {
         if (items.length === 0) {
             alert("Корзина пуста");
             return;
         }
 
-        const addressId = addr?.id ?? addr?.address_id ?? null;
+        const chosen = addr ?? selectedAddress;
+        const addressId = chosen?.id ?? null;
         if (!addressId) {
             alert("Пожалуйста, выберите или сохраните адрес доставки.");
             return;
         }
 
-        const payload = {
-            address_id: Number(addr.id),
-            products: items.map(it => ({ product_id: Number(it.id), quantity: Number(it.qty) }))
-        };
-        const result = await createOrder(payload);
+        setLoading(true);
+        try {
+            const payload = {
+                address_id: Number(addressId),
+                products: items.map(it => ({ product_id: Number(it.id), quantity: Number(it.qty) }))
+            };
+            const result = await createOrder(payload);
 
-        if (result.ok) {
-            const orderId = result.data?.order?.id ?? result.data?.id ?? result.data?.orderId;
-            if (orderId) {
-                const result2 = await createPayment({order_id: orderId, amount: totalPrice, method: "yoomoney"})
+            if (result.ok) {
+                const orderId = result.data?.order?.id ?? result.data?.id ?? result.data?.orderId;
+                if (orderId) {
+                    const result2 = await createPayment({order_id: orderId, amount: totalPrice, method: "yoomoney"})
 
-                if (result.ok) {
-                    const url = result2.data?.url
+                    if (result2.ok) {
+                        const url = result2.data?.url
 
-                    window.document.location.assign(url);
+                        if (url) {
+                            window.open(url, "_blank", "noopener,noreferrer");
+
+                            return result2.data
+
+                        } else {
+                            console.error("No payment url:", result2.data);
+                        }
+                    } else {
+                        console.error("Payment create error:", result2.error);
+                    }
+                } else {
+                    console.error("No order id in response:", result.data);
                 }
             } else {
-                console.error("No order id in response:", result.data);
+                console.error("Order create error:", result.error);
             }
-        } else {
-            console.error("Order create error:", result.error);
+        } finally {
+            setLoading(false);
         }
     };
+
 
     return (
         <>
@@ -102,7 +202,6 @@ export const CartWidget: React.FC = () => {
                 onClick={toggle}
                 className="menu__button"
             >
-
                 {totalItems > 0 && (
                     <span
                         className="absolute justify-center p-1 px-1 text-sm -mt-2 ml-5 font-semibold leading-none text-white bg-red-500 rounded-full shadow"
@@ -121,26 +220,17 @@ export const CartWidget: React.FC = () => {
                         strokeLinejoin="round"
                     />
                 </svg>
-
             </button>
 
-            <div
-                aria-hidden={!isOpen}
-                className={`fixed inset-0 z-40 transition-opacity duration-300 ${isOpen ? "opacity-60 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-                style={{backgroundColor: "rgba(0,0,0,0.5)"}}
-                onClick={() => close()}
-            />
 
-            <aside
+
+            <div
                 onClick={(e) => e.stopPropagation()}
                 className={`md:p-6 h-full w-full xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "translate-x-full"
                 } rounded-l-2xl overflow-hidden`}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="cart-title"
             >
-                {!isDeliveringForm || step === "cart" ? (
+                {step === "cart" && (
                     <div className="h-full w-full flex flex-col">
                         <div className="w-full flex flex-col min-h-0">
                             <div className="flex items-center justify-between p-3">
@@ -149,8 +239,7 @@ export const CartWidget: React.FC = () => {
                                 </h3>
 
                                 <div className="flex items-center gap-3">
-
-                                    <CloseButton close={close}/>
+                                    <CloseButton close={handleClose}/>
                                 </div>
                             </div>
 
@@ -185,18 +274,14 @@ export const CartWidget: React.FC = () => {
                                                         <div className="font-medium text-gray-800 truncate">
                                                             {item.name}
                                                         </div>
-
                                                     </div>
 
                                                     <div className="mt-4 flex items-center gap-3">
-
                                                         <QuantityInput item={item}
                                                                        setQty={setQty}
                                                                        max={item.qty}/>
-
                                                         <div className="ml-auto text-lg text-gray-600">
-                                                            <span
-                                                                className="font-semibold text-gray-800">
+                                                            <span className="font-semibold text-gray-800">
                                                                 {item.discount_price ? item.discount_price : item.price} ₽
                                                             </span>
                                                         </div>
@@ -214,13 +299,10 @@ export const CartWidget: React.FC = () => {
 
                                 <div className="mb-6 flex flex-row items-center justify-center w-full">
                                     <div className="text-gray-600 p-3">К оплате:</div>
-
                                     <div className="justify-center font-bold text-2xl md:text-3xl text-gray-900">
                                         {totalPrice.toLocaleString()} ₽
                                     </div>
-
                                 </div>
-
 
                                 <div className="flex flex-row gap-1">
                                     <button
@@ -231,7 +313,6 @@ export const CartWidget: React.FC = () => {
                                     >
                                         Очистить корзину
                                     </button>
-
 
                                     {isAuthenticated ? (
                                         <button
@@ -249,27 +330,49 @@ export const CartWidget: React.FC = () => {
                                             type="button"
                                             onClick={() => window.location.assign("/login")}
                                             disabled={loading || items.length === 0}
-                                            className={`w-full flex items-center justify-center text-white btn__circle ${
+                                            className={`w-full flex items-center justify-center текст-white btn__circle ${
                                                 loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
                                             } focus:outline-none`}
                                         >
                                             Оформить заказ и войти
                                         </button>
                                     )}
-
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                ) : <DeliveryForm onSubmit={handleCheckout}
-                                  step={step}
-                                  setStep={setStep}
-                                  onClose={close}/>}
-            </aside>
+                )}
+
+                {step === "address" && (
+                    <DeliveryForm
+                        addresses={addresses}
+                        fetchAddresses={fetchAddresses}
+                        selectedAddress={selectedAddress}
+                        setSelectedAddress={setSelectedAddress}
+                        onSaved={(addr) => {
+                            setSelectedAddress(addr);
+                            setStep("payment");
+                        }}
+                        onClose={handleClose}
+                    />
+                )}
+
+                {step === "payment" && (
+                    <PaymentForm
+                        address={selectedAddress}
+                        onSubmit={() => handleCheckout(selectedAddress)}
+                        onBack={() => setStep("address")}
+                    />
+                )}
+
+            </div>
         </>
     );
 };
 
 export default CartWidget;
+
+
+
+
+

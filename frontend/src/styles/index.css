@@ -114,7 +114,7 @@ body {
     }
 
     .badge__covered {
-        @apply -mr-15 absolute z-10 text-center px-3 text-[11px] md:text-[13px] bg-green-300 rounded-xl text-gray-700
+        @apply -mr-6 absolute z-10 text-center px-3 text-[11px] md:text-[13px] bg-green-300 rounded-xl text-gray-700
     }
 
     .img {
