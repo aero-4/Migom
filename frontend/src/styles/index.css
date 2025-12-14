@@ -114,11 +114,30 @@ body {
     }
 
     .badge__covered {
-        @apply -mr-6 absolute z-10 text-center px-3 text-[11px] md:text-[13px] bg-green-300 rounded-xl text-gray-700
+        @apply
+        -mr-6
+        absolute
+        z-10
+        text-center
+        px-3
+        text-[11px]
+        md:text-[12px]
+        bg-green-300
+        rounded-xl
+        text-gray-700
     }
 
     .img {
-        @apply w-full h-full my-auto aspect-square rounded-xl object-cover transition-transform transform;
+        @apply
+        w-full
+        max-w-120
+        h-full
+        my-auto
+        aspect-square
+        rounded-xl
+        object-cover
+        transition-transform
+        transform;
     }
 
     .cat__img {
@@ -126,7 +145,7 @@ body {
     }
 
     .product__img {
-        @apply w-full aspect-square rounded-3xl object-cover transition-transform transform;
+        @apply w-full max-w-150 aspect-square rounded-3xl object-cover transition-transform transform;
     }
 
     .product__name {
@@ -219,6 +238,6 @@ body {
     }
 
     .menu__button {
-        @apply flex flex-col items-center cursor-pointer text-xs md:text-lg focus:outline-none hover:opacity-80 active:opacity-70 focus:outline-none
+        @apply flex flex-col items-center p-3 cursor-pointer text-xs md:text-lg focus:outline-none hover:opacity-80 active:opacity-70 focus:outline-none
     }
 }

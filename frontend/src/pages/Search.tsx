@@ -82,7 +82,7 @@ const SearchPage: React.FC = () => {
             )}
 
             {!loading && results.length > 0 && (
-                <Products products_data={results} />
+                <Products className={150} products_data={results}/>
             )}
         </div>
     );

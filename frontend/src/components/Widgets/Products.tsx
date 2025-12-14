@@ -107,7 +107,12 @@ export default function Products({products_data = []}: { products_data?: Product
     return (
         <>
             <div ref={wrapperRef} className="w-full p-2">
-                <div className="grid gap-2 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]">
+                <div className={`
+                        grid gap-1
+                        [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]
+                        md:[grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]
+                      `}
+                >
                     {products.map((product) => (
                         <div key={product.id ?? product.slug} className="product__card">
                             <a href={`/product/${product.id}`} style={{display: "block"}}>
@@ -121,7 +126,7 @@ export default function Products({products_data = []}: { products_data?: Product
 
                             <p className="product__name"
                                title={product.name}>
-                                 {product.name}
+                                {product.name}
                             </p>
 
                             <div className="flex flex-row mt-auto" style={{alignItems: "flex-end"}}>

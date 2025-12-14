@@ -32,7 +32,7 @@ static_dir = BASE_DIR / "static"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await check_redis_connection()
-    await create_and_delete_tables_db()
+    # await create_and_delete_tables_db()
     yield
 
 

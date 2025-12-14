@@ -5,7 +5,6 @@ import Products from "../components/Widgets/Products";
 export default function Home(): JSX.Element {
     return (
         <>
-            <h1 className="title">Каталог</h1>
 
             <Categories/>
 

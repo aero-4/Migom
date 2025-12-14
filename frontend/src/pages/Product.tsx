@@ -65,7 +65,8 @@ const Product: React.FC = () => {
                 {product.photo && (
                     <img src={product.photo}
                          alt={product.name}
-                         className="img"/>
+                         className="img"
+                    />
                 )}
 
                 <div className="flex flex-col gap-12">
@@ -86,7 +87,9 @@ const Product: React.FC = () => {
                                     {product.discount_price} ₽
                                 </p>
                             ) : (
-                                <p className="text-3xl font-bold ml-auto">{product.price} ₽</p>
+                                <p className="text-3xl font-bold ml-auto">
+                                    {product.price} ₽
+                                </p>
                             )}
 
                             <p className="text-sm text-gray-400">{product.grams} г</p>

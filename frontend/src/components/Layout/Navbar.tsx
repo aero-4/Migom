@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
                     <NavLink to="/profile"
                              className="menu__button">
                         <img
-                            className="w-6 h-6 hover:opacity-80"
+                            className="w-6 h-6"
                             src={profileSvg}
                             alt="Профиль"
                         />

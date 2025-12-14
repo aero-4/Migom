@@ -51,7 +51,7 @@ export const CartWidget: React.FC = () => {
             setLoadingAddresses(true);
 
             try {
-                const res = await fetch("/api/addresses/", { signal });
+                const res = await fetch("/api/addresses/", {signal});
 
                 if (!res.ok) {
                     if (res.status === 401 || res.status === 403) {
@@ -102,8 +102,6 @@ export const CartWidget: React.FC = () => {
         },
         [loadingAddresses, selectedAddress]
     );
-
-
 
 
     useEffect(() => {
@@ -158,7 +156,7 @@ export const CartWidget: React.FC = () => {
         try {
             const payload = {
                 address_id: Number(addressId),
-                products: items.map(it => ({ product_id: Number(it.id), quantity: Number(it.qty) }))
+                products: items.map(it => ({product_id: Number(it.id), quantity: Number(it.qty)}))
             };
             const result = await createOrder(payload);
 
@@ -222,11 +220,9 @@ export const CartWidget: React.FC = () => {
                 </svg>
             </button>
 
-
-
-            <div
+            <aside
                 onClick={(e) => e.stopPropagation()}
-                className={`md:p-6 h-full w-full xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                className={`h-full w-full md:p-6 xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "translate-x-full"
                 } rounded-l-2xl overflow-hidden`}
             >
@@ -247,7 +243,8 @@ export const CartWidget: React.FC = () => {
                                 {items.length === 0 ? (
                                     <div className="flex flex-col my-auto text-center items-center justify-center text-gray-600">
                                         <div className="text-3xl font-medium">Корзина пуста</div>
-                                        <div className="text-sm mt-2">Добавьте товары и они появятся тут.</div>
+
+                                        <div className="text-sm mt-2">Добавьте товары и они появятся тут</div>
                                     </div>
                                 ) : (
                                     <ul className="space-y-5 w-full p-3">
@@ -269,11 +266,14 @@ export const CartWidget: React.FC = () => {
                                                     )}
                                                 </div>
 
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-start justify-between gap-3">
+                                                <div className="flex-1 min-w-0 ">
+                                                    <div className="flex flex-row items-start justify-between gap-3">
                                                         <div className="font-medium text-gray-800 truncate">
                                                             {item.name}
+                                                            <p className="text-gray-500 text-sm">{item.grams} г</p>
+
                                                         </div>
+
                                                     </div>
 
                                                     <div className="mt-4 flex items-center gap-3">
@@ -365,7 +365,7 @@ export const CartWidget: React.FC = () => {
                     />
                 )}
 
-            </div>
+            </aside>
         </>
     );
 };
