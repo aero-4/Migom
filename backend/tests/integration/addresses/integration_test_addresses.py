@@ -5,7 +5,7 @@ import pytest
 
 from src.addresses.domain.entities import Address
 from src.addresses.presentation.dtos import AddressCreateDTO, AddressUpdateDTO
-from src.users.domain.dtos import UserCreateDTO
+from src.users.presentation.dtos import UserCreateDTO
 
 TEST_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1))
 

@@ -37,7 +37,6 @@ class access_control:
     async def parse_request(self, **kwargs) -> None:
         request = getattr(kwargs.get("auth"), "request", None) or kwargs.get("request")
         user = getattr(request, "state", None) and getattr(request.state, "user", None)
-        print(user)
         self.current_user = user if user is not None else AnonymousUser()
         return None
 

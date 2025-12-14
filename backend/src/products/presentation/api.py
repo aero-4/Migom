@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from src.auth.presentation.dependencies import TokenAuthDep
 from src.auth.presentation.permissions import access_control
 from src.products.application.use_cases.collect_product import collect_products, collect_product, collect_products_by_filters
 from src.products.application.use_cases.create_product import create_product
@@ -28,17 +29,18 @@ async def search(search_data: SearchDataDTO, uow: ProductUoWDep):
 
 
 @products_api_router.post("/")
-async def add(product_data: ProductCreateDTO, uow: ProductUoWDep):
+@access_control(superuser=True)
+async def add(product_data: ProductCreateDTO, uow: ProductUoWDep, auth: TokenAuthDep):
     return await create_product(product_data, uow)
 
 
 @products_api_router.patch("/{product_id}")
 @access_control(superuser=True)
-async def patch(product_id: int, product_data: ProductUpdateDTO, uow: ProductUoWDep):
+async def patch(product_id: int, product_data: ProductUpdateDTO, uow: ProductUoWDep, auth: TokenAuthDep):
     return await update_product(product_id, product_data, uow)
 
 
 @products_api_router.delete("/{product_id}")
 @access_control(superuser=True)
-async def delete(product_id: int, uow: ProductUoWDep):
+async def delete(product_id: int, uow: ProductUoWDep, auth: TokenAuthDep):
     return await delete_product(product_id, uow)
