@@ -220,159 +220,163 @@ export const CartWidget: React.FC = () => {
                 </svg>
             </button>
 
-            <aside
-                onClick={(e) => e.stopPropagation()}
-                className={`h-full w-full md:p-6 xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
-                    isOpen ? "translate-x-0" : "translate-x-full"
-                } rounded-l-2xl overflow-hidden`}
-            >
-                {step === "cart" && (
-                    <div className="h-full w-full flex flex-col">
-                        <div className="w-full flex flex-col min-h-0">
-                            <div className="flex items-center justify-between p-3">
-                                <h3 id="cart-title" className="text-2xl font-semibold text-gray-800">
-                                    Корзина
-                                </h3>
+            <div className={`fixed inset-0 z-40 ${isOpen ? '' : 'pointer-events-none'}`} aria-hidden>
+                <div
+                    onClick={handleClose}
+                    className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+                />
 
-                                <div className="flex items-center gap-3">
-                                    <CloseButton close={handleClose}/>
-                                </div>
-                            </div>
+                <aside
+                    onClick={(e) => e.stopPropagation()}
+                    className={`h-full w-full md:p-6 xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                        isOpen ? "translate-x-0" : "translate-x-full"
+                    } rounded md:rounded-4xl overflow-hidden`}
+                    role="dialog"
+                    aria-modal="true"
+                >
+                    {step === "cart" && (
+                        <div className="h-full w-full flex flex-col">
+                            <div className="w-full flex flex-col min-h-0">
+                                <div className="flex items-center justify-between p-3">
+                                    <h3 id="cart-title" className="text-2xl font-semibold text-gray-800">
+                                        Корзина
+                                    </h3>
 
-                            <div className="overflow-y-auto">
-                                {items.length === 0 ? (
-                                    <div className="flex flex-col my-auto text-center items-center justify-center text-gray-600">
-                                        <div className="text-3xl font-medium">Корзина пуста</div>
-
-                                        <div className="text-sm mt-2">Добавьте товары и они появятся тут</div>
-                                    </div>
-                                ) : (
-                                    <ul className="space-y-5 w-full p-3">
-                                        {items.map((item) => (
-                                            <li key={item.id}
-                                                className="flex gap-3 items-start p-2 md:p-6 rounded-lg border border-gray-100">
-                                                <div
-                                                    className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
-                                                    {item.image ? (
-                                                        <img src={item.image}
-                                                             alt={item.name}
-                                                             className="w-full h-full object-cover cursor-pointer"
-                                                             onClick={() => document.location.href = "/product/" + item.id}
-                                                        />
-                                                    ) : (
-                                                        <div className="text-xs text-gray-400">
-                                                            PHOTO
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                                <div className="flex-1 min-w-0 ">
-                                                    <div className="flex flex-row items-start justify-between gap-3">
-                                                        <div className="font-medium text-gray-800 truncate">
-                                                            {item.name}
-                                                            <p className="text-gray-500 text-sm">{item.grams} г</p>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div className="mt-4 flex items-center gap-3">
-                                                        <QuantityInput item={item}
-                                                                       setQty={setQty}
-                                                                       max={item.qty}/>
-                                                        <div className="ml-auto text-lg text-gray-600">
-                                                            <span className="font-semibold text-gray-800">
-                                                                {item.discount_price ? item.discount_price : item.price} ₽
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="mt-auto flex flex-col">
-                            <div className="p-3 flex flex-col">
-
-                                <div className="mb-6 flex flex-row items-center justify-center w-full">
-                                    <div className="text-gray-600 p-3">К оплате:</div>
-                                    <div className="justify-center font-bold text-2xl md:text-3xl text-gray-900">
-                                        {totalPrice.toLocaleString()} ₽
+                                    <div className="flex items-center gap-3">
+                                        <CloseButton close={handleClose}/>
                                     </div>
                                 </div>
 
-                                <div className="flex flex-row gap-1">
-                                    <button
-                                        type="button"
-                                        onClick={clear}
-                                        disabled={items.length === 0}
-                                        className="w-full btn__circle text-gray-700 bg-gray-200 hover:bg-gray-100"
-                                    >
-                                        Очистить корзину
-                                    </button>
+                                <div className="overflow-y-auto">
+                                    {items.length === 0 ? (
+                                        <div className="flex flex-col my-auto text-center items-center justify-center text-gray-600">
+                                            <div className="text-3xl font-medium">Корзина пуста</div>
 
-                                    {isAuthenticated ? (
-                                        <button
-                                            type="button"
-                                            onClick={handleSwitchToDeliveringForm}
-                                            disabled={loading || items.length === 0}
-                                            className={`w-full flex items-center justify-center text-white btn__circle ${
-                                                loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-                                            } focus:outline-none`}
-                                        >
-                                            Оформить заказ
-                                        </button>
+                                            <div className="text-sm mt-2">Добавьте товары и они появятся тут</div>
+                                        </div>
                                     ) : (
-                                        <button
-                                            type="button"
-                                            onClick={() => window.location.assign("/login")}
-                                            disabled={loading || items.length === 0}
-                                            className={`w-full flex items-center justify-center текст-white btn__circle ${
-                                                loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-                                            } focus:outline-none`}
-                                        >
-                                            Оформить заказ и войти
-                                        </button>
+                                        <ul className="space-y-5 w-full p-3">
+                                            {items.map((item) => (
+                                                <li key={item.id}
+                                                    className="flex gap-3 items-start p-2 md:p-6 rounded-lg border border-gray-100">
+                                                    <div
+                                                        className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center">
+                                                        {item.image ? (
+                                                            <img src={item.image}
+                                                                 alt={item.name}
+                                                                 className="w-full h-full object-cover cursor-pointer"
+                                                                 onClick={() => document.location.href = "/product/" + item.id}
+                                                            />
+                                                        ) : (
+                                                            <div className="text-xs text-gray-400">
+                                                                PHOTO
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    <div className="flex-1 min-w-0 ">
+                                                        <div className="flex flex-row items-start justify-between gap-3">
+                                                            <div className="font-medium text-gray-800 truncate">
+                                                                {item.name}
+                                                                <p className="text-gray-500 text-sm">{item.grams} г</p>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div className="mt-4 flex items-center gap-3">
+                                                            <QuantityInput item={item}
+                                                                           setQty={setQty}
+                                                                           max={item.qty}/>
+                                                            <div className="ml-auto text-lg text-gray-600">
+                                                                <span className="font-semibold text-gray-800">
+                                                                    {item.discount_price ? item.discount_price : item.price} ₽
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     )}
                                 </div>
                             </div>
+
+                            <div className="mt-auto flex flex-col">
+                                <div className="p-3 flex flex-col">
+
+                                    <div className="mb-6 flex flex-row items-center justify-center w-full">
+                                        <div className="text-gray-600 p-3">К оплате:</div>
+                                        <div className="justify-center font-bold text-2xl md:text-3xl text-gray-900">
+                                            {totalPrice.toLocaleString()} ₽
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-row gap-1">
+                                        <button
+                                            type="button"
+                                            onClick={clear}
+                                            disabled={items.length === 0}
+                                            className="w-full btn__circle text-gray-700 bg-gray-200 hover:bg-gray-100"
+                                        >
+                                            Очистить корзину
+                                        </button>
+
+                                        {isAuthenticated ? (
+                                            <button
+                                                type="button"
+                                                onClick={handleSwitchToDeliveringForm}
+                                                disabled={loading || items.length === 0}
+                                                className={`w-full flex items-center justify-center text-white btn__circle ${
+                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+                                                } focus:outline-none`}
+                                            >
+                                                Оформить заказ
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={() => window.location.assign("/login")}
+                                                disabled={loading || items.length === 0}
+                                                className={`w-full flex items-center justify-center текст-white btn__circle ${
+                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+                                                } focus:outline-none`}
+                                            >
+                                                Оформить заказ и войти
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {step === "address" && (
-                    <DeliveryForm
-                        addresses={addresses}
-                        fetchAddresses={fetchAddresses}
-                        selectedAddress={selectedAddress}
-                        setSelectedAddress={setSelectedAddress}
-                        onSaved={(addr) => {
-                            setSelectedAddress(addr);
-                            setStep("payment");
-                        }}
-                        onClose={handleClose}
-                    />
-                )}
+                    {step === "address" && (
+                        <DeliveryForm
+                            addresses={addresses}
+                            fetchAddresses={fetchAddresses}
+                            selectedAddress={selectedAddress}
+                            setSelectedAddress={setSelectedAddress}
+                            onSaved={(addr) => {
+                                setSelectedAddress(addr);
+                                setStep("payment");
+                            }}
+                            onClose={handleClose}
+                        />
+                    )}
 
-                {step === "payment" && (
-                    <PaymentForm
-                        address={selectedAddress}
-                        onSubmit={() => handleCheckout(selectedAddress)}
-                        onBack={() => setStep("address")}
-                    />
-                )}
+                    {step === "payment" && (
+                        <PaymentForm
+                            address={selectedAddress}
+                            onSubmit={() => handleCheckout(selectedAddress)}
+                            onBack={() => setStep("address")}
+                        />
+                    )}
 
-            </aside>
+                </aside>
+            </div>
         </>
     );
 };
 
 export default CartWidget;
-
-
-
-
-

@@ -19,7 +19,6 @@ type Product = {
 export default function Products({products_data = []}: { products_data?: Product[] }): JSX.Element {
     const [products, setProducts] = useState<Product[]>(products_data);
     const wrapperRef = useRef<HTMLDivElement | null>(null);
-    const [cols, setCols] = useState<number>(3);
 
     const genUuid = (): string => {
         if (typeof crypto !== "undefined" && typeof (crypto as any).randomUUID === "function") {
@@ -64,42 +63,6 @@ export default function Products({products_data = []}: { products_data?: Product
         return () => {
             mounted = false;
             controller.abort();
-        };
-    }, []);
-
-    useEffect(() => {
-        const el = wrapperRef.current;
-        if (!el) {
-            setCols(3);
-            return;
-        }
-
-        const computeCols = (width: number) => {
-            const MIN_CARD = 220;
-            const maxCols = 4;
-            const c = Math.max(1, Math.min(maxCols, Math.floor(width / MIN_CARD)));
-            return c;
-        };
-
-        const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                const w = entry.contentRect.width;
-                setCols(computeCols(w));
-            }
-        }) : null;
-
-        if (resizeObserver) resizeObserver.observe(el);
-
-        setCols(computeCols(el.getBoundingClientRect().width));
-
-        const onWindowResize = () => {
-            const w = el.getBoundingClientRect().width;
-            setCols(computeCols(w));
-        };
-        window.addEventListener("resize", onWindowResize);
-        return () => {
-            window.removeEventListener("resize", onWindowResize);
-            if (resizeObserver) resizeObserver.disconnect();
         };
     }, []);
 
