@@ -78,7 +78,8 @@ export default function Products({products_data = []}: { products_data?: Product
                 >
                     {products.map((product) => (
                         <div key={product.id ?? product.slug} className="product__card">
-                            <a href={`/product/${product.id}`} style={{display: "block"}}>
+                            <a href={`/product/${product.id}`}
+                            className="relative">
                                 <img
                                     src={product.photo}
                                     alt="Фото продукта"
@@ -88,7 +89,7 @@ export default function Products({products_data = []}: { products_data?: Product
 
                             </a>
 
-                            <div className="absolute " style={{alignSelf: "flex-end"}}>
+                            <div className="absolute" style={{alignSelf: "flex-end"}}>
                                 <AddInCartBtn product={product}/>
                             </div>
 

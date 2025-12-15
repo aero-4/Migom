@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -83,7 +83,10 @@ class PGOrdersRepository(IOrderRepository):
         return self._to_entity(obj)
 
     async def get_all(self, user_id: int) -> list[Order]:
-        stmt = select(OrdersOrm).where(OrdersOrm.creator_id == user_id)
+        stmt = select(OrdersOrm).where(OrdersOrm.creator_id == user_id).order_by(
+            desc(OrdersOrm.created_at),
+        )
+
         result = await self.session.execute(stmt)
         objs: list[OrdersOrm] = result.scalars().all()
 

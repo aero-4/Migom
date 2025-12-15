@@ -34,7 +34,7 @@ export default function AddInCartBtn({ product, className = "", label = "" }) {
     };
 
     return (
-        <div className={`${className} flex flex-row ml-auto bg-red-100 rounded-full`}>
+        <div className={`${className} flex flex-row bg-red-100 rounded-full`}>
             {qty === 0 ? (
                 <button
                     type="button"

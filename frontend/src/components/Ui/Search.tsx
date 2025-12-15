@@ -173,7 +173,6 @@ const Search: React.FC = () => {
     };
 
     const doSearch = async (value: string) => {
-        // сохраняем последний запрос (опц.) — можно использовать для дедупа, логов и т.д.
         lastQueryRef.current = value;
 
         abortRef.current?.abort();
@@ -201,16 +200,12 @@ const Search: React.FC = () => {
     };
 
     const onResultClick = (r: ProductItem) => {
-        // сначала блурим инпут чтобы убрать клавиатуру на мобильных,
-        // затем закрываем дропдаун и навигируем.
         inputRef.current?.blur();
         closeDropdownImmediate();
         if (r.id != null) navigate(`/product/${r.id}`);
     };
 
     const goToBigSearch = () => {
-        // сначала скрываем дропдаун и блурим инпут (важно для мобильных),
-        // затем навигируем.
         inputRef.current?.blur();
         closeDropdownImmediate();
         navigate(`/search?q=${encodeURIComponent(query)}`);
@@ -220,16 +215,13 @@ const Search: React.FC = () => {
 
     return (
         <>
-            <div ref={wrapperRef} className="relative w-full max-w-xl">
+            <div ref={wrapperRef} className="relative max-w-xl">
                 <div className="flex items-center rounded-full px-3 py-2 shadow">
                     <input
-                        ref={inputRef} // <-- добавлен реф
+                        ref={inputRef}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => {
-                            // если уже есть текст — форсируем поиск при фокусе,
-                            // чтобы при повторном фокусе (или повторном вводе того же текста)
-                            // показать результаты.
                             if (query.trim()) {
                                 window.clearTimeout(debounceRef.current);
                                 doSearch(query);
@@ -238,7 +230,6 @@ const Search: React.FC = () => {
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 e.preventDefault();
-                                // при Enter — переходим на страницу поиска (и прячем дропдаун)
                                 goToBigSearch();
                             }
                         }}
@@ -249,7 +240,6 @@ const Search: React.FC = () => {
                     <div className="flex flex-row">
                         <button
                             onClick={() => {
-                                // СНАЧАЛА прячем, затем навигируем — важно!
                                 inputRef.current?.blur();
                                 closeDropdownImmediate();
                                 navigate(`/search?q=${encodeURIComponent(query)}`);
@@ -263,7 +253,6 @@ const Search: React.FC = () => {
                 </div>
             </div>
 
-            {/* Условно рендерим дропдаун — убирает артефакты при навигации/мобиле */}
             {(isOpen || results.length > 0 || noResults || loading) && (
                 <div
                     ref={dropdownRef}

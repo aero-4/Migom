@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {useSearchParams} from "react-router-dom";
 import Products from "../components/Widgets/Products.tsx";
 import Loader from "../components/Loaders/Loader.tsx";
 import config from "../../config.ts";
-import Search, { parseInputToDTO } from "../components/Ui/Search.tsx";
+import Search, {parseInputToDTO} from "../components/Ui/Search.tsx";
 
 type ProductItem = {
     id?: number | string;
@@ -43,7 +43,7 @@ const SearchPage: React.FC = () => {
             try {
                 const res = await fetch(`${config.API_URL}/api/products/search`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(parseInputToDTO(q)),
                     signal: controller.signal,
                 });
@@ -67,13 +67,14 @@ const SearchPage: React.FC = () => {
         return () => controller.abort();
     }, [q]);
 
+    if (loading) return <Loader/>;
+
     return (
         <div className="px-3 py-4">
             <h1 className="title mb-4">
                 Результаты поиска
             </h1>
 
-            {loading && <Loader />}
 
             {!loading && noResults && (
                 <div className="text-center text-gray-500 py-10">
@@ -82,7 +83,7 @@ const SearchPage: React.FC = () => {
             )}
 
             {!loading && results.length > 0 && (
-                <Products className={150} products_data={results}/>
+                <Products products_data={results}/>
             )}
         </div>
     );

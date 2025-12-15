@@ -29,6 +29,9 @@ export default function Menu({ onClose }: Props): JSX.Element {
                     <NavLink to="/profile" onClick={handleClose} className="big__button px-24">
                         Профиль
                     </NavLink>
+                    <NavLink to="/orders" onClick={handleClose} className="big__button">
+                        Мои заказы
+                    </NavLink>
                     <button onClick={logoutClick} className="big__button">
                         Выйти
                     </button>
