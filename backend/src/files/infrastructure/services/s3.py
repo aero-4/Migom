@@ -1,3 +1,5 @@
+import uuid
+
 import aiofiles
 import uuid6
 
@@ -27,9 +29,12 @@ class S3Storage:
         async with self.session.create_client("s3", **self.config) as client:
             yield client
 
-    async def upload_file(self, file_path: str | Path, object_name: str = str(uuid6.uuid6())) -> None | str:
+    async def upload_file(self, file_path: Path, object_name: str = None) -> None | str:
+        if not object_name:
+            object_name = uuid.uuid4()
+
         async with self.get_client() as client:
-            suffix = file_path.split(".")[-1] if isinstance(file_path, str) else file_path.suffix.replace(".", "")
+            suffix = file_path.suffix.replace(".", "")
             object_name = f"{object_name}.{suffix}"
 
             with open(file_path, "rb") as file:

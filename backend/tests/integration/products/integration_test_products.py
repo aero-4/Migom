@@ -72,6 +72,7 @@ async def create_product(client, product=None):
 
 async def create_normal_product(client):
     TEST_PHOTOS = [os.path.join("normal", i) for i in os.listdir("normal")]
+    print(TEST_PHOTOS)
     PRICES = [999, 1999, 2199, 499, 899, 1399, 2599, 3499, 5999]
     NAME_CATS = ["Выбор пользователей", "Острее киберугроз", "Только здесь", "Новинки", "Только в доставке", "Комбо и ланчи", "Баскеты", "Бургеры"]
     NAMES = ["Комбо \"Курица в квадрате\" оригинальное", "Острое комбо от Kaspersky «Против звонков с неизвестного»", "Шефбургер оригинальный", "Комбо с Биг Маэстро", "Веджи Чиз Ролл классический", "8 Острых Крылышек", "Большое комбо \"Курица в квадрате\" оригинальное"]
@@ -79,11 +80,14 @@ async def create_normal_product(client):
 
     for name in NAMES:
         photo_path = random.choice(TEST_PHOTOS)
+        url_photo = None
+        print(photo_path)
 
         with open(photo_path, "rb") as f:
-            resp = await client.post("/api/files/",
-                                     files={"file": f})
+            print(f)
+            resp = await client.post("/api/files/", files={"file": f})
             url_photo = resp.json()["url"]
+            print(url_photo)
 
         category_data = None
         while True:

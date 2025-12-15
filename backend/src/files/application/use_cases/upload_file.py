@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import UploadFile
 
 from src.files.domain.entities import FileData
@@ -8,11 +10,10 @@ async def upload_file(file: UploadFile, storage: S3StorageDep) -> FileData:
     file_name = file.filename
     content = await file.read()
 
-    try:
-        await storage.save_file(file_name, content)
-        url = await storage.upload_file(file_name)
+    await storage.save_file(file_name, content)
 
-        return FileData(url=url)
+    url = await storage.upload_file(Path(file_name))
+    await storage.delete_file(file_name)
 
-    finally:
-        await storage.delete_file(file_name)
+    return FileData(url=url)
+
