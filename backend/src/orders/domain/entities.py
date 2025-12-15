@@ -23,7 +23,7 @@ class Order(CustomModel):
     created_at: datetime.datetime
     update_at: datetime.datetime
     creator_id: int
-    products: List[int]
+    products: List
     status: str
     address_id: int
     amount: int

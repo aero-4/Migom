@@ -15,7 +15,7 @@ class IOrderRepository(abc.ABC):
         ...
 
     @abc.abstractmethod
-    async def get_all(self) -> List[Order]:
+    async def get_all(self, user_id: int) -> List[Order]:
         ...
 
     @abc.abstractmethod

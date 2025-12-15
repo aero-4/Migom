@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy import text
 
 from src.db.base import Base
@@ -17,3 +19,5 @@ async def create_and_delete_tables_db():
         except:
             await drop_all_tables_cascade()
         await conn.run_sync(Base.metadata.create_all)
+
+        logging.info("Database tables recreated")

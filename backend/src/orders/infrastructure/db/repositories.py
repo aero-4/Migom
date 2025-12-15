@@ -10,6 +10,7 @@ from src.core.domain.exceptions import AlreadyExists, NotFound
 from src.orders.domain.entities import OrderCreate, Order, OrderUpdate, OrderStatus
 from src.orders.domain.interfaces.order_repo import IOrderRepository
 from src.orders.infrastructure.db.orm import OrdersOrm, OrderProductsOrm
+from src.products.domain.entities import Product
 from src.products.infrasctructure.db.orm import ProductsOrm
 
 
@@ -30,9 +31,15 @@ class PGOrdersRepository(IOrderRepository):
 
         await self._add_links(order_data, obj)
 
-        result = await self.session.execute(
-            select(OrdersOrm).options(selectinload(OrdersOrm.product_links)).where(OrdersOrm.id == obj.id)
+        stmt = (
+            select(OrdersOrm)
+            .options(
+                selectinload(OrdersOrm.product_links)
+                .selectinload(OrderProductsOrm.product)
+            )
+            .where(OrdersOrm.id == obj.id)
         )
+        result = await self.session.execute(stmt)
         order_data: OrdersOrm = result.scalar_one_or_none()
         if not order_data:
             raise NotFound()
@@ -75,16 +82,29 @@ class PGOrdersRepository(IOrderRepository):
             raise AlreadyExists() from ex
 
     async def get(self, id: int) -> Order:
-        obj: OrdersOrm | None = await self.session.get(OrdersOrm, id)
-
+        stmt = (
+            select(OrdersOrm)
+            .options(
+                selectinload(OrdersOrm.product_links)
+                .selectinload(OrderProductsOrm.product)
+            )
+            .where(OrdersOrm.id == id)
+        )
+        result = await self.session.execute(stmt)
+        obj = result.scalar_one_or_none()
         if not obj:
             raise NotFound()
-
         return self._to_entity(obj)
 
     async def get_all(self, user_id: int) -> list[Order]:
-        stmt = select(OrdersOrm).where(OrdersOrm.creator_id == user_id).order_by(
-            desc(OrdersOrm.created_at),
+        stmt = (
+            select(OrdersOrm)
+            .options(
+                selectinload(OrdersOrm.product_links)
+                .selectinload(OrderProductsOrm.product)
+            )
+            .where(OrdersOrm.creator_id == user_id)
+            .order_by(desc(OrdersOrm.created_at))
         )
 
         result = await self.session.execute(stmt)
@@ -118,7 +138,17 @@ class PGOrdersRepository(IOrderRepository):
 
         await self.session.flush()
 
-        return self._to_entity(obj)
+        result = await self.session.execute(
+            select(OrdersOrm)
+            .options(
+                selectinload(OrdersOrm.product_links)
+                .selectinload(OrderProductsOrm.product)
+            )
+            .where(OrdersOrm.id == obj.id)
+        )
+        result = result.scalar_one()
+
+        return self._to_entity(result)
 
     async def filter(self, status: str) -> List[Order]:
         status = OrderStatus(status)
@@ -130,12 +160,35 @@ class PGOrdersRepository(IOrderRepository):
 
     @staticmethod
     def _to_entity(order_data: OrdersOrm) -> Order:
+        products_data = []
+        for link in order_data.product_links:
+            product = link.product
+            products_data.append(Product(
+                id=product.id,
+                created_at=product.created_at,
+                updated_at=product.updated_at,
+                name=product.name,
+                content=product.content,
+                composition=product.composition,
+                price=product.price,
+                discount_price=product.discount_price,
+                discount=product.discount,
+                count=product.count,
+                kilocalorie=product.kilocalorie,
+                grams=product.grams,
+                protein=product.protein,
+                fats=product.fats,
+                carbohydrates=product.carbohydrates,
+                photo=product.photo,
+                category_id=product.category_id,
+            ).model_dump(mode="json"))
+
         return Order(
             id=order_data.id,
             creator_id=order_data.creator_id,
             created_at=order_data.created_at,
             update_at=order_data.updated_at,
-            products=[link.product_id for link in order_data.product_links],
+            products=products_data,
             status=order_data.status,
             address_id=order_data.address_id,
             amount=order_data.amount

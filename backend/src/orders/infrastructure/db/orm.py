@@ -6,6 +6,7 @@ from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from src.db.base import Base
 from src.orders.domain.entities import OrderStatus
+from src.products.infrasctructure.db.orm import ProductsOrm
 from src.utils.datetimes import get_timezone_now
 
 
@@ -22,7 +23,7 @@ class OrderProductsOrm(Base):
     quantity: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
     amount: Mapped[int] = mapped_column(Integer, nullable=False)
     order: Mapped["OrdersOrm"] = relationship("OrdersOrm", back_populates="product_links")
-    product: Mapped["ProductsOrm"] = relationship("ProductsOrm", back_populates="order_links")
+    product: Mapped["ProductsOrm"] = relationship("ProductsOrm", back_populates="order_links", lazy="selectin")
 
 
 class OrdersOrm(Base):
@@ -43,3 +44,4 @@ class OrdersOrm(Base):
         lazy="selectin",
     )
     products = association_proxy("product_links", "product")
+
