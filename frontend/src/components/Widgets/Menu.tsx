@@ -27,20 +27,20 @@ export default function Menu({ onClose }: Props): JSX.Element {
         >
             {isAuthenticated ? (
                 <div className="flex flex-col gap-2">
-                    <NavLink to="/profile" onClick={handleClose} className="big__button px-24">
+                    <NavLink to="/profile" onClick={handleClose} className="big__button text-gray-500 bg-gray-100 px-24">
                         Профиль
                     </NavLink>
-                    <NavLink to="/orders" onClick={handleClose} className="big__button">
+                    <NavLink to="/orders" onClick={handleClose} className="big__button text-orange-500 bg-orange-100">
                         Мои заказы
                     </NavLink>
                     <ExitButton/>
                 </div>
             ) : (
                 <div className="flex flex-col gap-2">
-                    <NavLink to="/login" onClick={handleClose} className="big__button px-24">
+                    <NavLink to="/login" onClick={handleClose} className="big__button text-red-500 bg-red-100 px-24">
                         Войти
                     </NavLink>
-                    <NavLink to="/register" onClick={handleClose} className="big__button px-24">
+                    <NavLink to="/register" onClick={handleClose} className="big__button text-blue-500 bg-blue-100 px-24">
                         Регистрация
                     </NavLink>
                 </div>

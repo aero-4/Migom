@@ -73,6 +73,13 @@ const DeliveryForm: React.FC<DFProps> = ({
     }, [value]);
 
     useEffect(() => {
+        (async () => {
+            await fetchAddresses();
+        })();
+    }, [])
+
+
+    useEffect(() => {
         if (selectedAddress) {
             setAddr(selectedAddress);
         }
@@ -189,6 +196,7 @@ const DeliveryForm: React.FC<DFProps> = ({
         };
     };
 
+
     const handleAddressSubmit = async (e?: React.FormEvent) => {
         e?.preventDefault();
 
@@ -237,10 +245,8 @@ const DeliveryForm: React.FC<DFProps> = ({
                 savedAddr = addr;
             }
 
-            // refresh addresses from parent
             await fetchAddresses();
 
-            // select the saved address (parent also will select in onSaved)
             if (savedAddr) {
                 setSelectedAddress(savedAddr);
                 onSaved?.(savedAddr);

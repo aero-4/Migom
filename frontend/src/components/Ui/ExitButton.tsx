@@ -15,7 +15,7 @@ function ExitButton() {
         <>
             <button
                 type="button"
-                className="big__button"
+                className="big__button text-red-500 bg-red-100"
                 onClick={() => setIsOpen(true)}
             >
                 Выйти

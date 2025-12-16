@@ -241,4 +241,6 @@ body {
     .menu__button {
         @apply flex flex-col items-center p-3 cursor-pointer text-xs md:text-lg focus:outline-none hover:opacity-80 active:opacity-70 focus:outline-none
     }
+
+
 }

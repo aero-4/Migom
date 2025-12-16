@@ -96,7 +96,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                         onClick={handlePayment}
                         className="btn__circle big__button bg-violet-500"
                     >
-                        Оплатить через ЮМани
+                        Оплатить через Yoomoney
                     </button>
                 )}
 

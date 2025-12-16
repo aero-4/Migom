@@ -45,7 +45,7 @@ const ActionModal: React.FC<ConfirmModalProps> = ({
             <div className="fixed inset-0 bg-black/50" onClick={onClose} />
 
 
-            <div className="flex flex-col gap-6 text-center relative z-50 w-full max-w-md rounded-2xl bg-white p-9  shadow-5xl">
+            <div className="flex flex-col gap-6 text-center relative z-50 w-full max-w-md rounded-2xl bg-white p-9 shadow-5xl">
                 <h2 className="text-2xl font-semibold">
                     {title}
                 </h2>
