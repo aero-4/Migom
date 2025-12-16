@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import config from "../../config.ts";
 import Loader from "../components/Loaders/Loader.tsx";
+import OpenButton from "../components/Ui/OpenButton.tsx";
+import MiniCard from "../components/Ui/MiniCard.tsx";
 
 const statusMap: Record<
     string,
     { text: string; color: string }
 > = {
-    created: { text: "Создан", color: "bg-gray-500" },
-    pending: { text: "Ищем курьера...", color: "bg-yellow-500" },
-    delivering: { text: "В доставке", color: "bg-orange-500" },
-    success: { text: "Успешно", color: "bg-green-500" },
-    error: { text: "Проблема", color: "bg-red-500" },
+    created: {text: "Создан", color: "bg-gray-500"},
+    pending: {text: "Ищем курьера...", color: "bg-yellow-500"},
+    delivering: {text: "В доставке", color: "bg-orange-500"},
+    success: {text: "Успешно", color: "bg-green-500"},
+    error: {text: "Проблема", color: "bg-red-500"},
 };
 
 interface Order {
@@ -55,7 +57,7 @@ function Orders() {
     }, []);
 
     if (loading) {
-        return <Loader />;
+        return <Loader/>;
     }
 
     if (error) {
@@ -70,13 +72,13 @@ function Orders() {
         <>
             <h2 className="title">Последние ваши заказы</h2>
 
-            <div className="card min-h-screen">
+            <div className="container min-h-screen">
                 {orders.length === 0 ? (
                     <p className="text-center text-gray-400">
                         Тут ничего нет.
                     </p>
                 ) : (
-                    <div className="flex flex-col gap-4 md:gap-8">
+                    <div className="flex flex-col gap-4 md:gap-6">
                         {orders.map((order) => {
                             const status = statusMap[order.status];
 
@@ -85,7 +87,8 @@ function Orders() {
                                     key={order.id}
                                     className="card shadow gap-3"
                                 >
-                                    <div className="flex flex-row items-center">
+                                    <div className="flex items-center">
+
                                         <h3 className="text-xl">
                                             Заказ №{order.id}
                                         </h3>
@@ -109,6 +112,10 @@ function Orders() {
                                             </p>
                                         </div>
                                     </div>
+
+                                    <OpenButton className="mx-auto justify-center" elements={order.products.map((product) => (
+                                        <MiniCard product={product}/>
+                                    ))}/>
                                 </div>
                             );
                         })}

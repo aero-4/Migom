@@ -2,17 +2,17 @@ import React, {JSX, useEffect, useState} from "react";
 import config from "../../../config.ts";
 import bottomSvg from "../../assets/bottom.svg";
 import minusSvg from "../../assets/minus.svg";
+import OpenButton from "../Ui/OpenButton.tsx";
 
 export default function Categories(): JSX.Element {
     const [cats, setCats] = useState([])
-    const [isVisible, setIsVisible] = useState(false)
     useEffect(() => {
         const controller = new AbortController();
         let mounted = true;
 
         const load = async () => {
             try {
-                const res = await fetch(`${config.API_URL}/api/categories`, { signal: controller.signal });
+                const res = await fetch(`${config.API_URL}/api/categories`, {signal: controller.signal});
                 if (!res.ok)
                     throw new Error("No categories");
                 const data = await res.json();
@@ -38,36 +38,25 @@ export default function Categories(): JSX.Element {
 
     return (
         <>
-            <h1 className="menu__button flex flex-row"
-                onClick={() => setIsVisible(!isVisible)}>
-                <h1 className="title">Каталог</h1>
-                {isVisible ? (
-                    <img src={minusSvg} alt="Закрыть" className="w-8"/>
-                ) : (
-                    <img src={bottomSvg} alt="Раскрыть" className="w-8"/>
-                )}
-            </h1>
-
-            {isVisible && (
-                <div className="flex flex-row flex-wrap gap-3 items-center p-6 rounded-xl">
-                    {cats.map((category, idx) => (
-                        <a href={`/category/${category.id}`}
-                           className="menu__button"
-                           key={`cat-${idx}`}
-                        >
-                            <img
-                                src={category.photo}
-                                alt="Фото категории"
-                                className="cat__img"
-                            />
-                            <span
-                                className="cat__name">
+            <OpenButton elements={
+                cats.map((category, idx) => (
+                    <a href={`/category/${category.id}`}
+                       className="menu__button"
+                       key={`cat-${idx}`}
+                    >
+                        <img
+                            src={category.photo}
+                            alt="Фото категории"
+                            className="cat__img"
+                        />
+                        <span
+                            className="cat__name">
                             {category.name}
                         </span>
-                        </a>
-                    ))}
-                </div>
-            )}
+                    </a>
+                ))}
+                        title="Каталог"/>
+
 
         </>
     );

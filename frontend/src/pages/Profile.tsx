@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import config from "../../config";
 import CloseButton from "../components/Ui/CloseButton.tsx";
+import ExitButton from "../components/Ui/ExitButton.tsx";
 
 const ChangePasswordModal: React.FC<{
     open: boolean;
@@ -161,7 +162,7 @@ const ChangePasswordModal: React.FC<{
 };
 
 function Profile(): JSX.Element {
-    const { user, logout } = useAuth();
+    const { user} = useAuth();
     const navigate = useNavigate();
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -190,20 +191,23 @@ function Profile(): JSX.Element {
 
                 <div className="w-full max-w-md">
                     <div className="flex flex-col gap-3">
-                        <button type="button" onClick={() => setModalOpen(true)} className="big__button">
+                        <button
+                            type="button"
+                            className="big__button bg-orange-400"
+                            onClick={() => {
+                                navigate("/orders");
+                            }}
+                        >
+                            Мои заказы
+                        </button>
+
+                        <button type="button" onClick={() => setModalOpen(true)}
+                                className="big__button bg-gray-500">
                             Сменить пароль
                         </button>
 
-                        <button
-                            type="button"
-                            className="big__button"
-                            onClick={async () => {
-                                await logout();
-                                navigate("/login");
-                            }}
-                        >
-                            Выйти
-                        </button>
+                        <ExitButton/>
+
                     </div>
                 </div>
             </div>

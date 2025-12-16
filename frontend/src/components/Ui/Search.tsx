@@ -4,6 +4,7 @@ import searchSvg from "../../assets/search.svg";
 import config from "../../../config";
 import Products from "../Widgets/Products.tsx";
 import Loader from "../Loaders/Loader.tsx";
+import MiniCard from "./MiniCard.tsx";
 
 type SearchDataDTO = { /* ...как было...*/ };
 type ProductItem = { /* ...как было...*/ };
@@ -202,7 +203,8 @@ const Search: React.FC = () => {
     const onResultClick = (r: ProductItem) => {
         inputRef.current?.blur();
         closeDropdownImmediate();
-        if (r.id != null) navigate(`/product/${r.id}`);
+        if (r.id != null)
+            navigate(`/product/${r.id}`);
     };
 
     const goToBigSearch = () => {
@@ -283,26 +285,7 @@ const Search: React.FC = () => {
                             <Products products_data={results}/>
                         ) : (
                             results.map((r) => (
-                                <div
-                                    key={r.id ?? `${r.name}-${Math.random()}`}
-                                    className="flex gap-3 p-3 justify-start "
-                                    onClick={() => onResultClick(r)}
-                                >
-                                    <div className="flex-shrink-0 w-32 rounded overflow-hidden bg-gray-100">
-                                        {r.photo ?
-                                            <img src={r.photo} alt={r.name} className="img"/> : <div/>}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="text-sm font-medium truncate">
-                                            {r.name ?? r.title ?? "Без названия"}
-                                        </div>
-                                        {r.price != null &&
-                                            <div className="text-xs text-gray-500 mt-1">
-                                                {r.discount_price ? r.discount_price : r.price}₽
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
+                                <MiniCard product={r}/>
                             ))
                         )}
                         {results.length > 0 && (

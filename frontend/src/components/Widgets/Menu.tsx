@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import ExitButton from "../Ui/ExitButton.tsx";
 
 type Props = {
     onClose?: () => void;
@@ -32,9 +33,7 @@ export default function Menu({ onClose }: Props): JSX.Element {
                     <NavLink to="/orders" onClick={handleClose} className="big__button">
                         Мои заказы
                     </NavLink>
-                    <button onClick={logoutClick} className="big__button">
-                        Выйти
-                    </button>
+                    <ExitButton/>
                 </div>
             ) : (
                 <div className="flex flex-col gap-2">
