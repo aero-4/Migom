@@ -53,7 +53,7 @@ class PGOrdersRepository(IOrderRepository):
         products: List[ProductsOrm] = result.scalars().all()
 
         links: List[OrderProductsOrm] = []
-        total: int = 0
+        total_amount: int = 0
 
         for item in order_data.products:
             product = next((p for p in products if p.id == item.product_id), None)
@@ -68,17 +68,16 @@ class PGOrdersRepository(IOrderRepository):
                 amount=product.price
             )
             links.append(link)
-            total += item.quantity * product.price
+            total_amount += item.quantity * product.discount_price if product.discount_price else item.quantity * item.price
 
         self.session.add_all(links)
 
-        obj.amount = total
+        obj.amount = total_amount
         self.session.add(obj)
 
         try:
             await self.session.flush()
         except Exception as ex:
-            logging.error(ex, exc_info=True)
             raise AlreadyExists() from ex
 
     async def get(self, id: int) -> Order:

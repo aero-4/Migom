@@ -70,7 +70,7 @@ function Orders() {
 
     return (
         <>
-            <h2 className="title">Последние ваши заказы</h2>
+            <h2 className="title">Последние заказы</h2>
 
             <div className="container min-h-screen">
                 {orders.length === 0 ? (
@@ -85,7 +85,7 @@ function Orders() {
                             return (
                                 <div
                                     key={order.id}
-                                    className="card shadow gap-3"
+                                    className="card gap-3 shadow border-1 border-gray-100"
                                 >
                                     <div className="flex items-center">
 

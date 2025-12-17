@@ -52,7 +52,7 @@ const DeliveryForm: React.FC<DFProps> = ({
                                              selectedAddress,
                                              setSelectedAddress,
                                              onSaved,
-                                             onClose,
+                                             onBack, onClose,
                                              submitLabel = "Далее",
                                              className = "",
                                          }) => {
@@ -600,7 +600,7 @@ const DeliveryForm: React.FC<DFProps> = ({
 
                     </div>
 
-                    <BackButton onBack={() => onClose ? onClose() : undefined}/>
+                    <BackButton onBack={onBack}/>
                 </div>
             </form>
         </div>

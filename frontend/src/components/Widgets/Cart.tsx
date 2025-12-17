@@ -220,7 +220,7 @@ export const CartWidget: React.FC = () => {
                 </svg>
             </button>
 
-            <div className={`fixed inset-0 z-40 ${isOpen ? '' : 'pointer-events-none'}`} aria-hidden>
+            <div className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`} aria-hidden>
                 <div
                     onClick={handleClose}
                     className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -361,7 +361,8 @@ export const CartWidget: React.FC = () => {
                                 setSelectedAddress(addr);
                                 setStep("payment");
                             }}
-                            onClose={handleClose}
+                            onBack={() => setStep("cart")}
+                            onClose={close}
                         />
                     )}
 

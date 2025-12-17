@@ -6,8 +6,8 @@ import Products from "../Widgets/Products.tsx";
 import Loader from "../Loaders/Loader.tsx";
 import MiniCard from "./MiniCard.tsx";
 
-type SearchDataDTO = { /* ...как было...*/ };
-type ProductItem = { /* ...как было...*/ };
+type SearchDataDTO = {  };
+type ProductItem = { };
 
 const DEBOUNCE = 500;
 
@@ -46,8 +46,8 @@ const Search: React.FC = () => {
     const debounceRef = useRef<number | undefined>(undefined);
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
-    const inputRef = useRef<HTMLInputElement | null>(null); // <-- новый ref для инпута
-    const lastQueryRef = useRef<string | null>(null); // опц.: хранит последний выполненный запрос
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const lastQueryRef = useRef<string | null>(null);
 
     const [dropdownStyle, setDropdownStyle] = useState<{ left: number; top: number; width: number } | null>(null);
     const [dropdownMaxHeight, setDropdownMaxHeight] = useState<string>("0px");
@@ -203,6 +203,7 @@ const Search: React.FC = () => {
     const onResultClick = (r: ProductItem) => {
         inputRef.current?.blur();
         closeDropdownImmediate();
+
         if (r.id != null)
             navigate(`/product/${r.id}`);
     };
@@ -217,7 +218,7 @@ const Search: React.FC = () => {
 
     return (
         <>
-            <div ref={wrapperRef} className="relative max-w-xl">
+            <div ref={wrapperRef} className="relative">
                 <div className="flex items-center rounded-full px-3 py-2 shadow">
                     <input
                         ref={inputRef}
@@ -236,7 +237,7 @@ const Search: React.FC = () => {
                             }
                         }}
                         placeholder="Поиск..."
-                        className="flex-1 outline-none min-w-0"
+                        className="px-3 outline-none w-full"
                         aria-label="Поиск"
                     />
                     <div className="flex flex-row">
@@ -247,7 +248,7 @@ const Search: React.FC = () => {
                                 navigate(`/search?q=${encodeURIComponent(query)}`);
                             }}
                             aria-label="Перейти на страницу поиска"
-                            className="p-1 rounded"
+                            className="menu__button"
                         >
                             <img src={searchSvg} className="w-6 h-6" alt="Поиск"/>
                         </button>
@@ -262,9 +263,8 @@ const Search: React.FC = () => {
                         position: "fixed",
                         zIndex: 50,
                         background: "white",
-                        borderRadius: 15,
+                        borderRadius: 20,
                         boxShadow: "0 8px 24px rgba(15,23,42,0.12)",
-                        overflow: "hidden",
                         left: dropdownStyle?.left ?? 0,
                         top: dropdownStyle?.top ?? 0,
                         width: dropdownStyle?.width ?? 320,

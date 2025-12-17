@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
                     onClick={() => setMobileSearchOpen(false)}
                 >
                     <div
-                        className="flex flex-col gap-3 shadow w-full max-w-3xl bg-white rounded-xl p-12"
+                        className="flex flex-col gap-3 shadow w-full bg-white rounded-xl p-3"
                         onClick={(e) => e.stopPropagation()}
                     >
 
