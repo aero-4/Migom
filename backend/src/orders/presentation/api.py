@@ -8,7 +8,8 @@ from src.orders.application.use_cases.delete_order import delete_order
 from src.orders.application.use_cases.new_order import new_order
 from src.orders.application.use_cases.update_order import update_order
 from src.orders.presentation.dependencies import OrderUoWDeps
-from src.orders.presentation.dtos import OrderCreateDTO, OrderUpdateDTO, OrderSearchDTO
+from src.orders.presentation.dtos import OrderCreateDTO, OrderUpdateDTO, OrderSearchDTO, OrderTakeDTO
+from src.users.infrastructure.db.orm import UserRole
 
 orders_api_router = APIRouter()
 
@@ -26,13 +27,13 @@ async def get_all(request: Request, uow: OrderUoWDeps):
 
 
 @orders_api_router.post("/search")
-@access_control(superuser=True)
+@access_control(role=UserRole.courier)
 async def search(order_data: OrderSearchDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await search_orders(order_data.status, uow)
 
 
 @orders_api_router.patch("/{id}")
-@access_control(superuser=True)
+@access_control(role=[UserRole.courier, UserRole.cook])
 async def update(id: int, order: OrderUpdateDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await update_order(id, order, uow)
 
