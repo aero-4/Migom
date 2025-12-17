@@ -8,6 +8,7 @@ from src.core.domain.entities import CustomModel
 class OrderStatus(enum.Enum):
     CREATED = "created"
     PENDING = "pending"
+    COOKING = "cooking"
     DELIVERING = "delivering"
     SUCCESS = "success"
     ERROR = "error"

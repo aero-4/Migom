@@ -17,3 +17,13 @@ class UserCreateDTO(CustomModel):
 class UserPasswordUpdateDTO(CustomModel):
     password: str = Field(min_length=8, max_length=32)
     new_password: str = Field(min_length=8, max_length=32)
+
+
+class UserUpdateDTO(CustomModel):
+    email: str | None = None
+    password: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    birthday: datetime.date | None = None
+    is_super_user: bool | None = False
+    role: str | None = None

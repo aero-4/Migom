@@ -5,8 +5,9 @@ from src.auth.presentation.dependencies import TokenAuthDep, PasswordHasherDep
 from src.auth.presentation.permissions import access_control
 from src.users.application.use_cases.information import information
 from src.users.application.use_cases.update_password import update_password
+from src.users.application.use_cases.update_user import update_user
 from src.users.presentation.dependencies import UserUoWDep
-from src.users.presentation.dtos import UserPasswordUpdateDTO
+from src.users.presentation.dtos import UserPasswordUpdateDTO, UserUpdateDTO
 
 users_api_router = APIRouter()
 
@@ -27,3 +28,14 @@ async def update_user_password(request: Request,
                                auth: TokenAuthDep):
     await update_password(password_data, request.state.user, auth, pwd_hasher, uow)
     return {"msg": "Password changed"}
+
+
+
+@users_api_router.patch("/{id}")
+@access_control(superuser=True)
+async def update_user_role(id: int,
+                           user_data: UserUpdateDTO,
+                           uow: UserUoWDep,
+                           auth: TokenAuthDep):
+    await update_user(id, user_data, uow)
+    return {"msg": f"User {id} updated"}

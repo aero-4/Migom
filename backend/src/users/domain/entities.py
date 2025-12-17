@@ -36,4 +36,5 @@ class UserUpdate(CustomModel):
     birthday: datetime.date | None = None
     email: str | None = None
     hashed_password: str | None = None
+    role: str | None = None
 

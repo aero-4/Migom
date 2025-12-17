@@ -3,7 +3,8 @@ import pytest
 import httpx
 from httpx import Response
 
-from src.users.presentation.dtos import UserCreateDTO, UserPasswordUpdateDTO
+from src.users.infrastructure.db.orm import UserRole
+from src.users.presentation.dtos import UserCreateDTO, UserPasswordUpdateDTO, UserUpdateDTO
 from src.utils.strings import generate_random_alphanum
 
 TEST_USER_DTO = UserCreateDTO(
@@ -100,3 +101,26 @@ async def test_not_found_user_change_password(clear_db, user_factory):
 
         assert response.status_code == 401
         assert response.json() == {"detail": "Authentication required"}
+
+
+@pytest.mark.asyncio(loop_scope="session")
+async def test_success_update_user(clear_db, user_factory):
+    async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
+        TEST_USER_DTO.is_super_user = True
+        await user_factory(client, TEST_USER_DTO)
+
+        update = UserUpdateDTO(role=UserRole.courier)
+        response = await client.patch(f"/api/users/1", json=update.model_dump(mode="json"))
+        assert response.status_code == 200
+        assert response.json() == {"msg": f"User 1 updated"}
+
+
+@pytest.mark.asyncio(loop_scope="session")
+async def test_forbidden_update_user(clear_db, user_factory):
+    async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
+        await user_factory(client, TEST_USER_DTO)
+
+        update = UserUpdateDTO(role=UserRole.courier)
+        response = await client.patch(f"/api/users/1", json=update.model_dump(mode="json"))
+        assert response.status_code == 403
+        assert response.json() == {"detail": f"Permission denied"}
