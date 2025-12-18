@@ -18,6 +18,7 @@ from src.payments.presentation.dependenscies import PaymentUoWDeps
 from src.payments.config import payment_settings
 from src.payments.presentation.dtos import PaymentCreateDTO
 from src.products.domain.entities import Product, ProductCreate
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 from src.utils.strings import generate_random_alphanum
 
@@ -27,7 +28,7 @@ TEST_USER_DTO = UserCreateDTO(
     first_name="Oleg",
     last_name="Tinkov",
     birthday=datetime.date(2025, 1, 1),
-    is_super_user=False
+    role=UserRole.user
 )
 
 

@@ -10,11 +10,9 @@ from src.core.domain.exceptions import PermissionDenied, AuthRequired
 
 class access_control:
 
-    def __init__(self, role: list[str] | str = None, superuser: bool = False, open: bool = False):
-        self.current_user = None
-        self.superuser = superuser
-        self.open = open
+    def __init__(self, role: list[Any] | Any = None):
         self.role = role
+        self.current_user = None
 
         self.request: Request | None = None
         self.headers: dict[Any, Any] | None = None
@@ -38,17 +36,19 @@ class access_control:
     async def parse_request(self, **kwargs) -> None:
         request = getattr(kwargs.get("auth"), "request", None) or kwargs.get("request")
         user = getattr(request, "state", None) and getattr(request.state, "user", None)
+
         self.current_user = user if user is not None else AnonymousUser()
         return None
 
     async def verify_request(self, *args, **kwargs) -> bool:
-        if isinstance(self.current_user, AnonymousUser) and not self.open:
+
+        if not self.current_user or not self.current_user.role:
             raise AuthRequired()
 
-        if self.superuser and not self.current_user.is_super_user:
+        if self.role > self.current_user.role:
             raise PermissionDenied()
 
-        if not self.role or self.current_user.role not in self.role or self.role != self.current_user.role:
+        if isinstance(self.role, list) and self.current_user.role not in self.role:
             raise PermissionDenied()
 
         return True

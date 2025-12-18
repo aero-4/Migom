@@ -5,9 +5,10 @@ import pytest
 
 from src.addresses.domain.entities import Address
 from src.addresses.presentation.dtos import AddressCreateDTO, AddressUpdateDTO
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 
-TEST_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1))
+TEST_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), role=UserRole.user)
 
 
 @pytest.mark.asyncio
@@ -26,7 +27,7 @@ async def test_add_address_not_authenticated(clear_db, address_factory):
         response = await client.post("/api/addresses/", json=address_data.model_dump(mode="json"))
 
         assert response.status_code == 401
-        assert response.json() == {"detail": "User not authenticated"}
+        assert response.json() == {"detail": "Authentication required"}
 
 
 @pytest.mark.asyncio

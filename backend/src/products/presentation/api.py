@@ -8,6 +8,7 @@ from src.products.application.use_cases.delete_product import delete_product
 from src.products.application.use_cases.update_product import update_product
 from src.products.presentation.dependencies import ProductUoWDep
 from src.products.presentation.dtos import ProductCreateDTO, ProductUpdateDTO, SearchDataDTO
+from src.users.infrastructure.db.orm import UserRole
 
 products_api_router = APIRouter()
 
@@ -29,18 +30,18 @@ async def search(search_data: SearchDataDTO, uow: ProductUoWDep):
 
 
 @products_api_router.post("/")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def add(product_data: ProductCreateDTO, uow: ProductUoWDep, auth: TokenAuthDep):
     return await create_product(product_data, uow)
 
 
 @products_api_router.patch("/{product_id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def patch(product_id: int, product_data: ProductUpdateDTO, uow: ProductUoWDep, auth: TokenAuthDep):
     return await update_product(product_id, product_data, uow)
 
 
 @products_api_router.delete("/{product_id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def delete(product_id: int, uow: ProductUoWDep, auth: TokenAuthDep):
     return await delete_product(product_id, uow)

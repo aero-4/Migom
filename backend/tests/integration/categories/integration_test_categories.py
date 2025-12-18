@@ -7,6 +7,7 @@ from httpx import Response
 
 from src.categories.domain.entities import CategoryUpdate, Category
 from src.categories.presentation.dtos import CategoryCreateDTO
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 
 TEST_CATEGORY_DTO = CategoryCreateDTO(
@@ -14,7 +15,7 @@ TEST_CATEGORY_DTO = CategoryCreateDTO(
     photo="src/pizza.jpg"
 )
 
-TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), is_super_user=True)
+TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), role=UserRole.admin)
 
 
 @pytest.mark.asyncio(loop_scope="session")

@@ -3,6 +3,9 @@ import pytest
 import httpx
 from httpx import Response
 
+from scripts.create_super_user import create_super_user
+from src.auth.application.use_cases.authenication import authenticate
+from src.auth.presentation.dtos import AuthUserDTO
 from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO, UserPasswordUpdateDTO, UserUpdateDTO
 from src.utils.strings import generate_random_alphanum
@@ -12,7 +15,8 @@ TEST_USER_DTO = UserCreateDTO(
     password="securepass",
     first_name="Oleg",
     last_name="Tinkov",
-    birthday=datetime.date(2025, 1, 1)
+    birthday=datetime.date(2025, 1, 1),
+    role=UserRole.user
 )
 
 
@@ -23,7 +27,7 @@ async def test_get_me_success(clear_db, user_factory):
 
         response2 = await client.get("/api/users/me")
 
-        assert response2.json() == TEST_USER_DTO.model_dump(exclude={"password", "is_super_user"}, mode="json")
+        assert response2.json() == TEST_USER_DTO.model_dump(exclude={"password"}, mode="json")
 
 
 @pytest.mark.asyncio(loop_scope="session")
@@ -44,7 +48,7 @@ async def test_allowed_paths_user(clear_db, user_factory):
         response2 = await client.get("/api/users/me")
 
         assert response2.status_code == 200
-        assert response2.json() == TEST_USER_DTO.model_dump(exclude={"password", "is_super_user"}, mode="json")
+        assert response2.json() == TEST_USER_DTO.model_dump(exclude={"password"}, mode="json")
 
 
 @pytest.mark.asyncio(loop_scope="session")
@@ -106,13 +110,26 @@ async def test_not_found_user_change_password(clear_db, user_factory):
 @pytest.mark.asyncio(loop_scope="session")
 async def test_success_update_user(clear_db, user_factory):
     async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
-        TEST_USER_DTO.is_super_user = True
-        await user_factory(client, TEST_USER_DTO)
+        TEST_USER_DTO.first_name = f"test{generate_random_alphanum(6)}"
+        TEST_USER_DTO.last_name = f"test{generate_random_alphanum(6)}"
+        TEST_USER_DTO.email = f"TEST{generate_random_alphanum(12)}@gmail.com"
+
+        email, password = await create_super_user(TEST_USER_DTO.email)
+        response = await client.post(f"/api/auth/login",
+                                     json=AuthUserDTO(email=email, password=password).model_dump(mode="python"))
+
+        client.cookies.clear()
+        client.cookies.set("access_token", response.cookies.get("access_token"))
+        client.cookies.set("refresh_token", response.cookies.get("refresh_token"))
+
+        assert response.status_code == 200
+        assert response.json() == {"msg": "Login successful"}
 
         update = UserUpdateDTO(role=UserRole.courier)
-        response = await client.patch(f"/api/users/1", json=update.model_dump(mode="json"))
-        assert response.status_code == 200
-        assert response.json() == {"msg": f"User 1 updated"}
+        response2 = await client.patch(f"/api/users/1", json=update.model_dump(mode="json"))
+
+        assert response2.status_code == 200
+        assert response2.json() == {"msg": f"User 1 updated"}
 
 
 @pytest.mark.asyncio(loop_scope="session")

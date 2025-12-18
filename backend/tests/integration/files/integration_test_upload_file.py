@@ -7,7 +7,7 @@ import pytest
 from fastapi import UploadFile
 from src.users.presentation.dtos import UserCreateDTO
 
-TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), is_super_user=True)
+TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), )
 
 
 @pytest.mark.asyncio

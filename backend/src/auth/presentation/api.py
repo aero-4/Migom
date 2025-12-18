@@ -23,7 +23,7 @@ async def register(credentials: RegisterUserDTO,
                    pwd_hasher: PasswordHasherDep,
                    uow: UserUoWDep,
                    auth: TokenAuthDep):
-    await registrate(credentials.email, credentials.password, credentials.first_name, credentials.last_name, birthday=credentials.birthday, is_super_user=credentials.is_super_user, pwd_hasher=pwd_hasher, uow=uow, auth=auth)
+    await registrate(credentials.email, credentials.password, credentials.first_name, credentials.last_name, birthday=credentials.birthday, role=credentials.role, pwd_hasher=pwd_hasher, uow=uow, auth=auth)
     return {"msg": "Register successful"}
 
 

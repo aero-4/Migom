@@ -11,7 +11,7 @@ class UserCreateDTO(CustomModel):
     first_name: str
     last_name: str
     birthday: datetime.date
-    is_super_user: bool | None = False
+    role: int | None = None
 
 
 class UserPasswordUpdateDTO(CustomModel):
@@ -25,5 +25,4 @@ class UserUpdateDTO(CustomModel):
     first_name: str | None = None
     last_name: str | None = None
     birthday: datetime.date | None = None
-    is_super_user: bool | None = False
-    role: str | None = None
+    role: int | None = None

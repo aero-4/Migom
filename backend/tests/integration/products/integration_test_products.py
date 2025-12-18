@@ -8,6 +8,7 @@ from src.categories.domain.entities import Category
 from src.categories.presentation.dtos import CategoryCreateDTO
 from src.products.domain.entities import Product
 from src.products.presentation.dtos import ProductCreateDTO, SearchDataDTO
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 
 TEST_CATEGORY_DTO = CategoryCreateDTO(
@@ -30,7 +31,7 @@ TEST_PRODUCT_DTO = ProductCreateDTO(
     photo="src/photo1.jpg",
     category_id=1
 )
-TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), is_super_user=True)
+TEST_SUPER_USER = UserCreateDTO(email="test@test.com", password="test12345", first_name="Test", last_name="Test", birthday=datetime.date(1990, 1, 1), role=UserRole.admin)
 
 
 async def create_product(client, product=None):

@@ -15,5 +15,6 @@ async def information(uow: IUserUnitOfWork, auth: TokenAuthDep) -> UserInfo:
     user_info = UserInfo(first_name=user.first_name,
                          last_name=user.last_name,
                          birthday=user.birthday,
-                         email=user.email)
+                         email=user.email,
+                         role=user.role)
     return user_info

@@ -9,9 +9,11 @@ from src.db.base import Base
 from src.utils.datetimes import get_timezone_now
 
 
-class UserRole(enum.StrEnum):
-    cook = "cook"
-    courier = "courier"
+class UserRole(enum.IntEnum):
+    user = 1
+    courier = 2
+    cook = 3
+    admin = 4
 
 
 class UsersOrm(Base):
@@ -26,5 +28,4 @@ class UsersOrm(Base):
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     orders: Mapped[List['OrdersOrm']] = relationship(back_populates="creator")
     addresses: Mapped[List['AddressesOrm']] = relationship(back_populates="user")
-    is_super_user: Mapped[bool] = mapped_column(default=False)
-    status: Mapped[str] = mapped_column(nullable=True)
+    role: Mapped[int] = mapped_column(nullable=False, default=UserRole.user)

@@ -6,6 +6,7 @@ from src.auth.presentation.permissions import access_control
 from src.users.application.use_cases.information import information
 from src.users.application.use_cases.update_password import update_password
 from src.users.application.use_cases.update_user import update_user
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dependencies import UserUoWDep
 from src.users.presentation.dtos import UserPasswordUpdateDTO, UserUpdateDTO
 
@@ -13,14 +14,14 @@ users_api_router = APIRouter()
 
 
 @users_api_router.get("/me")
-@access_control(open=False)
+@access_control(role=UserRole.user)
 async def get_user_info(uow: UserUoWDep,
                         auth: TokenAuthDep):
     return await information(uow, auth)
 
 
 @users_api_router.post("/password")
-@access_control(open=False)
+@access_control(role=UserRole.user)
 async def update_user_password(request: Request,
                                password_data: UserPasswordUpdateDTO,
                                pwd_hasher: PasswordHasherDep,
@@ -32,7 +33,7 @@ async def update_user_password(request: Request,
 
 
 @users_api_router.patch("/{id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def update_user_role(id: int,
                            user_data: UserUpdateDTO,
                            uow: UserUoWDep,

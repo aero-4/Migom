@@ -11,6 +11,7 @@ from src.categories.presentation.dtos import CategoryCreateDTO
 from src.orders.domain.entities import Order, OrderStatus
 from src.orders.presentation.dtos import OrderCreateDTO, CartItemDTO, OrderUpdateDTO, OrderSearchDTO
 from src.products.domain.entities import ProductCreate, Product
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 from src.users.domain.entities import User
 from src.utils.strings import generate_random_alphanum
@@ -21,7 +22,6 @@ TEST_USER_DTO = UserCreateDTO(
     first_name="Oleg",
     last_name="Tinkov",
     birthday=datetime.date(2025, 1, 1),
-    is_super_user=True
 )
 
 
@@ -39,8 +39,10 @@ async def create_order(client, user_factory) -> Order:
         first_name=f"Oleg{random.randint(100, 999)}",
         last_name=f"Tinkov{random.randint(100, 999)}",
         birthday=datetime.date(2025, 1, 1),
-        is_super_user=True
+        is_super_user=True,
+        role=UserRole.courier
     )
+
     # register admin user
     await user_factory(client, user_data)
 
@@ -247,6 +249,9 @@ async def test_success_update_order(clear_db, user_factory):
 @pytest.mark.asyncio(loop_scope="session")
 async def test_success_update_order_statuses(clear_db, user_factory):
     async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
+        TEST_USER_DTO.is_super_user = True
+        TEST_USER_DTO.role = UserRole.courier
+
         orders = []
         for i in range(3):
             order = await create_order(client, user_factory)
@@ -256,29 +261,7 @@ async def test_success_update_order_statuses(clear_db, user_factory):
 
         # update statuses
         for status in [OrderStatus.CREATED, OrderStatus.PENDING, OrderStatus.DELIVERING, OrderStatus.SUCCESS]:
-            order_data = OrderUpdateDTO(creator_id=1,
-                                        status=status)
-            response = await client.patch(f"/api/orders/{order.id}", json=order_data.model_dump())
-            order_updated = Order(**response.json())
-
-            assert response.status_code == 200
-            assert order_updated.status == order_data.status
-
-
-@pytest.mark.asyncio(loop_scope="session")
-async def test_success_update_order_statuses(clear_db, user_factory):
-    async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
-        orders = []
-        for i in range(3):
-            order = await create_order(client, user_factory)
-            orders.append(order)
-
-        order: Order = random.choice(orders)
-
-        # update statuses
-        for status in [OrderStatus.CREATED, OrderStatus.PENDING, OrderStatus.DELIVERING, OrderStatus.SUCCESS]:
-            order_data = OrderUpdateDTO(creator_id=1,
-                                        status=status)
+            order_data = OrderUpdateDTO(status=status)
             response = await client.patch(f"/api/orders/{order.id}", json=order_data.model_dump())
             order_updated = Order(**response.json())
 

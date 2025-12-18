@@ -2,6 +2,7 @@ import datetime
 import pytest
 import httpx
 
+from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO
 
 TEST_USER_DTO = UserCreateDTO(
@@ -9,7 +10,7 @@ TEST_USER_DTO = UserCreateDTO(
     password="securepass",
     first_name="Oleg",
     last_name="Tinkov",
-    birthday=datetime.date(2025, 1, 1)
+    birthday=datetime.date(2025, 1, 1),
 )
 
 
@@ -131,6 +132,6 @@ async def test_failed_logout_user(clear_db, user_factory):
             response3 = await client.get("/api/users/me")
 
             assert response3.status_code == 401
-            assert response3.json() == {"detail": "User not authenticated"}
+            assert response3.json() == {"detail": "Authentication required"}
 
 

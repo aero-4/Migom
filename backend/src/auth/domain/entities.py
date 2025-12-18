@@ -23,4 +23,4 @@ class AnonymousUser(CustomModel):
     last_name: str | None = None
     birthday: datetime.date | None = None
     email: str | None = None
-    is_super_user: bool = False
+    role: int | None = None

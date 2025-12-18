@@ -8,43 +8,43 @@ from src.orders.application.use_cases.delete_order import delete_order
 from src.orders.application.use_cases.new_order import new_order
 from src.orders.application.use_cases.update_order import update_order
 from src.orders.presentation.dependencies import OrderUoWDeps
-from src.orders.presentation.dtos import OrderCreateDTO, OrderUpdateDTO, OrderSearchDTO, OrderTakeDTO
+from src.orders.presentation.dtos import OrderCreateDTO, OrderUpdateDTO, OrderSearchDTO
 from src.users.infrastructure.db.orm import UserRole
 
 orders_api_router = APIRouter()
 
 
 @orders_api_router.post("/")
-@access_control(open=False)
+@access_control(role=UserRole.user)
 async def create(request: Request, order: OrderCreateDTO, uow: OrderUoWDeps):
     return await new_order(order, uow, request.state.user)
 
 
 @orders_api_router.get("/")
-@access_control(open=False)
+@access_control(role=UserRole.user)
 async def get_all(request: Request, uow: OrderUoWDeps):
     return await collect_orders(uow, request.state.user)
 
 
 @orders_api_router.post("/search")
-@access_control(role=UserRole.courier)
+@access_control(role=[UserRole.courier, UserRole.cook, UserRole.admin])
 async def search(order_data: OrderSearchDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await search_orders(order_data.status, uow)
 
 
 @orders_api_router.patch("/{id}")
-@access_control(role=[UserRole.courier, UserRole.cook])
+@access_control(role=[UserRole.courier, UserRole.cook, UserRole.admin])
 async def update(id: int, order: OrderUpdateDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await update_order(id, order, uow)
 
 
 @orders_api_router.delete("/{id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def delete(id: int, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await delete_order(id, uow)
 
 
 @orders_api_router.get("/{id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def get_one(id: int, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await collect_order(id, uow)

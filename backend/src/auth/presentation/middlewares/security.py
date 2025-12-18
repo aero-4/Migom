@@ -29,7 +29,8 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "/api/products",
             "/api/categories",
             "/api/users",
-            "/api/payments"
+            "/api/payments",
+            "/api/files"
         ]
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
@@ -41,7 +42,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         user = request.state.user
 
 
-        if is_secure_paths and not is_allowed_paths and not user.is_super_user:
+        if is_secure_paths and not is_allowed_paths:
             return JSONResponse(status_code=403,
                                 content={"detail": "Permission denied"})
 

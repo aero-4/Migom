@@ -9,7 +9,7 @@ class User(CustomModel):
     last_name: str
     email: str
     hashed_password: str
-    is_super_user: bool
+    role: int
     birthday: datetime.date | None = None
 
 
@@ -18,6 +18,7 @@ class UserInfo(CustomModel):
     last_name: str
     email: str
     birthday: datetime.date | None = None
+    role: int
 
 
 class UserCreate(CustomModel):
@@ -26,7 +27,7 @@ class UserCreate(CustomModel):
     email: str
     hashed_password: str
     birthday: datetime.date | None = None
-    is_super_user: bool = False
+    role: int | None = None
 
 
 class UserUpdate(CustomModel):
@@ -36,5 +37,5 @@ class UserUpdate(CustomModel):
     birthday: datetime.date | None = None
     email: str | None = None
     hashed_password: str | None = None
-    role: str | None = None
+    role: int | None = None
 

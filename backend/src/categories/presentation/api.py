@@ -8,6 +8,7 @@ from src.categories.application.use_cases.new_categories import add_category
 from src.categories.application.use_cases.update_category import update_category
 from src.categories.presentation.dependencies import CategoryUoWDep
 from src.categories.presentation.dtos import CategoryCreateDTO, CategoryUpdateDTO
+from src.users.infrastructure.db.orm import UserRole
 
 categories_api_router = APIRouter()
 
@@ -18,18 +19,18 @@ async def get_all(uow: CategoryUoWDep):
 
 
 @categories_api_router.post("/")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def new(category: CategoryCreateDTO, uow: CategoryUoWDep, auth: TokenAuthDep):
     return await add_category(category, uow)
 
 
 @categories_api_router.delete("/{id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def delete(id: int, uow: CategoryUoWDep, auth: TokenAuthDep):
     return await delete_category(id, uow)
 
 
 @categories_api_router.patch("/{id}")
-@access_control(superuser=True)
+@access_control(role=UserRole.admin)
 async def patch(id: int, category: CategoryUpdateDTO, uow: CategoryUoWDep, auth: TokenAuthDep):
     return await update_category(id, category, uow)
