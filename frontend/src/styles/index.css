@@ -129,16 +129,17 @@ body {
 
     .img {
         @apply
-        w-full
-        max-w-120
-        h-full
-        my-auto
-        aspect-square
-        rounded-xl
-        object-cover
-        transition-transform
-        cursor-pointer
-        transform;
+            h-full
+            w-full
+            max-h-1/3
+            min-w-3/2
+            my-auto
+            aspect-square
+            rounded-xl
+            object-cover
+            transition-transform
+            cursor-pointer
+            transform;
     }
 
     .cat__img {

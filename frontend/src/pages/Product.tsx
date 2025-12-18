@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import config from '../../config.ts';
 import AddInCartBtn from '../components/Ui/AddInCartButton.tsx';
+import Pictures from "../components/Modals/Pictures.tsx";
 
 type ProductType = {
     id: number;
@@ -24,7 +25,6 @@ type ProductType = {
 const Product: React.FC = () => {
     const {id} = useParams();
     const product_id = id?.split('-').pop();
-
     const [product, setProduct] = useState<ProductType | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -62,19 +62,13 @@ const Product: React.FC = () => {
     return (
         <div className="card p-9 gap-12">
             <div className="flex flex-col md:flex-row gap-12">
-                {product.photo && (
-                    <img src={product.photo}
-                         alt={product.name}
-                         className="img"
-                    />
-                )}
+                <Pictures product={product}/>
 
                 <div className="flex flex-col gap-12">
                     <div className="flex flex-col gap-9 my-auto">
                         <h1 className="text-2xl md:text-4xl font-bold">{product.name}</h1>
 
                         <p className="text-sm text-gray-800">{product.content}</p>
-
 
                     </div>
 

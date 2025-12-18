@@ -6,8 +6,8 @@ import Products from "../Widgets/Products.tsx";
 import Loader from "../Loaders/Loader.tsx";
 import MiniCard from "./MiniCard.tsx";
 
-type SearchDataDTO = {  };
-type ProductItem = { };
+type SearchDataDTO = { [key: string]: any };
+type ProductItem = { [key: string]: any };
 
 const DEBOUNCE = 500;
 
@@ -54,6 +54,11 @@ const Search: React.FC = () => {
     const [dropdownOpacity, setDropdownOpacity] = useState<number>(0);
     const [dropdownTransform, setDropdownTransform] = useState<string>("translateY(-6px)");
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        closeDropdownImmediate();
+        setResults([]);
+    }, [location.pathname]);
 
     useLayoutEffect(() => {
         const updatePosition = () => {
@@ -157,6 +162,7 @@ const Search: React.FC = () => {
         }
         const el = dropdownRef.current;
         const full = `${Math.min(el.scrollHeight || 320, window.innerHeight * 0.7)}px`;
+
         setDropdownMaxHeight(full);
         requestAnimationFrame(() => {
             setDropdownMaxHeight("0px");
@@ -172,6 +178,8 @@ const Search: React.FC = () => {
         setDropdownTransform("translateY(-6px)");
         setDropdownMaxHeight("0px");
     };
+
+
 
     const doSearch = async (value: string) => {
         lastQueryRef.current = value;
@@ -202,7 +210,6 @@ const Search: React.FC = () => {
 
     const onResultClick = (r: ProductItem) => {
         inputRef.current?.blur();
-        closeDropdownImmediate();
 
         if (r.id != null)
             navigate(`/product/${r.id}`);
@@ -210,7 +217,6 @@ const Search: React.FC = () => {
 
     const goToBigSearch = () => {
         inputRef.current?.blur();
-        closeDropdownImmediate();
         navigate(`/search?q=${encodeURIComponent(query)}`);
     };
 
@@ -218,8 +224,8 @@ const Search: React.FC = () => {
 
     return (
         <>
-            <div ref={wrapperRef} className="relative">
-                <div className="flex items-center rounded-full px-3 py-2 shadow">
+            <div ref={wrapperRef} className="relative max-w-3xl items-center">
+                <div className="flex items-center rounded-full px-3 py-2 shadow-sm  backdrop-blur-sm">
                     <input
                         ref={inputRef}
                         value={query}
@@ -237,18 +243,17 @@ const Search: React.FC = () => {
                             }
                         }}
                         placeholder="Поиск..."
-                        className="px-3 outline-none w-full"
+                        className="min-w-1/3 px-3 outline-none w-full "
                         aria-label="Поиск"
                     />
                     <div className="flex flex-row">
                         <button
                             onClick={() => {
                                 inputRef.current?.blur();
-                                closeDropdownImmediate();
                                 navigate(`/search?q=${encodeURIComponent(query)}`);
                             }}
                             aria-label="Перейти на страницу поиска"
-                            className="menu__button"
+                            className="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition"
                         >
                             <img src={searchSvg} className="w-6 h-6" alt="Поиск"/>
                         </button>
@@ -259,12 +264,8 @@ const Search: React.FC = () => {
             {(isOpen || results.length > 0 || noResults || loading) && (
                 <div
                     ref={dropdownRef}
+                    className={`bg-white fixed z-52 rounded-[20px] md:rounded-2xl md:shadow-lg ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'} bg-transparent transition-all`}
                     style={{
-                        position: "fixed",
-                        zIndex: 50,
-                        background: "white",
-                        borderRadius: 20,
-                        boxShadow: "0 8px 24px rgba(15,23,42,0.12)",
                         left: dropdownStyle?.left ?? 0,
                         top: dropdownStyle?.top ?? 0,
                         width: dropdownStyle?.width ?? 320,
@@ -272,11 +273,10 @@ const Search: React.FC = () => {
                         opacity: dropdownOpacity,
                         transform: dropdownTransform,
                         transition: "max-height 250ms cubic-bezier(.2,.8,.2,1), opacity 180ms linear, transform 180ms ease",
-                        pointerEvents: isOpen ? "auto" : "none",
                     }}
                     aria-hidden={!isOpen}
                 >
-                    <div style={{maxHeight: "70vh", overflowY: "auto"}}>
+                    <div className="max-h-[70vh] overflow-y-auto">
                         {results.length === 0 && noResults && (
                             <div className="p-4 text-sm text-gray-500">Ничего не найдено</div>
                         )}
@@ -285,14 +285,16 @@ const Search: React.FC = () => {
                             <Products products_data={results}/>
                         ) : (
                             results.map((r) => (
-                                <MiniCard product={r}/>
+                                <div key={r.id ?? JSON.stringify(r)} onClick={() => onResultClick(r)}>
+                                    <MiniCard product={r}/>
+                                </div>
                             ))
                         )}
                         {results.length > 0 && (
                             <div className="p-3">
                                 <button
                                     onClick={goToBigSearch}
-                                    className="full__button hover:opacity-75 bg-red-600 w-full"
+                                    className="big__button full__button w-full"
                                 >
                                     Перейти на страницу поиска
                                 </button>
