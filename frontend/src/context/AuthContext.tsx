@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, createContext, useContext } from "react";
+import React, {useState, useEffect, useRef, createContext, useContext, use} from "react";
 import config from "../../config";
 
 const AuthContext = createContext<any | null>(null);
@@ -29,7 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             if (!res.ok) {
                 if (json && (json.detail === "Not authenticated" || res.status === 401)) {
-                    // можно редиректить или просто очистить состояние
                     handleNotAuthenticated();
                 } else {
                     setUser(null);
@@ -75,15 +74,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    // Вызовим проверку сразу при монтировании (важно для page reload)
     useEffect(() => {
         fetchCurrentUser();
     }, []);
 
-    // Управление авто-рефрешем токена когда пользователь аутентифицирован
     useEffect(() => {
         if (isAuthenticated) {
-            // немедленный рефреш + интервальный
             refreshToken();
             refreshIntervalRef.current = window.setInterval(() => {
                 refreshToken();

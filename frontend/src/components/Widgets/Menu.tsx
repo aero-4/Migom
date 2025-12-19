@@ -8,15 +8,10 @@ type Props = {
 };
 
 export default function Menu({ onClose }: Props): JSX.Element {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, user} = useAuth();
 
     const handleClose = () => {
         onClose?.();
-    };
-
-    const logoutClick = async () => {
-        await logout();
-        handleClose();
     };
 
     return (
@@ -26,17 +21,29 @@ export default function Menu({ onClose }: Props): JSX.Element {
             aria-orientation="vertical"
         >
             {isAuthenticated ? (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                     <NavLink to="/profile" onClick={handleClose} className="big__button text-gray-500 bg-gray-100 px-24">
                         Профиль
                     </NavLink>
                     <NavLink to="/orders" onClick={handleClose} className="big__button text-orange-500 bg-orange-100">
                         Мои заказы
                     </NavLink>
+                    {user.role === 2 && (
+                        <NavLink to="/courier" onClick={handleClose} className="big__button text-yellow-500 bg-yellow-100">
+                            Меню курьеров
+                        </NavLink>
+                    )}
+
+                    {user.role === 3 && (
+                        <NavLink to="/cook" onClick={handleClose} className="big__button text-yellow-500 bg-yellow-100">
+                            Меню поваров
+                        </NavLink>
+                    )}
+
                     <ExitButton/>
                 </div>
             ) : (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                     <NavLink to="/login" onClick={handleClose} className="big__button text-red-500 bg-red-100 px-24">
                         Войти
                     </NavLink>
