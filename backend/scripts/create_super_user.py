@@ -17,7 +17,7 @@ async def create_super_user(email: str, uow=get_user_uow(), pwd_hasher=get_passw
                                  hashed_password=pwd_hasher.hash(random_password),
                                  first_name=f"Admin{random.randint(100000, 999999)}",
                                  last_name=f"Adminov{random.randint(100000, 999999)}",
-                                 role=UserRole.admin,)
+                                 role=UserRole.courier,)
         user = await uow.users.add(user_create)
         await uow.commit()
 

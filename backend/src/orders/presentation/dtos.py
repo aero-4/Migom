@@ -21,9 +21,10 @@ class OrderUpdateDTO(CustomModel):
 
 
 class OrderSearchDTO(CustomModel):
-    status: str = [
+    status: list[str] = [
         OrderStatus.PENDING.value,
         OrderStatus.COOKING.value,
+        OrderStatus.WAITING_COURIER.value,
         OrderStatus.DELIVERING.value,
         OrderStatus.SUCCESS.value,
         OrderStatus.ERROR.value

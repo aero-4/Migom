@@ -17,7 +17,7 @@ async def collect_orders(uow: OrderUoWDeps, user: User) -> List[Order]:
     return orders
 
 
-async def search_orders(status: str, uow: OrderUoWDeps) -> List[Order]:
+async def search_orders(status: list[str], uow: OrderUoWDeps) -> List[Order]:
     async with uow:
         orders = await uow.orders.filter(status)
     return orders

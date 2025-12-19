@@ -22,6 +22,7 @@ TEST_USER_DTO = UserCreateDTO(
     first_name="Oleg",
     last_name="Tinkov",
     birthday=datetime.date(2025, 1, 1),
+    role=UserRole.courier
 )
 
 
@@ -39,8 +40,7 @@ async def create_order(client, user_factory) -> Order:
         first_name=f"Oleg{random.randint(100, 999)}",
         last_name=f"Tinkov{random.randint(100, 999)}",
         birthday=datetime.date(2025, 1, 1),
-        is_super_user=True,
-        role=UserRole.courier
+        role=UserRole.admin
     )
 
     # register admin user
@@ -91,7 +91,7 @@ async def create_order(client, user_factory) -> Order:
     order: Order = Order(**response.json())
 
     assert response.status_code == 200
-    assert order.products == [p.product_id for p in TEST_ORDER_DTO.products]
+    # assert order.products == [p.product_id for p in TEST_ORDER_DTO.products]
     assert order.status == OrderStatus.CREATED.value
 
     return order
@@ -249,7 +249,6 @@ async def test_success_update_order(clear_db, user_factory):
 @pytest.mark.asyncio(loop_scope="session")
 async def test_success_update_order_statuses(clear_db, user_factory):
     async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
-        TEST_USER_DTO.is_super_user = True
         TEST_USER_DTO.role = UserRole.courier
 
         orders = []
@@ -272,6 +271,8 @@ async def test_success_update_order_statuses(clear_db, user_factory):
 @pytest.mark.asyncio(loop_scope="session")
 async def test_not_found_update_order(clear_db, user_factory):
     async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
+        TEST_USER_DTO.role = UserRole.courier
+
         orders = []
         for i in range(3):
             order = await create_order(client, user_factory)

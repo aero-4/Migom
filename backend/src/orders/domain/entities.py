@@ -9,6 +9,7 @@ class OrderStatus(enum.Enum):
     CREATED = "created"
     PENDING = "pending"
     COOKING = "cooking"
+    WAITING_COURIER = "waiting-courier"
     DELIVERING = "delivering"
     SUCCESS = "success"
     ERROR = "error"

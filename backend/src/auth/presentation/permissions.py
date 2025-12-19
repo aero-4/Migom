@@ -6,6 +6,7 @@ from starlette.requests import Request
 
 from src.auth.domain.entities import AnonymousUser
 from src.core.domain.exceptions import PermissionDenied, AuthRequired
+from src.users.infrastructure.db.orm import UserRole
 
 
 class access_control:
@@ -45,10 +46,13 @@ class access_control:
         if not self.current_user or not self.current_user.role:
             raise AuthRequired()
 
-        if self.role > self.current_user.role:
-            raise PermissionDenied()
 
         if isinstance(self.role, list) and self.current_user.role not in self.role:
             raise PermissionDenied()
+
+        if isinstance(self.role, int) and self.role > self.current_user.role:
+            raise PermissionDenied()
+
+
 
         return True

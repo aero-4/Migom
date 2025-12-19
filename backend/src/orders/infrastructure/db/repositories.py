@@ -68,7 +68,7 @@ class PGOrdersRepository(IOrderRepository):
                 amount=product.price
             )
             links.append(link)
-            total_amount += item.quantity * product.discount_price if product.discount_price else item.quantity * item.price
+            total_amount += item.quantity * product.discount_price if product.discount_price else item.quantity * product.price
 
         self.session.add_all(links)
 
@@ -149,9 +149,9 @@ class PGOrdersRepository(IOrderRepository):
 
         return self._to_entity(result)
 
-    async def filter(self, status: str) -> List[Order]:
-        status = OrderStatus(status)
-        stmt = select(OrdersOrm).where(OrdersOrm.status == status)
+    async def filter(self, status: list[str]) -> List[Order]:
+        statuses = [OrderStatus(s) for s in status]
+        stmt = select(OrdersOrm).filter(OrdersOrm.status.in_(statuses))
         result = await self.session.execute(stmt)
         objs: List[OrdersOrm] = result.scalars().all()
 
@@ -160,6 +160,7 @@ class PGOrdersRepository(IOrderRepository):
     @staticmethod
     def _to_entity(order_data: OrdersOrm) -> Order:
         products_data = []
+
         for link in order_data.product_links:
             product = link.product
             products_data.append(Product(
