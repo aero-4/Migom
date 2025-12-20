@@ -2,17 +2,18 @@ import datetime
 import enum
 from typing import List
 
+from src.addresses.domain.entities import Address
 from src.core.domain.entities import CustomModel
 
 
 class OrderStatus(enum.Enum):
-    CREATED = "created"
-    PENDING = "pending"
-    COOKING = "cooking"
-    WAITING_COURIER = "waiting-courier"
-    DELIVERING = "delivering"
-    SUCCESS = "success"
-    ERROR = "error"
+    CREATED = "created"  # когда только создан и не оплачен
+    PENDING = "pending"  # оплачен, ждет подтверждения от ресторана
+    COOKING = "cooking"  # готовится
+    WAITING_COURIER = "waiting-courier"  # приготовлен, поиск курьера доставки
+    DELIVERING = "delivering"  # доставляется курьером
+    SUCCESS = "success"  # доставлен
+    ERROR = "error"  # любая проблема с заказом по чьей либо вине
 
 
 class CartItem(CustomModel):
@@ -27,8 +28,9 @@ class Order(CustomModel):
     creator_id: int
     products: List
     status: str
-    address_id: int
+    address: Address
     amount: int
+
 
 
 class OrderCreate(CustomModel):
@@ -43,4 +45,3 @@ class OrderUpdate(CustomModel):
     status: str | None = None
     amount: int | None = None
     address_id: int | None = None
-

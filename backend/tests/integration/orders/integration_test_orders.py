@@ -184,7 +184,7 @@ async def test_success_get_one_order(clear_db, user_factory):
         order_get = Order(**response.json())
 
         assert response.status_code == 200
-        assert order_get.address_id == order.address_id and order_get.id == order.id
+        assert order_get.address == order.address and order_get.id == order.id
 
 
 @pytest.mark.asyncio(loop_scope="session")
@@ -242,7 +242,7 @@ async def test_success_update_order(clear_db, user_factory):
         order_updated = Order(**response.json())
 
         assert response.status_code == 200
-        assert order_updated.address_id == order_data.address_id
+        assert order_updated.address == order_data.address_id
         assert order_data.amount == order_updated.amount
 
 

@@ -19,6 +19,10 @@ class IOrderRepository(abc.ABC):
         ...
 
     @abc.abstractmethod
+    async def get_current(self, user_id: int) -> Order:
+        ...
+
+    @abc.abstractmethod
     async def delete(self, id: int) -> None:
         ...
 

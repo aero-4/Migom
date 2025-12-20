@@ -1,11 +1,12 @@
 import logging
 from typing import List
 
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, or_, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from src.addresses.domain.entities import Address
 from src.core.domain.exceptions import AlreadyExists, NotFound
 from src.orders.domain.entities import OrderCreate, Order, OrderUpdate, OrderStatus
 from src.orders.domain.interfaces.order_repo import IOrderRepository
@@ -88,6 +89,25 @@ class PGOrdersRepository(IOrderRepository):
                 .selectinload(OrderProductsOrm.product)
             )
             .where(OrdersOrm.id == id)
+        )
+        result = await self.session.execute(stmt)
+        obj = result.scalar_one_or_none()
+        if not obj:
+            raise NotFound()
+        return self._to_entity(obj)
+
+    async def get_current(self, user_id: int) -> Order:
+        stmt = (
+            select(OrdersOrm)
+            .options(
+                selectinload(OrdersOrm.product_links)
+                .selectinload(OrderProductsOrm.product)
+            )
+            .where(or_(OrdersOrm.courier_id == user_id,
+                       OrdersOrm.cook_id == user_id),
+                   and_(
+                       OrdersOrm.status.notin_([OrderStatus.CREATED, OrderStatus.SUCCESS])
+                   ))
         )
         result = await self.session.execute(stmt)
         obj = result.scalar_one_or_none()
@@ -190,6 +210,17 @@ class PGOrdersRepository(IOrderRepository):
             update_at=order_data.updated_at,
             products=products_data,
             status=order_data.status,
-            address_id=order_data.address_id,
+
+            address=Address(
+                city=order_data.address.city,
+                street=order_data.address.street,
+                house_number=order_data.address.house_number,
+                entrance=order_data.address.entrance,
+                floor=order_data.address.floor,
+                apartment_number=order_data.address.apartment_number,
+                comment=order_data.address.comment,
+                is_leave_at_door=order_data.address.is_leave_at_door,
+            ).model_dump(mode="json"),
+
             amount=order_data.amount
         )

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pbe/react-yandex-maps": "^1.2.5",
     "@tailwindcss/vite": "^4.1.14",
     "leaflet": "^1.9.4",
     "react": "^19.1.1",

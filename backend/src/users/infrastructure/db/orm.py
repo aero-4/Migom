@@ -26,6 +26,6 @@ class UsersOrm(Base):
     birthday: Mapped[datetime.datetime] = mapped_column(nullable=True)
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
-    orders: Mapped[List['OrdersOrm']] = relationship(back_populates="creator")
-    addresses: Mapped[List['AddressesOrm']] = relationship(back_populates="user")
+    orders: Mapped[List['OrdersOrm']] = relationship(back_populates="creator", foreign_keys="OrdersOrm.creator_id")
+    addresses: Mapped[List['AddressesOrm']] = relationship(back_populates="user", cascade="all, delete-orphan")
     role: Mapped[int] = mapped_column(nullable=False, default=UserRole.user)

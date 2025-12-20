@@ -2,8 +2,8 @@ from src.core.domain.entities import CustomModel
 
 
 class Address(CustomModel):
-    id: int
-    user_id: int
+    id: int | None = None
+    user_id: int | None = None
     city: str
     street: str
     house_number: int

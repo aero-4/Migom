@@ -86,10 +86,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
     }, [paymentId]);
 
     return (
-        <div className="flex flex-col p-3 min-h-screen">
+        <div className="flex flex-col">
             <h3 className="text-3xl font-semibold my-6">Оплата</h3>
 
-            <div className="flex flex-col gap-2 text-center mt-auto ">
+            <div className="flex flex-col gap-1 text-center mt-auto ">
                 {!paymentId && (
                     <button
                         type="button"

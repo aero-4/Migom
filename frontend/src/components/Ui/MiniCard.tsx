@@ -7,16 +7,12 @@ function MiniCard({product}) {
     return (
         <div
             key={product.id ?? `${product.name}-${Math.random()}`}
-            className="flex flex-row gap-3 p-3 overflow-hidden"
+            className="flex flex-row h-full gap-3 p-3 overflow-hidden"
 
         >
-            <div className="flex-shrink-0 w-32 rounded ">
-                {product.photo ?
-                    <img src={product.photo}
-                         lt={product.name}
-                         className="img"
-                         onClick={() => navigate(`/product/${product.id}`)}/> : <div/>}
-            </div>
+            <img src={product.photo}
+                 className="w-32"
+                 onClick={() => navigate(`/product/${product.id}`)}/>
             <div className="flex flex-col h-full w-full flex-1 min-w-0">
                 <div className="product__name">
                     {product.name}

@@ -13,18 +13,16 @@ export default function OpenButton({elements, title=null, className=""}) {
                     (<h1 className="title">{title}</h1>)
                 }
 
-                <h1 className="lex flex-row">
 
-                    {isVisible ? (
-                        <img src={minusSvg} alt="Закрыть" className="w-5"/>
-                    ) : (
-                        <img src={bottomSvg} alt="Раскрыть" className="w-5"/>
-                    )}
-                </h1>
+                {isVisible ? (
+                    <img src={minusSvg} alt="Закрыть" className="w-5"/>
+                ) : (
+                    <img src={bottomSvg} alt="Раскрыть" className="w-5"/>
+                )}
             </button>
 
             {isVisible && (
-                <div className="flex flex-col gap-3 rounded-xl">
+                <div className="flex flex-col rounded-xl gap-1">
                     {elements}
                 </div>
             )}

@@ -332,7 +332,7 @@ const DeliveryForm: React.FC<DFProps> = ({
         <div className={`w-full h-full ${className}`}>
             <form
                 onSubmit={handleAddressSubmit}
-                className="h-full flex flex-col  bg-white rounded-xl text-base"
+                className="h-full flex flex-col bg-white rounded-xl text-base"
             >
                 <div className="flex items-center justify-between p-3">
                     <h3 className="font-semibold text-2xl">Адрес доставки</h3>
@@ -588,17 +588,15 @@ const DeliveryForm: React.FC<DFProps> = ({
                     <div className="h-24 md:h-28" aria-hidden/>
                 </div>
 
-                <div className="sticky bottom-0 bg-white p-2 sm:p-4 flex flex-col gap-3">
-                    <div className="flex gap-2">
-                        <button
-                            type="submit"
-                            disabled={loadingSubmit || !(showForm || (addr.addressLine && addr.street))}
-                            className={`big__button btn__circle flex-1 ${loadingSubmit ? "opacity-60 cursor-not-allowed" : ""}`}
-                        >
-                            {submitLabel}
-                        </button>
+                <div className="sticky bottom-0 bg-white p-2 sm:p-4 flex flex-col gap-1">
+                    <button
+                        type="submit"
+                        disabled={loadingSubmit || !(showForm || (addr.addressLine && addr.street))}
+                        className={`big__button btn__circle flex-1 ${loadingSubmit ? "opacity-60 cursor-not-allowed" : ""}`}
+                    >
+                        {submitLabel}
+                    </button>
 
-                    </div>
 
                     <BackButton onBack={onBack}/>
                 </div>

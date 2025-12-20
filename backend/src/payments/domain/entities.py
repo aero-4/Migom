@@ -23,7 +23,7 @@ class PaymentCreate(CustomModel):
 
 class PaymentUpdate(CustomModel):
     id: int
-    amount: int | None = None
     status: str | None = None
+    method: str | None = None
 
 

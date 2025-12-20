@@ -230,7 +230,7 @@ export const CartWidget: React.FC = () => {
                     onClick={(e) => e.stopPropagation()}
                     className={`h-full w-full md:p-6 xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
                         isOpen ? "translate-x-0" : "translate-x-full"
-                    } rounded md:rounded-4xl overflow-hidden`}
+                    } md:rounded-l-3xl  overflow-hidden`}
                     role="dialog"
                     aria-modal="true"
                 >

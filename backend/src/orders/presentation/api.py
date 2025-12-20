@@ -4,6 +4,7 @@ from starlette.requests import Request
 from src.auth.presentation.dependencies import TokenAuthDep
 from src.auth.presentation.permissions import access_control
 from src.orders.application.use_cases.collect_orders import collect_order, collect_orders, search_orders
+from src.orders.application.use_cases.current_order import active_order
 from src.orders.application.use_cases.delete_order import delete_order
 from src.orders.application.use_cases.new_order import new_order
 from src.orders.application.use_cases.update_order import update_order
@@ -30,6 +31,12 @@ async def get_all(request: Request, uow: OrderUoWDeps):
 @access_control(role=[UserRole.courier, UserRole.cook, UserRole.admin])
 async def search(order_data: OrderSearchDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await search_orders(order_data.status, uow)
+
+
+@orders_api_router.get("/active")
+@access_control(role=[UserRole.courier, UserRole.admin, UserRole.admin])
+async def active(uow: OrderUoWDeps, auth: TokenAuthDep):
+    return await active_order(uow, auth)
 
 
 @orders_api_router.patch("/{id}")

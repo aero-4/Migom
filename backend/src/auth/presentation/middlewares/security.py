@@ -2,7 +2,9 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
+from src.core.domain.exceptions import PermissionDenied
 from src.users.domain.entities import User
+from src.users.infrastructure.db.orm import UserRole
 
 
 class SecurityMiddleware(BaseHTTPMiddleware):
@@ -21,7 +23,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         """
         super().__init__(app)
 
-        self.secure_paths: list[str] = secure_paths or ["/api", "/admin", "/docs", "/redoc"]
+        self.secure_paths: list[str] = secure_paths or ["/api", "/admin", "/redoc"]
         self.allowed_paths: list[str] = allowed_paths or [
             "/api/auth",
             "/api/addresses",
@@ -43,8 +45,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
 
         if is_secure_paths and not is_allowed_paths:
-            return JSONResponse(status_code=403,
-                                content={"detail": "Permission denied"})
+            return JSONResponse(status_code=403, content={"detail": "Permission denied"})
 
         response = await call_next(request)
         return response
