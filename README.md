@@ -1,3 +1,3 @@
-### Migom - online cafe and delivering products
+### Migom - online restaraunt
 
 
