@@ -16,13 +16,13 @@ orders_api_router = APIRouter()
 
 
 @orders_api_router.post("/")
-@access_control(role=UserRole.user)
+@access_control(role=[UserRole.user, UserRole.courier, UserRole.cook, UserRole.admin])
 async def create(request: Request, order: OrderCreateDTO, uow: OrderUoWDeps):
     return await new_order(order, uow, request.state.user)
 
 
 @orders_api_router.get("/")
-@access_control(role=UserRole.user)
+@access_control(role=[UserRole.user, UserRole.courier, UserRole.cook, UserRole.admin])
 async def get_all(request: Request, uow: OrderUoWDeps):
     return await collect_orders(uow, request.state.user)
 
@@ -35,14 +35,14 @@ async def search(order_data: OrderSearchDTO, uow: OrderUoWDeps, auth: TokenAuthD
 
 @orders_api_router.get("/active")
 @access_control(role=[UserRole.courier, UserRole.admin, UserRole.admin])
-async def active(uow: OrderUoWDeps, auth: TokenAuthDep):
-    return await active_order(uow, auth)
+async def active(request: Request, uow: OrderUoWDeps, auth: TokenAuthDep):
+    return await active_order(request.state.user, uow)
 
 
 @orders_api_router.patch("/{id}")
 @access_control(role=[UserRole.courier, UserRole.cook, UserRole.admin])
-async def update(id: int, order: OrderUpdateDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
-    return await update_order(id, order, uow)
+async def update(request: Request, id: int, order: OrderUpdateDTO, uow: OrderUoWDeps, auth: TokenAuthDep):
+    return await update_order(id, request.state.user, order, uow)
 
 
 @orders_api_router.delete("/{id}")

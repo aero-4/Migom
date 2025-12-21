@@ -26,11 +26,12 @@ class Order(CustomModel):
     created_at: datetime.datetime
     update_at: datetime.datetime
     creator_id: int
+    courier_id: int | None = None
+    cook_id: int | None = None
     products: List
     status: str
     address: Address
     amount: int
-
 
 
 class OrderCreate(CustomModel):
@@ -42,6 +43,8 @@ class OrderCreate(CustomModel):
 class OrderUpdate(CustomModel):
     id: int
     creator_id: int | None = None
+    courier_id: int | None = None
+    cook_id: int | None = None
     status: str | None = None
     amount: int | None = None
     address_id: int | None = None

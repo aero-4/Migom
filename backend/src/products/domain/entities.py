@@ -18,6 +18,7 @@ class Product(CustomModel):
     category_id: int | None = None
     discount_price: float | None = None
     discount: int | None = None
+    quantity: int | None = None
 
 
 class ProductCreate(CustomModel):

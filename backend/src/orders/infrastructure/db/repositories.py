@@ -201,6 +201,7 @@ class PGOrdersRepository(IOrderRepository):
                 carbohydrates=product.carbohydrates,
                 photo=product.photo,
                 category_id=product.category_id,
+                quantity=link.quantity
             ).model_dump(mode="json"))
 
         return Order(
@@ -221,6 +222,9 @@ class PGOrdersRepository(IOrderRepository):
                 comment=order_data.address.comment,
                 is_leave_at_door=order_data.address.is_leave_at_door,
             ).model_dump(mode="json"),
+
+            courier_id=order_data.courier_id,
+            cook_id=order_data.cook_id,
 
             amount=order_data.amount
         )
