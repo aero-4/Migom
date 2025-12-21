@@ -73,7 +73,7 @@ body {
     }
 
     .big__button {
-        @apply text-white bg-red-500 p-3 text-center rounded-xl inline-flex items-center justify-center gap-2 duration-500
+        @apply text-white bg-red-500 p-3 text-center rounded-xl gap-2 duration-300
     }
 
     .big__button:hover {
@@ -81,7 +81,7 @@ body {
     }
 
     .big__button:active {
-        @apply opacity-70
+        @apply opacity-50
     }
 
     .add__button-responsive {
@@ -220,11 +220,11 @@ body {
     }
 
     .badge {
-        @apply inline-flex items-center px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800
+        @apply inline-flex items-center p-6 rounded-xl border-1 border-gray-200 bg-gray-50 text-gray-800
     }
 
     .card {
-        @apply flex flex-col bg-white rounded-2xl p-6
+        @apply flex flex-col bg-white rounded-3xl p-6
     }
 
     .container {

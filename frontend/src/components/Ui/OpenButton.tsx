@@ -8,7 +8,8 @@ export default function OpenButton({elements, title=null, className=""}) {
     return (
         <>
             <button className={`menu__button flex flex-row ${className}`}
-                    onClick={() => setIsVisible(!isVisible)}>
+                    onClick={() => setIsVisible(!isVisible)}
+                    key={Math.random()}>
                 {title &&
                     (<h1 className="title">{title}</h1>)
                 }

@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useNavigate } from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.tsx";
 import CloseButton from "../Ui/CloseButton.tsx";
+import config from "../../../config.ts";
 
 const ChangePasswordModal: React.FC<{
     open: boolean;

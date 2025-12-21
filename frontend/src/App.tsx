@@ -6,6 +6,7 @@ import Profile from "./pages/Profile.tsx";
 import SearchPage from "./pages/Search.tsx";
 import Orders from "./pages/Orders.tsx";
 import Courier from "./pages/Courier.tsx";
+import Cook from "./pages/Cook.tsx";
 
 const Home = lazy(() => import('./pages/Home.tsx'));
 const Login = lazy(() => import('./pages/Login.tsx'));
@@ -22,6 +23,7 @@ function App(): JSX.Element {
                     <Route index element={<Home/>}/>
                     <Route path="profile" element={<Profile/>}/>
                     <Route path="orders" element={<Orders/>}/>
+                    <Route path="cook" element={<Cook/>}/>
                     <Route path="courier" element={<Courier/>}/>
                     <Route path="product/:id" element={<Product/>}/>
                     <Route path="category/:id" element={<Category/>}/>

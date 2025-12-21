@@ -317,7 +317,7 @@ export const CartWidget: React.FC = () => {
                                             type="button"
                                             onClick={clear}
                                             disabled={items.length === 0}
-                                            className="w-full btn__circle text-gray-700 bg-gray-200 hover:bg-gray-100"
+                                            className="big__button btn__circle bg-gray-400"
                                         >
                                             Очистить корзину
                                         </button>
@@ -327,8 +327,8 @@ export const CartWidget: React.FC = () => {
                                                 type="button"
                                                 onClick={handleSwitchToDeliveringForm}
                                                 disabled={loading || items.length === 0}
-                                                className={`w-full flex items-center justify-center text-white btn__circle ${
-                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600"
+                                                className={`big__button btn__circle ${
+                                                    loading || items.length === 0 ? "cursor-not-allowed" : "bg-red-600"
                                                 } focus:outline-none`}
                                             >
                                                 Оформить заказ
@@ -338,8 +338,8 @@ export const CartWidget: React.FC = () => {
                                                 type="button"
                                                 onClick={() => window.location.assign("/login")}
                                                 disabled={loading || items.length === 0}
-                                                className={`w-full flex items-center justify-center текст-white btn__circle ${
-                                                    loading || items.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-red-600"
+                                                className={`big__button btn__circle ${
+                                                    loading || items.length === 0 ? "cursor-not-allowed" : "bg-red-600"
                                                 } focus:outline-none`}
                                             >
                                                 Оформить заказ и войти

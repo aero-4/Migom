@@ -56,7 +56,7 @@ const ActionModal: React.FC<ConfirmModalProps> = ({
                 <div className="flex justify-center gap-1">
                     <button
                         type="button"
-                        className="big__button px-16 bg-red-100 text-red-500"
+                        className="big__button w-full flex-1 bg-red-100 text-red-500"
                         onClick={onClose}
                     >
                         {cancelLabel}

@@ -17,9 +17,15 @@ function MiniCard({product}) {
                 <div className="product__name">
                     {product.name}
                 </div>
-                <p className="text-xs text-gray-400">
-                    {product.grams} г.
-                </p>
+                <div className="flex flex-row gap-1">
+                    <p className="text-xs text-gray-400">
+                        {product.grams} г. /
+                    </p>
+
+                    <p className="text-xs text-gray-400">
+                        {product.quantity} шт.
+                    </p>
+                </div>
 
                 <div className="font-medium mt-auto text-gray-600">
                     {product.discount_price ? product.discount_price : product.price} ₽

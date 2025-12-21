@@ -1,232 +1,329 @@
-import React, { useEffect, useRef, useState } from "react";
-import { YMaps, Map, Placemark, RoutePanel } from "@pbe/react-yandex-maps";
+import React, {useEffect, useRef, useState} from "react";
+import {YMaps, Map, Placemark} from "@pbe/react-yandex-maps";
 
-const DEFAULT_CENTER = [55.751574, 37.573856]; // запасной центр (Москва)
+type Coords = [number, number];
 
-export default function MapToPlace({ destinationAddress: initialAddress = "" }) {
-    const [addressInput, setAddressInput] = useState(initialAddress);
-    const [resolvedAddress, setResolvedAddress] = useState(""); // адрес из геокодера
-    const [destCoords, setDestCoords] = useState(null); // [lat, lon]
-    const [userPos, setUserPos] = useState(null);
-    const [routeInfo, setRouteInfo] = useState(null); // { durationText, distanceText }
-    const [mode, setMode] = useState("auto"); // 'auto' или 'pedestrian'
-    const [zoom, setZoom] = useState(14);
+export default function MapToPlace({
+                                       destinationAddress = ""
+                                   }: {
+    destinationAddress: string;
+}) {
+    const mapRef = useRef<any>(null);
+    const ymapsRef = useRef<any>(null);
+    const multiRouteRef = useRef<any>(null);
 
-    // Получаем текущее местоположение
-    useEffect(() => {
-        if (!navigator.geolocation) return;
-        const watchId = navigator.geolocation.watchPosition(
-            (pos) => {
-                setUserPos([pos.coords.latitude, pos.coords.longitude]);
-            },
-            (err) => {
-                console.debug("geolocation error:", err);
-            },
-            { enableHighAccuracy: true, maximumAge: 5000 }
-        );
-        return () => navigator.geolocation.clearWatch(watchId);
-    }, []);
+    const [destCoords, setDestCoords] = useState<Coords | null>(null);
+    const [userCoords, setUserCoords] = useState<Coords | null>(null);
+    const [routeInfo, setRouteInfo] = useState<{ distance: string; duration: string } | null>(null);
+    const [mode, setMode] = useState<"auto" | "pedestrian">("auto");
+    const [loadingRoute, setLoadingRoute] = useState(false);
+    const [geoDenied, setGeoDenied] = useState(false);
+    const [permState, setPermState] = useState<string | null>(null);
+    const [lastError, setLastError] = useState<string | null>(null);
 
-    // Если компонент получил адрес через проп при старте — сразу решаем его
-    useEffect(() => {
-        if (initialAddress) {
-            setAddressInput(initialAddress);
-            // автоматический поиск
-            geocodeAddress(initialAddress);
+    // --- onLoad карты: получаем ymaps и состояние permissions API (если доступно) ---
+    function handleMapLoad(ymaps: any) {
+        console.debug("ymaps loaded");
+        ymapsRef.current = ymaps;
+        if (navigator.permissions && typeof navigator.permissions.query === "function") {
+            navigator.permissions.query({name: "geolocation" as PermissionName})
+                .then(s => {
+                    setPermState(s.state);
+                    s.onchange = () => setPermState((s as any).state);
+                })
+                .catch(() => {
+                });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [initialAddress]);
-
-    // Хелпер: ждём появления window.ymaps, затем геокодируем
-    function waitForYmapsThen(fn) {
-        if (window.ymaps) {
-            fn();
-            return;
-        }
-        const timer = setInterval(() => {
-            if (window.ymaps) {
-                clearInterval(timer);
-                fn();
-            }
-        }, 100);
-        // return cleanup not needed here
     }
 
-    // Геокодирование адреса -> coords + resolvedAddress
-    function geocodeAddress(addr) {
-        if (!addr || addr.trim().length === 0) {
-            setResolvedAddress("");
-            setDestCoords(null);
+    // --- Геокодим адрес (после того как ymaps готов) ---
+    useEffect(() => {
+        async function geocode() {
+            setLastError(null);
+            if (!destinationAddress) {
+                console.debug("No destinationAddress provided");
+                setDestCoords(null);
+                return;
+            }
+            if (!ymapsRef.current) {
+                console.debug("ymaps not ready yet — waiting for onLoad");
+                return;
+            }
+            try {
+                console.debug("Geocoding:", destinationAddress);
+                // results:1 чтобы получить первый наиболее релевантный
+                const res = await ymapsRef.current.geocode(destinationAddress, {results: 1});
+                const first = res.geoObjects.get(0);
+                if (!first) {
+                    console.warn("Geocode: no result for", destinationAddress);
+                    setLastError("Адрес не найден (geocode вернул пусто)");
+                    setDestCoords(null);
+                    return;
+                }
+                const coords = first.geometry.getCoordinates() as Coords;
+                console.debug("Geocode coords:", coords);
+                setDestCoords(coords);
+                // если карта есть — центрируем и ставим зум
+                try {
+                    mapRef.current?.setCenter(coords, 14, {duration: 300});
+                } catch (e) {
+                }
+            } catch (err: any) {
+                console.error("Geocode error:", err);
+                setLastError("Ошибка геокодирования: " + (err?.message ?? err));
+                setDestCoords(null);
+            }
+        }
+
+        geocode();
+    }, [destinationAddress, ymapsRef.current]);
+
+    function requestUserLocation() {
+        setLastError(null);
+        if (!navigator.geolocation) {
+            setLastError("Геолокация не поддерживается в этом браузере");
             return;
         }
 
-        waitForYmapsThen(() => {
-            window.ymaps.geocode(addr, { results: 1 })
-                .then((res) => {
-                    const first = res.geoObjects.get(0);
-                    if (!first) {
-                        setResolvedAddress("Адрес не найден");
-                        setDestCoords(null);
-                        setRouteInfo(null);
+        if (navigator.permissions && typeof navigator.permissions.query === "function") {
+            navigator.permissions.query({name: "geolocation" as PermissionName})
+                .then((p) => {
+                    setPermState(p.state);
+                    if (p.state === "denied") {
+                        setGeoDenied(true);
+                        setLastError("Доступ к геопозиции запрещён в настройках браузера");
                         return;
                     }
-                    const coords = first.geometry.getCoordinates();
-                    const addrLine = first.getAddressLine();
-                    setDestCoords(coords);
-                    setResolvedAddress(addrLine || addr);
-                    // как только есть и пользователь и цель — пересчитываем маршрут (внизу)
-                    if (userPos) computeRoute(userPos, coords, mode);
+                    doGetPosition();
                 })
-                .catch((err) => {
-                    console.error("geocode error:", err);
-                    setResolvedAddress("Ошибка геокодирования");
-                    setDestCoords(null);
-                    setRouteInfo(null);
+                .catch(() => {
+                    doGetPosition();
                 });
-        });
+        } else {
+            doGetPosition();
+        }
+
+        function doGetPosition() {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const coords: Coords = [pos.coords.latitude, pos.coords.longitude];
+                    console.debug("User coords (getCurrentPosition):", coords);
+                    setUserCoords(coords);
+                    setGeoDenied(false);
+                    try {
+                        mapRef.current?.setCenter(coords, 13, {duration: 300});
+                    } catch (e) {
+                    }
+                },
+                (err) => {
+                    console.warn("getCurrentPosition error:", err);
+                    if (err.code === 1) {
+                        setGeoDenied(true);
+                        setLastError("Доступ к геопозиции запрещён пользователем/браузером");
+                    } else if (err.code === 3) {
+                        setLastError("Таймаут при получении геопозиции");
+                        // Попробуем watchPosition как fallback
+                        tryWatchPositionFallback();
+                    } else {
+                        setLastError("Ошибка получения геопозиции: " + (err.message ?? err.code));
+                    }
+                },
+                {enableHighAccuracy: true, maximumAge: 0, timeout: 10000}
+            );
+        }
+
+        function tryWatchPositionFallback() {
+            let watchId: number | null = null;
+            if (!navigator.geolocation) return;
+            try {
+                watchId = navigator.geolocation.watchPosition(
+                    (pos) => {
+                        const coords: Coords = [pos.coords.latitude, pos.coords.longitude];
+                        console.debug("User coords (watchPosition fallback):", coords);
+                        setUserCoords(coords);
+                        if (watchId !== null) {
+                            navigator.geolocation.clearWatch(watchId);
+                        }
+                    },
+                    (err) => {
+                        console.warn("watchPosition error:", err);
+                        if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+                    },
+                    {enableHighAccuracy: true, maximumAge: 0}
+                );
+            } catch (e) {
+                console.error("watchPosition not available", e);
+            }
+        }
     }
 
-    // Вычисляем время/расстояние маршрута программно через ymaps.route (показ внизу)
-    function computeRoute(fromCoords, toCoords, transportMode = "auto") {
-        if (!window.ymaps || !fromCoords || !toCoords) {
-            setRouteInfo(null);
+    function chooseShortestAndSetActive(multiRoute: any) {
+        try {
+            const routes = multiRoute.getRoutes ? multiRoute.getRoutes() : null;
+            const len = routes && typeof routes.getLength === "function" ? routes.getLength() : 0;
+            if (!routes || len === 0) {
+                const active = multiRoute.getActiveRoute && multiRoute.getActiveRoute();
+                if (active) {
+                    setRouteInfo({
+                        distance: active.properties.get("distance")?.text ?? "",
+                        duration: active.properties.get("duration")?.text ?? ""
+                    });
+                }
+                return;
+            }
+
+            let best: any = null;
+            let bestValue = Infinity;
+            for (let i = 0; i < len; i++) {
+                const r = routes.get(i);
+                const durationVal = r.properties.get("duration")?.value ?? Infinity;
+                if (durationVal < bestValue) {
+                    bestValue = durationVal;
+                    best = r;
+                }
+            }
+            if (best) {
+                try {
+                    multiRoute.setActiveRoute(best);
+                } catch (e) {
+                    console.warn("setActiveRoute failed", e);
+                }
+                setRouteInfo({
+                    distance: best.properties.get("distance")?.text ?? "",
+                    duration: best.properties.get("duration")?.text ?? ""
+                });
+            }
+        } catch (e) {
+            console.error("chooseShortestAndSetActive error", e);
+        }
+    }
+
+    useEffect(() => {
+        const ym = ymapsRef.current;
+        const map = mapRef.current;
+        if (!ym || !map) {
             return;
         }
 
-        const routingMode = transportMode === "pedestrian" ? "pedestrian" : "auto";
-
-        // ymaps.route может принимать массив координат [from, to]
-        window.ymaps.route([fromCoords, toCoords], { routingMode })
-            .then((multiRoute) => {
-                // Попробуем извлечь основную информацию о первом активном/первом маршруте
+        if (!userCoords || !destCoords) {
+            if (multiRouteRef.current) {
                 try {
-                    // структура: multiRoute.getRoutes()[0].properties.get('distance') / get('duration')
-                    const routes = multiRoute.getRoutes ? multiRoute.getRoutes() : null;
-                    const firstRoute = routes && routes[0] ? routes[0] : (multiRoute.geoObjects && multiRoute.geoObjects.get(0));
-                    const props = firstRoute && firstRoute.properties;
-                    const distance = props && (props.get("distance")?.text || props.get("distance"));
-                    const duration = props && (props.get("duration")?.text || props.get("duration"));
-                    setRouteInfo({
-                        distanceText: distance || null,
-                        durationText: duration || null,
-                    });
-                } catch (err) {
-                    // если структура другая, просто не показываем детальную инфу
-                    console.debug("route parse error:", err);
-                    setRouteInfo(null);
+                    map.geoObjects.remove(multiRouteRef.current);
+                } catch (e) {
                 }
-            })
-            .catch((err) => {
-                console.error("route error:", err);
-                setRouteInfo(null);
-            });
-    }
-
-    // Пересчитать маршрут, когда меняются userPos / destCoords / mode
-    useEffect(() => {
-        if (userPos && destCoords) {
-            computeRoute(userPos, destCoords, mode);
+                multiRouteRef.current = null;
+            }
+            setRouteInfo(null);
+            setLoadingRoute(false);
+            return;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userPos, destCoords, mode]);
 
-    // UI handlers
-    function onFindClick(e) {
-        e?.preventDefault();
-        geocodeAddress(addressInput);
-    }
+        setLoadingRoute(true);
+        setRouteInfo(null);
+        setLastError(null);
+
+        if (multiRouteRef.current) {
+            try {
+                map.geoObjects.remove(multiRouteRef.current);
+            } catch (e) {
+            }
+            multiRouteRef.current = null;
+        }
+
+        let multiRoute: any;
+        try {
+            multiRoute = new ym.multiRouter.MultiRoute(
+                {
+                    referencePoints: [userCoords, destCoords],
+                    params: {routingMode: mode === "auto" ? "auto" : "pedestrian", results: 3}
+                },
+                {boundsAutoApply: true, activeRouteAutoSelection: true}
+            );
+        } catch (err) {
+            console.error("Failed to create MultiRoute:", err);
+            setLastError("Ошибка создания маршрута: " + String(err));
+            setLoadingRoute(false);
+            return;
+        }
+
+        multiRouteRef.current = multiRoute;
+
+        const onSuccess = () => {
+            try {
+                chooseShortestAndSetActive(multiRoute);
+            } catch (e) {
+                console.error("onSuccess chooseShortest error", e);
+            } finally {
+                setLoadingRoute(false);
+            }
+        };
+        const onFail = (e: any) => {
+            console.warn("MultiRoute requestfail", e);
+            setLastError("Не удалось построить маршрут");
+            setLoadingRoute(false);
+        };
+
+        multiRoute.model.events.add("requestsuccess", onSuccess);
+        multiRoute.model.events.add("requestfail", onFail);
+
+        try {
+            map.geoObjects.add(multiRoute);
+        } catch (e) {
+            console.error("map.geoObjects.add error", e);
+        }
+
+        return () => {
+            try {
+                multiRoute.model.events.remove("requestsuccess", onSuccess);
+            } catch (e) {
+            }
+            try {
+                multiRoute.model.events.remove("requestfail", onFail);
+            } catch (e) {
+            }
+            try {
+                if (map && multiRouteRef.current) map.geoObjects.remove(multiRouteRef.current);
+            } catch (e) {
+            }
+            multiRouteRef.current = null;
+        };
+    }, [userCoords, destCoords, mode, ymapsRef.current, mapRef.current]);
 
     return (
-        <YMaps query={{ apikey: "1460e5e2-39ad-4ee0-b416-2ed00dac917d" }}>
-            <div style={{ display: "flex", gap: 12 }}>
-                <div style={{ flex: 1 }}>
-                    <div style={{ marginBottom: 8 }}>
-                        <form onSubmit={(e) => { e.preventDefault(); geocodeAddress(addressInput); }}>
-                            <input
-                                value={addressInput}
-                                onChange={(e) => setAddressInput(e.target.value)}
-                                placeholder="Введите адрес назначения (например: Красная площадь, Москва)"
-                                style={{ width: "70%", padding: 8 }}
+        <div className="w-full h-full">
+
+            <div className="relative w-full h-[70vh] rounded-2xl overflow-hidden bg-gray-100">
+                <YMaps
+                    query={{
+                        apikey: "1460e5e2-39ad-4ee0-b416-2ed00dac917d",
+                        lang: "ru_RU",
+                        load: "package.full"
+                    }}
+                >
+                    <Map
+                        instanceRef={mapRef}
+                        onLoad={handleMapLoad}
+                        className="w-full h-full"
+                        defaultState={{center: [55.751574, 37.573856], zoom: 13}}
+                    >
+                        {destCoords && (
+                            <Placemark
+                                geometry={destCoords}
+                                options={{preset: "islands#redIcon"}}
                             />
-                            <button onClick={onFindClick} style={{ marginLeft: 8, padding: "8px 12px" }}>
-                                Найти
-                            </button>
-                        </form>
-                        <div style={{ marginTop: 8 }}>
-                            Режим:{" "}
-                            <select value={mode} onChange={(e) => setMode(e.target.value)}>
-                                <option value="auto">Авто</option>
-                                <option value="pedestrian">Пешком</option>
-                            </select>
-                            <span style={{ marginLeft: 16 }}>
-                Масштаб:{" "}
-                                <button onClick={() => setZoom((z) => Math.max(3, z - 1))}>−</button>
-                <span style={{ margin: "0 8px" }}>{zoom}</span>
-                <button onClick={() => setZoom((z) => Math.min(19, z + 1))}>+</button>
-              </span>
-                        </div>
-                    </div>
-
-                    <div style={{ width: "100%", height: 480, border: "1px solid #ddd" }}>
-                        <Map
-                            // используем state (чтобы центр следовал за destCoords)
-                            state={{
-                                center: destCoords || DEFAULT_CENTER,
-                                zoom,
-                                controls: ["zoomControl"],
-                            }}
-                            width="100%"
-                            height="100%"
-                        >
-                            {/* метка назначения (если есть coords) */}
-                            {destCoords && <Placemark geometry={destCoords} options={{ preset: "islands#redDotIcon" }} />}
-
-                            {/* метка текущего положения */}
-                            {userPos && <Placemark geometry={userPos} options={{ preset: "islands#blueCircleIcon" }} />}
-
-                            {/* RoutePanel — даст пользователю удобную панель с маршрутом и временем */}
-                            {userPos && (destCoords || addressInput) && (
-                                <RoutePanel
-                                    options={{ float: "right" }}
-                                    state={{
-                                        from: userPos,
-                                        to: destCoords || addressInput,
-                                        type: mode === "pedestrian" ? "pedestrian" : "auto",
-                                    }}
-                                />
-                            )}
-                        </Map>
-                    </div>
-
-                    <div style={{ marginTop: 8 }}>
-                        <b>Результат геокодирования:</b> {resolvedAddress || "не найдено"}
-                    </div>
-                    <div>
-                        <b>Текущие геоданные:</b>{" "}
-                        {userPos ? `${userPos[0].toFixed(6)}, ${userPos[1].toFixed(6)}` : "не получены (прошение геолокации)"}
-                    </div>
-                    <div>
-                        <b>Информация о маршруте:</b>{" "}
-                        {routeInfo ? `${routeInfo.durationText || ""} ${routeInfo.distanceText ? `· ${routeInfo.distanceText}` : ""}` : "не рассчитан"}
-                    </div>
-                </div>
-
-                <div style={{ width: 320 }}>
-                    <div style={{ padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
-                        <h4>Короткая справка</h4>
-                        <ul>
-                            <li>Передавай адрес в пропе <code>destinationAddress</code> или вводи в поле.</li>
-                            <li>Нажми «Найти», чтобы геокодер преобразовал адрес в координаты.</li>
-                            <li>Если пользователь разрешил — отображается его текущее положение и маршрут.</li>
-                            <li>RoutePanel показывает более подробную панель маршрута (время/маршрут/альтернативы).</li>
-                        </ul>
-                        <div style={{ marginTop: 8 }}>
-                            Пример вызова:
-                            <pre style={{ background: "#fafafa", padding: 8 }}>{"<MapToPlace destinationAddress=\"Невский проспект, Санкт-Петербург\" />"}</pre>
-                        </div>
-                    </div>
-                </div>
+                        )}
+                        {userCoords && (
+                            <Placemark
+                                geometry={userCoords}
+                                options={{preset: "islands#blueCircleIcon"}}
+                            />
+                        )}
+                    </Map>
+                </YMaps>
             </div>
-        </YMaps>
+
+
+        </div>
+
     );
 }

@@ -7,6 +7,7 @@ function ExitButton() {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+
     const handelExitAction = async () => {
         await logout();
         navigate("/login");

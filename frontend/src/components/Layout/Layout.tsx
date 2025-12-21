@@ -11,7 +11,7 @@ const Layout: React.FC = () => {
                 <Navbar />
 
                 <main className="flex-1 overflow-auto">
-                    <div className=" w-full h-full">
+                    <div className="w-full h-full">
                         <Outlet />
                     </div>
                 </main>

@@ -36,11 +36,7 @@ function Profile(): JSX.Element {
                 <p>{user.email}</p>
 
                 <div className="w-full max-w-md">
-                    <div className="flex flex-col gap-3">
-                        <NavLink to="/orders" className="big__button text-orange-500 bg-orange-100">
-                            Мои заказы
-                        </NavLink>
-
+                    <div className="flex flex-col gap-2">
                         <button type="button" onClick={() => setModalOpen(true)}
                                 className="big__button bg-blue-100 text-blue-500">
                             Сменить пароль

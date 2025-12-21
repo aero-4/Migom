@@ -4,6 +4,7 @@ import config from "../../config.ts";
 import MiniCard from "../components/Ui/MiniCard.tsx";
 import NotFound from "./NotFound.tsx";
 import Loader from "../components/Loaders/Loader.tsx";
+import ActiveOrder from "../components/Modals/ActiveOrder.tsx";
 
 export default function Courier() {
     const { user } = useAuth();
@@ -11,7 +12,6 @@ export default function Courier() {
     const [orders, setOrders] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -48,22 +48,21 @@ export default function Courier() {
             setError(null);
 
             try {
-                const response = await fetch(`${config.API_URL}/api/orders/current`, {
+                const response = await fetch(`${config.API_URL}/api/orders/active`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",
-                    body: JSON.stringify({ status: "delivering"}),
                 });
-
+                if (response.status === 404) {
+                    return;
+                }
                 const order = await response.json();
+
                 setActiveOrder(order);
-
                 setOrders((prev) => prev.filter((o) => o.id !== order.id));
-
-                setSelectedOrderId(null);
             } catch (err: any) {
-                console.error("takeOrder error", err);
-                setError(err.message || "Не удалось взять заказ");
+                console.error("actionOrder error", err);
+                setError(err.message || "Не удалось взять этот заказ");
             } finally {
                 setIsLoading(false);
             }
@@ -72,7 +71,7 @@ export default function Courier() {
     }, []);
 
 
-    const takeOrder = async (order: any) => {
+    const takeOrder = async (order: any, newStatus: string) => {
         if (!user) return;
 
         if (activeOrder) {
@@ -88,12 +87,12 @@ export default function Courier() {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ status: "delivering"}),
+                body: JSON.stringify({ status: newStatus}),
             });
 
             if (!response.ok) {
                 const text = await response.text();
-                throw new Error(`Ошибка при взятии заказа: ${response.status} ${text}`);
+                throw new Error(`Ошибка при смены статуса заказа: ${response.status} ${text}`);
             }
 
             const updated = await response.json();
@@ -101,7 +100,6 @@ export default function Courier() {
 
             setOrders((prev) => prev.filter((o) => o.id !== order.id));
 
-            setSelectedOrderId(null);
         } catch (err: any) {
             console.error("takeOrder error", err);
             setError(err.message || "Не удалось взять заказ");
@@ -110,33 +108,23 @@ export default function Courier() {
         }
     };
 
-
-
-    if (!user) return null;
+    if (!user) return <NotFound />;
     if (user.role < 2) return <NotFound />;
     if (isLoading) return <Loader/>;
+    if (activeOrder) return <ActiveOrder order={activeOrder}/>;
 
     return (
         <>
-            {activeOrder && (
-                <div className="">
-                    <p>У вас в работе заказ №{activeOrder}. Завершите или отмените его, чтобы взять новый.</p>
-                </div>
-            )}
+            <div className="min-h-screen">
+                <h2 className="title">Заказы для доставки</h2>
 
-            <div className="p-4">
-                <h2 className="title">Заказы на доставку</h2>
-
-                {isLoading && <p className="text-sm text-gray-500 mb-2">Загрузка...</p>}
-                {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
+                {error && <p className="title text-sm text-red-600">{error}</p>}
 
                 <div
                     ref={containerRef}
-                    className="flex flex-col gap-4 overflow-x-auto snap-x snap-mandatory py-2 px-1"
+                    className="min-h-screen flex flex-col gap-3 overflow-x-auto snap-x snap-mandatory py-2 px-1"
                     tabIndex={0}
                 >
-                    {orders.length === 0 && !isLoading && <p className="text-gray-500">Нет доступных заказов</p>}
-
                     {orders.map((order) => {
                         return (
                             <div
@@ -155,7 +143,7 @@ export default function Courier() {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <div className="flex gap-2 overflow-hidden">
+                                    <div className="flex gap-1 overflow-hidden">
                                         {order.products?.slice(0, 3).map((p: any, idx: number) => (
                                             <div key={idx} className="w-20 h-20 rounded flex items-center justify-center">
                                                 <MiniCard product={p} />
@@ -169,14 +157,12 @@ export default function Courier() {
 
                                 </div>
 
-                                <div className="flex gap-2 mt-auto">
-                                    <button
-                                        onClick={() => takeOrder(order)}
-                                        className={`big__button`}
-                                    >
-                                        Взять заказ
-                                    </button>
-                                </div>
+                                <button
+                                    onClick={() => takeOrder(order, "delivering")}
+                                    className={`big__button`}
+                                >
+                                    Взять заказ
+                                </button>
 
                             </div>
                         );
