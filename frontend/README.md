@@ -1,0 +1,1 @@
+#### Stack Frontend: React TypeScript, TailwindCSS.
