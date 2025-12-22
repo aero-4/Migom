@@ -116,7 +116,7 @@ export default function Cook() {
     return (
         <>
             <div className="min-h-screen">
-                <h2 className="title">Заказы для готовки</h2>
+                <h2 className="title">Заказ для готовки</h2>
 
                 {error && <p className="title text-sm text-red-600">{error}</p>}
 
