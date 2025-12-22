@@ -4,7 +4,7 @@ import config from "../../config.ts";
 import MiniCard from "../components/Ui/MiniCard.tsx";
 import NotFound from "./NotFound.tsx";
 import Loader from "../components/Loaders/Loader.tsx";
-import ActiveOrder from "../components/Modals/ActiveOrder.tsx";
+import ActiveOrderCook from "../components/Modals/ActiveOrderCook.tsx";
 
 export default function Cook() {
     const { user } = useAuth();
@@ -74,10 +74,10 @@ export default function Cook() {
     const takeOrder = async (order: any, newStatus: string) => {
         if (!user) return;
 
-        if (activeOrder) {
-            setError("У вас уже есть активный заказ. Завершите его прежде чем брать новый.");
-            return;
-        }
+        // if (activeOrder) {
+        //     setError("У вас уже есть активный заказ. Завершите его прежде чем брать новый.");
+        //     return;
+        // }
 
         setIsLoading(true);
         setError(null);
@@ -111,12 +111,12 @@ export default function Cook() {
     if (!user) return <NotFound />;
     if (user.role < 2) return <NotFound />;
     if (isLoading) return <Loader/>;
-    if (activeOrder) return <ActiveOrder order={activeOrder}/>;
+    if (activeOrder) return <ActiveOrderCook order={activeOrder}/>;
 
     return (
         <>
             <div className="min-h-screen">
-                <h2 className="title">Заказ для готовки</h2>
+                <h2 className="title">Заказы для готовки</h2>
 
                 {error && <p className="title text-sm text-red-600">{error}</p>}
 
