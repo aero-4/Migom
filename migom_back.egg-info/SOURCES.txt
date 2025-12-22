@@ -1,9 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-backend/scripts/generate_ec_keys.py
-migom_back.egg-info/PKG-INFO
-migom_back.egg-info/SOURCES.txt
-migom_back.egg-info/dependency_links.txt
-migom_back.egg-info/requires.txt
-migom_back.egg-info/top_level.txt
