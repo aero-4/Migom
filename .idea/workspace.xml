@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/create_super_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/create_super_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/orders/application/use_cases/update_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/orders/application/use_cases/update_order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/orders/infrastructure/db/repositories.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/orders/infrastructure/db/repositories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/orders/presentation/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/orders/presentation/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/orders/presentation/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/orders/presentation/dtos.py" afterDir="false" />
-    </list>
+    <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -301,7 +293,7 @@
       <workItem from="1766163142077" duration="3289000" />
       <workItem from="1766234841315" duration="12441000" />
       <workItem from="1766305317859" duration="12897000" />
-      <workItem from="1766376595542" duration="3332000" />
+      <workItem from="1766376595542" duration="3412000" />
     </task>
     <servers />
   </component>
