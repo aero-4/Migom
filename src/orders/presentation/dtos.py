@@ -16,6 +16,7 @@ class OrderCreateDTO(CustomModel):
 
 class OrderUpdateDTO(CustomModel):
     status: str | None = [
+        OrderStatus.PENDING.value,
         OrderStatus.COOKING.value,
         OrderStatus.WAITING_COURIER.value,
         OrderStatus.DELIVERING.value,

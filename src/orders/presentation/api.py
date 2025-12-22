@@ -34,7 +34,7 @@ async def search(order_data: OrderSearchDTO, uow: OrderUoWDeps, auth: TokenAuthD
 
 
 @orders_api_router.get("/active")
-@access_control(role=[UserRole.courier, UserRole.admin, UserRole.admin])
+@access_control(role=[UserRole.courier, UserRole.cook, UserRole.admin])
 async def active(request: Request, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await active_order(request.state.user, uow)
 

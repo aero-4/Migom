@@ -9,13 +9,13 @@ async def update_order(id: int, user: User, order_data: OrderUpdateDTO, uow: Ord
     async with uow:
         order = OrderUpdate(id=id,
                             **order_data.model_dump())
-
-        if order.status == OrderStatus.WAITING_COURIER and user.role == UserRole.courier:
+        print(order, user)
+        if order.status == OrderStatus.DELIVERING.value:
             order.courier_id = user.id if user.role == UserRole.courier else None
 
-        if order.status == OrderStatus.PENDING:
+        if order.status == OrderStatus.COOKING.value:
             order.cook_id = user.id if user.role == UserRole.cook else None
-
+        print(order)
         order = await uow.orders.update(order)
         await uow.commit()
     return order
