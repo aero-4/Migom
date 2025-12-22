@@ -6,10 +6,9 @@ import copySvg from "../../assets/copy-icon.svg";
 import config from "../../../config.ts";
 import ActionModal from "./Action.tsx";
 
-const ActiveOrder = ({order}) => {
+const ActiveOrderCook = ({order}) => {
     const [isOpen, setIsOpen] = useState(false)
     const modalRef = useRef<HTMLDivElement | null>(null);
-    const fullAddress =  `${order.address.city ? `г. ${order.address.city}` : ""} ${order.address.street ? `ул. ${order.address.street}` : ""} ${order.address.house_number ? `д. ${order.address.house_number}` : ""} ${order.address.flat ? "Кв. ${order.address.flat}" : ""} ${order.address.floor ? `этаж: ${order.address.floor}` : ""} ${order.address.intercom ? ` домофон: ${order.address.intercom}` : ""}`;
 
     const setStatusSuccess = async () => {
         try {
@@ -17,7 +16,7 @@ const ActiveOrder = ({order}) => {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ status: "success"}),
+                body: JSON.stringify({ status: "waiting-courier"}),
             });
 
             if (!response.ok) {
@@ -27,7 +26,7 @@ const ActiveOrder = ({order}) => {
 
             await response.json();
 
-            location.assign("/courier")
+            location.assign("/cook")
 
         } catch (err: any) {
             console.error("takeOrder error", err);
@@ -41,12 +40,10 @@ const ActiveOrder = ({order}) => {
             aria-modal="true"
         >
             <div
-                className="relative w-full h-full bg-white shadow-lg overflow-auto p-1">
+                className="relative w-full h-full bg-white shadow-lg overflow-auto p-2">
 
                 <div className="flex flex-col gap-2">
-                    <h1 className="title">Доставьте заказ</h1>
-
-                    <MapToPlace destinationAddress={fullAddress}/>
+                    <h1 className="title">Приготовьте заказ</h1>
 
                     <div
                         key={order.id}
@@ -60,40 +57,10 @@ const ActiveOrder = ({order}) => {
                             </p>
                         </div>
 
-
-                        <div className="flex flex-col gap-3">
-
-                            <div className="flex-1 flex flex-col gap-1">
-                                <div className="flex flex-row gap-1">
-                                    <div className="flex flex-1 flex-row gap-3 items-center badge">
-                                        <span className="text-gray-500">{fullAddress}</span>
-                                    </div>
-                                    <button className="big__button"
-                                            onClick={() => navigator.clipboard.writeText(fullAddress)}>
-                                        <img src={copySvg} alt="Скопировать" className="w-4"/>
-                                    </button>
-                                </div>
-
-                                {order.address.comment && (
-                                    <span className="badge">
-                                        <span className="text-gray-500">{order.address.comment}</span>
-                                    </span>
-                                )}
-                                {order.address.is_leave_at_door && (
-                                    <span className="badge">
-                                        {order.address.is_leave_at_door ? `оставить у двери` : ""}
-                                    </span>
-                                )}
-
-                            </div>
-
-                        </div>
-
                         <OpenButton elements={order.products.map((product) => (
                             <div className="flex flex-col gap-3">
                                 <MiniCard product={product}/>
                             </div>
-
                         ))}/>
                         <div className="flex flex-row gap-3 items-center">
                             <p className="text-sm text-gray-300">
@@ -109,7 +76,8 @@ const ActiveOrder = ({order}) => {
                                     <path fill="#009800" fill-rule="nonzero"
                                           d="M104.42 183.22c31.76 18.29 52.42 33.49 77.03 60.61C245.27 141.11 314.54 84.19 404.62 3.4l8.81-3.4H512C379.83 146.79 277.36 267.82 185.61 444.81 137.84 342.68 95.26 272.18 0 206.81l104.42-23.59z"/>
                                 </svg>
-                                Доставлено
+
+                                Заказ готов
 
                             </button>
                         </div>
@@ -119,11 +87,11 @@ const ActiveOrder = ({order}) => {
             <ActionModal isOpen={isOpen}
                          onConfirm={setStatusSuccess}
                          onClose={() => setIsOpen(false)}
-                         message="Вы уверены? В случае если заказ не был доставлен вы получите штраф в 50% от стоимости заказа"
+                         message="Вы уверены? В случае если заказ не был приготовлен вы получите штраф в 25% от стоимости заказа"
             />
         </div>
 
 
     );
 };
-export default ActiveOrder;
+export default ActiveOrderCook;

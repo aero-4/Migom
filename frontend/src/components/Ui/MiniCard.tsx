@@ -14,15 +14,15 @@ function MiniCard({product}) {
                  className="w-32"
                  onClick={() => navigate(`/product/${product.id}`)}/>
             <div className="flex flex-col h-full w-full flex-1 min-w-0">
-                <div className="product__name">
+                <div className="font-medium text-sm md:text-[16px]">
                     {product.name}
                 </div>
-                <div className="flex flex-row gap-1">
-                    <p className="text-xs text-gray-400">
+                <div className="font-medium flex flex-row gap-1">
+                    <p className="text-gray-400">
                         {product.grams} г. /
                     </p>
 
-                    <p className="text-xs text-gray-400">
+                    <p className="font-medium text-gray-400">
                         {product.quantity} шт.
                     </p>
                 </div>

@@ -10,9 +10,9 @@ const statusMap: Record<
 > = {
     "created": {text: "Создан", color: "bg-gray-300"},
     "pending": {text: "Ждем подтверждения", color: "bg-blue-300"},
-    "cooking": {text: "Готовится", color: "bg-brown-300"},
+    "cooking": {text: "В готовке", color: "bg-blue-500"},
     "waiting-courier": {text: "Ищем курьера", color: "bg-yellow-300"},
-    "delivering": {text: "В доставке", color: "bg-orange-300"},
+    "delivering": {text: "Доставляется", color: "bg-orange-300"},
     "success": {text: "Успешно", color: "bg-green-300"},
     "error": {text: "Проблема", color: "bg-red-300"},
 };
@@ -109,13 +109,13 @@ function Orders() {
                                             <span
                                                 className={`inline-block w-3 h-3 rounded-full ${status?.color}`}
                                             />
-                                            <p className="text-lg ">
+                                            <p className="text-lg">
                                                 {status?.text}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <OpenButton className="mx-auto justify-center" elements={order.products.map((product) => (
+                                    <OpenButton className="mx-auto" elements={order.products.map((product) => (
                                         <MiniCard product={product}/>
                                     ))}/>
                                 </div>

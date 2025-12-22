@@ -23,7 +23,7 @@ export default function OpenButton({elements, title=null, className=""}) {
             </button>
 
             {isVisible && (
-                <div className="flex flex-col rounded-xl gap-1">
+                <div className="flex flex-col rounded-xl gap-1 text-sm xl:text-lg">
                     {elements}
                 </div>
             )}
