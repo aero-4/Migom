@@ -106,7 +106,7 @@ class PGOrdersRepository(IOrderRepository):
             .where(or_(OrdersOrm.courier_id == user_id,
                        OrdersOrm.cook_id == user_id),
                    and_(
-                       OrdersOrm.status.notin_([OrderStatus.CREATED, OrderStatus.SUCCESS])
+                       OrdersOrm.status.notin_([OrderStatus.CREATED, OrderStatus.WAITING_COURIER, OrderStatus.SUCCESS])
                    ))
         )
         result = await self.session.execute(stmt)

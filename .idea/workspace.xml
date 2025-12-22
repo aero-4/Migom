@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/auth/presentation/middlewares/security.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/presentation/middlewares/security.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/auth/presentation/permissions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/presentation/permissions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/core/domain/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/core/domain/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/users/presentation/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/presentation/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/scripts/create_super_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/scripts/create_super_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/orders/application/use_cases/update_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/orders/application/use_cases/update_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/orders/infrastructure/db/repositories.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/orders/infrastructure/db/repositories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/orders/presentation/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/orders/presentation/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +34,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
+  &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="34ndDljwd8KXzz4vWXfxw3Lm1NO" />
   <component name="ProjectLevelVcsManager">
@@ -41,102 +44,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/zangetsu/PycharmProjects/Migom&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\zangetsu\\PycharmProjects\\Migom\\frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/zangetsu/PycharmProjects/Migom/backend/tests/integration/products",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "A:\\PyCharm 2023.2.4\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom" />
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom-back\backend\tests\functional\core\files" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests\integration\products" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\core\infrastructure" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\templates" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests\functional\core" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom-back\backend\src\files\infrastructure\services" />
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom-back\backend\tests\functional\core" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\users\presentation" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\payments\application\use_cases" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\auth\presentation" />
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
-    <configuration default="true" type="DjangoTestsConfigurationType">
-      <module name="MigomOld" />
+  <component name="RunManager" selected="Python.main">
+    <configuration name="create_super_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BackendMigom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="TARGET" value="" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Migom" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/create_super_user.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -146,7 +101,7 @@
       <method v="2" />
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MigomOld" />
+      <module name="BackendMigom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -167,67 +122,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="Python.FlaskServer">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docs" factoryName="Docutils task">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docs" factoryName="Sphinx task">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for integration_test_orders.test_not_found_update_order" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="MigomOld" />
+      <module name="BackendMigom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
@@ -241,23 +137,8 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for integration_test_orders.test_success_update_order" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/integration/orders" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;integration_test_orders.test_success_update_order&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for integration_test_orders.test_success_update_order_statuses" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="MigomOld" />
+      <module name="BackendMigom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
@@ -271,47 +152,35 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Autodetect">
-      <module name="MigomOld" />
+    <configuration name="Python tests for integration_test_products.test_add_some_normal_products_and_categories" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="BackendMigom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/integration/products" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;integration_test_products.test_add_some_normal_products_and_categories&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="MigomOld" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="Python.create_super_user" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python tests.Python tests for integration_test_products.test_add_some_normal_products_and_categories" />
+      <item itemvalue="Python tests.Python tests for integration_test_orders.test_not_found_update_order" />
+      <item itemvalue="Python tests.Python tests for integration_test_orders.test_success_update_order_statuses" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main (1)" />
-        <item itemvalue="Python tests.Python tests for integration_test_orders.test_not_found_update_order" />
-        <item itemvalue="Python tests.Python tests for integration_test_orders.test_success_update_order_statuses" />
-        <item itemvalue="Python tests.Python tests for integration_test_orders.test_success_update_order" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python tests.Python tests for integration_test_products.test_add_some_normal_products_and_categories" />
+        <item itemvalue="Python.create_super_user" />
+        <item itemvalue="Python tests.Python tests for integration_test_orders.test_success_update_order_statuses" />
+        <item itemvalue="Python tests.Python tests for integration_test_orders.test_not_found_update_order" />
       </list>
     </recent_temporary>
   </component>
@@ -361,17 +230,77 @@
       <workItem from="1763395473869" duration="3145000" />
       <workItem from="1763420624522" duration="4294000" />
       <workItem from="1763475528208" duration="4136000" />
-      <workItem from="1763505975323" duration="1258000" />
-      <workItem from="1763549944040" duration="1831000" />
-      <workItem from="1763555089932" duration="2114000" />
-      <workItem from="1763557244262" duration="508000" />
-      <workItem from="1763557955566" duration="82000" />
-      <workItem from="1763558108878" duration="856000" />
-      <workItem from="1763646938461" duration="611000" />
-      <workItem from="1763661770984" duration="159000" />
-      <workItem from="1763843689208" duration="2000" />
-      <workItem from="1764077265872" duration="7000" />
-      <workItem from="1764869173979" duration="3000" />
+      <workItem from="1763505975323" duration="1168000" />
+      <workItem from="1763555426493" duration="1813000" />
+      <workItem from="1763557528915" duration="548000" />
+      <workItem from="1763558351429" duration="1133000" />
+      <workItem from="1763646941881" duration="5101000" />
+      <workItem from="1763661799433" duration="6253000" />
+      <workItem from="1763671660758" duration="3801000" />
+      <workItem from="1763680169476" duration="135000" />
+      <workItem from="1763817401420" duration="6701000" />
+      <workItem from="1763900323543" duration="4232000" />
+      <workItem from="1763925364250" duration="536000" />
+      <workItem from="1763937161281" duration="20000" />
+      <workItem from="1763992203136" duration="2323000" />
+      <workItem from="1764022715831" duration="28000" />
+      <workItem from="1764063340731" duration="3911000" />
+      <workItem from="1764068207305" duration="10064000" />
+      <workItem from="1764086401488" duration="3400000" />
+      <workItem from="1764139750475" duration="759000" />
+      <workItem from="1764148573614" duration="1493000" />
+      <workItem from="1764180347429" duration="5988000" />
+      <workItem from="1764193851979" duration="1664000" />
+      <workItem from="1764264720852" duration="5091000" />
+      <workItem from="1764279845300" duration="1401000" />
+      <workItem from="1764354016515" duration="274000" />
+      <workItem from="1764372704645" duration="1232000" />
+      <workItem from="1764409781323" duration="10433000" />
+      <workItem from="1764428796442" duration="6585000" />
+      <workItem from="1764455795496" duration="12000" />
+      <workItem from="1764491572643" duration="4196000" />
+      <workItem from="1764530092500" duration="4553000" />
+      <workItem from="1764538806526" duration="1367000" />
+      <workItem from="1764540342430" duration="167000" />
+      <workItem from="1764593483197" duration="8795000" />
+      <workItem from="1764608323555" duration="604000" />
+      <workItem from="1764682175681" duration="5609000" />
+      <workItem from="1764693002587" duration="3026000" />
+      <workItem from="1764785145770" duration="4687000" />
+      <workItem from="1764798844171" duration="1092000" />
+      <workItem from="1764862863690" duration="5574000" />
+      <workItem from="1764948796864" duration="10776000" />
+      <workItem from="1764972834141" duration="444000" />
+      <workItem from="1765026056288" duration="5595000" />
+      <workItem from="1765100819410" duration="2818000" />
+      <workItem from="1765131395002" duration="11000" />
+      <workItem from="1765131409631" duration="3076000" />
+      <workItem from="1765139680866" duration="700000" />
+      <workItem from="1765140944716" duration="865000" />
+      <workItem from="1765145921486" duration="1214000" />
+      <workItem from="1765210403875" duration="6433000" />
+      <workItem from="1765306850325" duration="3235000" />
+      <workItem from="1765384313647" duration="7035000" />
+      <workItem from="1765471355971" duration="3268000" />
+      <workItem from="1765489463871" duration="1814000" />
+      <workItem from="1765555487887" duration="3356000" />
+      <workItem from="1765620545625" duration="8379000" />
+      <workItem from="1765659771162" duration="3499000" />
+      <workItem from="1765667900682" duration="767000" />
+      <workItem from="1765708493242" duration="5515000" />
+      <workItem from="1765738105563" duration="2780000" />
+      <workItem from="1765750455523" duration="667000" />
+      <workItem from="1765785456130" duration="1032000" />
+      <workItem from="1765808381396" duration="605000" />
+      <workItem from="1765818837250" duration="9376000" />
+      <workItem from="1765908474026" duration="1654000" />
+      <workItem from="1765922628843" duration="1185000" />
+      <workItem from="1765987852810" duration="7221000" />
+      <workItem from="1766009833736" duration="992000" />
+      <workItem from="1766072444420" duration="8932000" />
+      <workItem from="1766163142077" duration="3289000" />
+      <workItem from="1766234841315" duration="12441000" />
+      <workItem from="1766305317859" duration="11660000" />
     </task>
     <servers />
   </component>
@@ -382,44 +311,56 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/users/application/use_cases/information.py</url>
-          <line>10</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/users/application/use_cases/information.py</url>
-          <line>11</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/users/application/use_cases/information.py</url>
+          <url>file://$PROJECT_DIR$/src/users/domain/interfaces/password_hasher.py</url>
           <line>9</line>
-          <option name="timeStamp" value="31" />
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/orders/domain/interfaces/order_repo.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="36" />
+          <url>file://$PROJECT_DIR$/src/products/infrasctructure/db/repositories.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/products/infrasctructure/db/repositories.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/products/infrasctructure/db/repositories.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/auth/presentation/permissions.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/orders/domain/entities.py</url>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Migom_back$config__1_.coverage" NAME="config (1) Coverage Results" MODIFIED="1761854990212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/src/core" />
-    <SUITE FILE_PATH="coverage/Migom_back$generate_ec_keys.coverage" NAME="generate_ec_keys Coverage Results" MODIFIED="1761381829596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/scripts" />
-    <SUITE FILE_PATH="coverage/Migom_back$config.coverage" NAME="config Coverage Results" MODIFIED="1761384703234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/src/auth" />
-    <SUITE FILE_PATH="coverage/Migom_back$engine.coverage" NAME="engine Coverage Results" MODIFIED="1761740047559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/src/db" />
+    <SUITE FILE_PATH="coverage/BackendMigom$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1763823861717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_products_integration_test_products.coverage" NAME="pytest for tests.integration.products.integration_test_products Coverage Results" MODIFIED="1764186108636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/products" />
+    <SUITE FILE_PATH="coverage/BackendMigom$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1763648896739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/backend$orm.coverage" NAME="orm Coverage Results" MODIFIED="1762616445758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/products/infrasctructure/db" />
     <SUITE FILE_PATH="coverage/backend$.coverage" NAME=" Coverage Results" MODIFIED="1763478822940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/orders" />
-    <SUITE FILE_PATH="coverage/Migom_back$main__2_.coverage" NAME="main (2) Coverage Results" MODIFIED="1761914701161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
     <SUITE FILE_PATH="coverage/backend$engine.coverage" NAME="engine Coverage Results" MODIFIED="1761863142208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/db" />
     <SUITE FILE_PATH="coverage/backend$conftest__1_.coverage" NAME="conftest (1) Coverage Results" MODIFIED="1762453086132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/backend$config.coverage" NAME="config Coverage Results" MODIFIED="1761854763161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
-    <SUITE FILE_PATH="coverage/Migom_back$conftest.coverage" NAME="conftest Coverage Results" MODIFIED="1762453027493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/tests" />
-    <SUITE FILE_PATH="coverage/backend$main.coverage" NAME="main Coverage Results" MODIFIED="1763478185010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_users_integration_test_users_test_get_me_success.coverage" NAME="pytest for tests.integration.users.integration_test_users.test_get_me_success Coverage Results" MODIFIED="1766077780213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/users" />
+    <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_orders_integration_test_orders_test_success_new_order.coverage" NAME="pytest for tests.integration.orders.integration_test_orders.test_success_new_order Coverage Results" MODIFIED="1764077583597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/orders" />
+    <SUITE FILE_PATH="coverage/BackendMigom$main.coverage" NAME="main Coverage Results" MODIFIED="1766327588441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/backend$create_super_user.coverage" NAME="create_super_user Coverage Results" MODIFIED="1766377527520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+    <SUITE FILE_PATH="coverage/backend$main.coverage" NAME="main Coverage Results" MODIFIED="1766380250340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/backend$conftest.coverage" NAME="conftest Coverage Results" MODIFIED="1762454918552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration" />
-    <SUITE FILE_PATH="coverage/Migom_back$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1761862095871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Migom_back$main.coverage" NAME="main Coverage Results" MODIFIED="1761853942017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/BackendMigom$yoomoney_provider.coverage" NAME="yoomoney_provider Coverage Results" MODIFIED="1764534388283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/payments/infrastructure/services" />
+    <SUITE FILE_PATH="coverage/BackendMigom$.coverage" NAME=" Coverage Results" MODIFIED="1766250253438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/products" />
     <SUITE FILE_PATH="coverage/backend$env.coverage" NAME="env Coverage Results" MODIFIED="1761862658780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/alembic" />
+    <SUITE FILE_PATH="coverage/BackendMigom$create_super_user.coverage" NAME="create_super_user Coverage Results" MODIFIED="1766250098193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+    <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_products_integration_test_products_test_success_get_one_product.coverage" NAME="pytest for tests.integration.products.integration_test_products.test_success_get_one_product Coverage Results" MODIFIED="1766079918176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/products" />
   </component>
 </project>
