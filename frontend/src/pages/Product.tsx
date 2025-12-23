@@ -60,7 +60,7 @@ const Product: React.FC = () => {
     if (!product) return <div>Продукт не найден</div>;
 
     return (
-        <div className="card p-9 gap-12">
+        <div className="mt-3 card p-9 gap-12">
             <div className="flex flex-col md:flex-row gap-12">
                 <Pictures product={product}/>
 

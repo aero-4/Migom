@@ -11,6 +11,7 @@ class User(CustomModel):
     hashed_password: str
     role: int
     birthday: datetime.date | None = None
+    created_at: datetime.datetime
 
 
 class UserInfo(CustomModel):

@@ -79,7 +79,8 @@ export default function Category(): JSX.Element {
 
     return (
         <>
-            <div className="grid
+            <div className="mt-3 p-1
+                            grid
                             grid-cols-2
                             sm:grid-cols-2
                             md:grid-cols-3

@@ -22,7 +22,6 @@ class PGUserRepository(IUserRepository):
         try:
             await self.session.flush()
         except IntegrityError as e:
-            print(e)
             raise UserAlreadyExists()
 
         return self._to_domain(obj)
@@ -88,4 +87,5 @@ class PGUserRepository(IUserRepository):
             first_name=obj.first_name,
             last_name=obj.last_name,
             role=obj.role,
+            created_at=obj.created_at,
         )

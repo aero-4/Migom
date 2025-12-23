@@ -147,7 +147,7 @@ body {
     }
 
     .product__img {
-        @apply w-full max-w-150 aspect-square rounded-3xl object-cover transition-transform transform;
+        @apply w-full max-w-150 max-h-150 aspect-square rounded-3xl object-cover transition-transform transform;
     }
 
     .product__name {
