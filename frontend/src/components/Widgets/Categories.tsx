@@ -38,8 +38,9 @@ export default function Categories(): JSX.Element {
 
     return (
         <>
-            <OpenButton elements={
-                cats.map((category, idx) => (
+            <h1 className="title">Каталог</h1>
+            <div className="flex flex-row flex-wrap">
+                {cats.map((category, idx) => (
                     <a href={`/category/${category.id}`}
                        className="menu__button"
                        key={`cat-${idx}`}
@@ -55,9 +56,7 @@ export default function Categories(): JSX.Element {
                         </span>
                     </a>
                 ))}
-                        title="Каталог"/>
-
-
+            </div>
         </>
     );
 }

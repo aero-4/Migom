@@ -6,6 +6,7 @@ import editSvg from "../../assets/editing.png";
 import deleteSvg from "../../assets/delete.svg";
 import ToggleSwitch from "../Ui/ToggleSwitch.tsx";
 import BackButton from "../Ui/BackButton.tsx";
+import config from "../../../config.ts";
 
 type DFProps = {
     value?: DeliveryAddress;
@@ -207,7 +208,7 @@ const DeliveryForm: React.FC<DFProps> = ({
             let savedAddr: DeliveryAddress | null = null;
             if (!addr.id) {
                 const body = buildCreateDTO(addr);
-                const res = await fetch("/api/addresses/", {
+                const res = await fetch(config.API_URL + "/api/addresses/", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(body),

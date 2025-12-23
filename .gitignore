@@ -1,2 +1,7 @@
 .venv
+.python-version
 venv
+node_modules
+.idea
+.env
+.env.dev

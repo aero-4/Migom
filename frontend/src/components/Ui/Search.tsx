@@ -224,7 +224,7 @@ const Search: React.FC = () => {
 
     return (
         <>
-            <div ref={wrapperRef} className="relative max-w-3xl items-center">
+            <div ref={wrapperRef} className="items-center focus">
                 <div className="flex items-center rounded-full px-3 py-2 shadow-sm  backdrop-blur-sm">
                     <input
                         ref={inputRef}
@@ -272,7 +272,7 @@ const Search: React.FC = () => {
                         maxHeight: dropdownMaxHeight,
                         opacity: dropdownOpacity,
                         transform: dropdownTransform,
-                        transition: "max-height 250ms cubic-bezier(.2,.8,.2,1), opacity 180ms linear, transform 180ms ease",
+                        transition: "cubic-bezier(.2,.8,.2,1), opacity 180ms linear, transform 180ms ease",
                     }}
                     aria-hidden={!isOpen}
                 >

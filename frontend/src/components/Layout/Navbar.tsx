@@ -15,12 +15,10 @@ const Navbar: React.FC = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isMobileSearchOpen, setMobileSearchOpen] = useState(false);
 
-    // Отдельные refs для desktop и mobile контейнеров
     const desktopMenuRef = useRef<HTMLDivElement | null>(null);
     const mobileMenuRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
 
-    // Закрытие при клике вне и при нажатии Escape
     useEffect(() => {
         function handlePointerDown(e: PointerEvent) {
             const target = e.target as Node | null;
@@ -28,7 +26,6 @@ const Navbar: React.FC = () => {
             const clickedInDesktop = desktopMenuRef.current?.contains(target) ?? false;
             const clickedInMobile = mobileMenuRef.current?.contains(target) ?? false;
 
-            // если клик вне обоих контейнеров — закрываем
             if (!clickedInDesktop && !clickedInMobile) {
                 setMenuOpen(false);
             }
@@ -50,9 +47,7 @@ const Navbar: React.FC = () => {
         };
     }, []);
 
-    // Toggle меню по клику на кнопку
     const toggleMenu = (e?: React.MouseEvent) => {
-        // остановим всплытие, чтобы document listener не закрыл меню раньше времени
         e?.stopPropagation();
         setMenuOpen((v) => !v);
     };
@@ -61,7 +56,7 @@ const Navbar: React.FC = () => {
         <>
             {isMobileSearchOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex" onClick={() => setMobileSearchOpen(false)}>
-                    <div className="bg-white w-full p-3 rounded-t-xl mt-auto" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex flex-col gap-6 bg-white card h-full max-h-50 w-full p-4" onClick={(e) => e.stopPropagation()}>
                         <div className="flex justify-end">
                             <CloseButton close={() => setMobileSearchOpen(false)} />
                         </div>
@@ -70,7 +65,6 @@ const Navbar: React.FC = () => {
                 </div>
             )}
 
-            {/* DESKTOP */}
             <nav className="hidden md:block bg-white rounded-b-3xl p-3 mb-3 w-full">
                 <div className="flex items-center gap-6">
                     <NavLink to="/" className="flex items-center gap-1">
@@ -81,7 +75,6 @@ const Navbar: React.FC = () => {
                     <Search />
                     <CartWidget />
 
-                    {/* Контейнер: содержит кнопку и (при открытом состоянии) меню */}
                     <div ref={desktopMenuRef} className="ml-auto relative">
                         <button
                             onClick={toggleMenu}
@@ -93,15 +86,13 @@ const Navbar: React.FC = () => {
                         </button>
 
                         {isMenuOpen && (
-                            // Menu получает onClose — вызывается при навигации/exit
                             <Menu onClose={() => setMenuOpen(false)} />
                         )}
                     </div>
                 </div>
             </nav>
 
-            {/* MOBILE BOTTOM NAV */}
-            <div className="md:hidden sticky bottom-0 bg-white rounded-t-3xl p-5 w-full" role="navigation">
+            <div className="md:hidden sticky bg-white rounded-t-3xl p-5 w-full" role="navigation">
                 <div className="flex justify-around items-center">
                     <button onClick={() => navigate("/")}>
                         <img src={homeMobileSvg} alt="Домой" className="w-6 h-6" />
@@ -113,7 +104,6 @@ const Navbar: React.FC = () => {
 
                     <CartWidget />
 
-                    {/* Мобильный профиль */}
                     <div ref={mobileMenuRef} className="relative">
                         <button
                             onClick={toggleMenu}

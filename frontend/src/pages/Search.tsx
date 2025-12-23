@@ -71,20 +71,24 @@ const SearchPage: React.FC = () => {
 
     return (
         <div className="px-3 py-4">
-            <h1 className="title mb-4">
-                Результаты поиска
-            </h1>
+            <div className="flex flex-row gap-3 items-center">
 
+                <h1 className="title">Результаты поиска:</h1>
+                <p className="text-lg text-gray-400 font-bold text-center justify-center my-auto">{q}</p>
+            </div>
 
-            {!loading && noResults && (
-                <div className="text-center text-gray-500 py-10">
-                    Ничего не было найдено
-                </div>
-            )}
+            <div className="flex flex-row gap-3 items-center">
 
-            {!loading && results.length > 0 && (
-                <Products products_data={results}/>
-            )}
+                {!loading && noResults && (
+                    <div className="text-center text-gray-500 py-10">
+                        Ничего не было найдено
+                    </div>
+                )}
+
+                {!loading && results.length > 0 && (
+                    <Products products_data={results}/>
+                )}
+            </div>
         </div>
     );
 };
