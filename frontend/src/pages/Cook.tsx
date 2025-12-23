@@ -4,7 +4,7 @@ import config from "../../config.ts";
 import MiniCard from "../components/Ui/MiniCard.tsx";
 import NotFound from "./NotFound.tsx";
 import Loader from "../components/Loaders/Loader.tsx";
-import ActiveOrderCook from "../components/Modals/ActionOrderCook.tsx";
+import ActiveOrderCook from "../components/Modals/ActiveOrderCook.tsx";
 
 export default function Cook() {
     const { user } = useAuth();
