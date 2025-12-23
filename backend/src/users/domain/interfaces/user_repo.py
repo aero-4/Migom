@@ -1,4 +1,5 @@
 import abc
+from typing import List
 
 from src.users.domain.entities import UserCreate, User, UserUpdate
 
@@ -23,4 +24,8 @@ class IUserRepository(abc.ABC):
 
     @abc.abstractmethod
     def update(self, user_data: UserUpdate) -> User:
+        ...
+
+    @abc.abstractmethod
+    def get_all(self) -> List[User]:
         ...

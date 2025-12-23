@@ -10,8 +10,8 @@ class AuthSettings(BaseSettings):
     """
 
     JWT_ALGORITHM: str = "ES256"
-    JWT_PRIVATE_KEY_PATH: str = "./secrets/ec_private.pem"
-    JWT_PUBLIC_KEY_PATH: str = "./secrets/ec_public.pem"
+    JWT_PRIVATE_KEY_PATH: str = "secrets/ec_private.pem"
+    JWT_PUBLIC_KEY_PATH: str = "secrets/ec_public.pem"
 
     ACCESS_TOKEN_EXPIRE_SECONDS: int = 60 * 15
     REFRESH_TOKEN_EXPIRE_SECONDS: int = 60 * 60 * 24 * 30

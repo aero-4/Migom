@@ -6,6 +6,7 @@ from src.auth.presentation.permissions import access_control
 from src.users.application.use_cases.information import information
 from src.users.application.use_cases.update_password import update_password
 from src.users.application.use_cases.update_user import update_user
+from src.users.application.use_cases.collect_users import collect_users
 from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dependencies import UserUoWDep
 from src.users.presentation.dtos import UserPasswordUpdateDTO, UserUpdateDTO
@@ -40,3 +41,9 @@ async def update_user_role(id: int,
                            auth: TokenAuthDep):
     await update_user(id, user_data, uow)
     return {"msg": f"User {id} updated"}
+
+
+@users_api_router.get("/")
+@access_control(role=UserRole.admin)
+async def get_users(uow: UserUoWDep, auth: TokenAuthDep):
+    return await collect_users(uow)

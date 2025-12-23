@@ -11,7 +11,6 @@ async def login(request: Request):
     if request.state.user and request.state.user.id:
         return RedirectResponse(url="/docs", status_code=302)
 
-
     return templates.TemplateResponse(
         name="login.html",
         context={"request": request}
