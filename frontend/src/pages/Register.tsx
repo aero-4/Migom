@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Loader from "../components/Loaders/Loader";
 import config from "../../config.ts";
 import ToggleSwitch from "../components/Ui/ToggleSwitch.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
 
 export default function Register() {
     const [isConfirmData, setConfirmData] = useState(false)
@@ -18,6 +19,7 @@ export default function Register() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(null);
     const [serverError, setServerError] = useState(null);
+    const {register} = useAuth();
 
     const isValidEmail = (email) => {
         return /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/.test(
@@ -74,39 +76,10 @@ export default function Register() {
                 birthday: form.birthdate ? form.birthdate : null,
             };
 
-            const res = await fetch(config.API_URL + "/api/auth/register/", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                credentials: "include",
-                body: JSON.stringify(payload),
-            });
-
-
-
-            const json = await res.json().catch(() => null);
-
-            if (json && typeof json === "object" && "detail" in json && json.detail) {
-                setServerError(json.detail);
-                setLoading(false);
-                return;
-            }
-
-            if (json && json.msg && String(json.msg) === "Register succesfull") {
-                window.location.assign("/");
-                return;
-            }
-
-            if (!res.ok) {
-                const msg = (json && (json.error || json.message)) || `Ошибка: ${res.status}`;
-                setServerError(msg);
-                setLoading(false);
-                return;
-            }
-
-            setSuccess((json && (json.message || "Успешно зарегистрированы!")) || "Успешно зарегистрированы!");
+            const res = await register(payload)
+            window.location.assign("/")
             setForm({firstName: "", lastName: "", birthdate: "", email: "", password: "", confirmPassword: ""});
-        } catch (err) {
-            setServerError("Сетевая ошибка. Попробуйте ещё раз.");
+
         } finally {
             setLoading(false);
         }

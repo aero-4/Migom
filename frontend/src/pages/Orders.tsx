@@ -76,9 +76,13 @@ function Orders() {
 
             <div className="container min-h-screen">
                 {orders.length === 0 ? (
-                    <p className="text-center text-gray-400">
-                        Тут ничего нет.
-                    </p>
+                    <div className="flex flex-col gap-7">
+                        <p className="text-center text-gray-700">
+                            Пустота! Но Вы можете все поменять сделав первый заказ!
+                        </p>
+                        <button className="big__button full__button" onClick={() => window.location.assign("/")}>Поглядеть товары</button>
+                    </div>
+
                 ) : (
                     <div className="flex flex-col gap-4 md:gap-6">
                         {orders.map((order) => {

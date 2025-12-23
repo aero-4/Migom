@@ -122,6 +122,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const register = async (body) => {
+        try {
+            const res = await fetch(config.API_URL + "/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(body),
+            });
+
+            const json = await res.json().catch(() => null);
+
+            if (!res.ok) {
+                const msg = (json && (json.detail || json.error || json.message)) || `Ошибка: ${res.status}`;
+                return { ok: false, message: msg };
+            }
+
+            setIsAuthenticated(true);
+            await fetchCurrentUser();
+            return { ok: true };
+        } catch (err: any) {
+            return { ok: false, message: err?.message || "Ошибка при входе" };
+        }
+    }
+
     const logout = async () => {
         try {
             await fetch(config.API_URL + "/api/auth/logout", {
@@ -143,6 +167,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 loading,
                 isAuthenticated,
                 login,
+                register,
                 logout,
                 refresh: fetchCurrentUser,
                 setAuthenticated: setIsAuthenticated,
