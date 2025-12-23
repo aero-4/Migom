@@ -4,7 +4,7 @@ import config from "../../config.ts";
 import MiniCard from "../components/Ui/MiniCard.tsx";
 import NotFound from "./NotFound.tsx";
 import Loader from "../components/Loaders/Loader.tsx";
-import ActiveOrderCook from "../components/Modals/ActiveOrderCook.tsx";
+import ActionOrderCook from "../components/Modals/ActionOrderCook.tsx";
 
 export default function Cook() {
     const { user } = useAuth();
@@ -111,7 +111,7 @@ export default function Cook() {
     if (!user) return <NotFound />;
     if (user.role < 2) return <NotFound />;
     if (isLoading) return <Loader/>;
-    if (activeOrder) return <ActiveOrderCook order={activeOrder}/>;
+    if (activeOrder) return <ActionOrderCook order={activeOrder}/>;
 
     return (
         <>

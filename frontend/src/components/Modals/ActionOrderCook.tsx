@@ -14,9 +14,9 @@ const ActiveOrderCook = ({order}) => {
         try {
             const response = await fetch(`${config.API_URL}/api/orders/${order.id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 credentials: "include",
-                body: JSON.stringify({ status: "waiting-courier"}),
+                body: JSON.stringify({status: "waiting-courier"}),
             });
 
             if (!response.ok) {
