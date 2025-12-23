@@ -37,7 +37,7 @@ body {
 
 @layer components {
     .add__button {
-        @apply inline-flex items-center justify-center gap-2 text-white bg-red-300 rounded-full duration-200
+        @apply relative inline-flex items-center justify-center gap-2 text-white bg-red-300 rounded-full duration-200
     }
 
     .add__button:hover {

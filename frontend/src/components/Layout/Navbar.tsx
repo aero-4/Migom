@@ -55,8 +55,11 @@ const Navbar: React.FC = () => {
     return (
         <>
             {isMobileSearchOpen && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex" onClick={() => setMobileSearchOpen(false)}>
-                    <div className="flex flex-col gap-6 bg-white card h-full max-h-50 w-full p-4" onClick={(e) => e.stopPropagation()}>
+                <div className="fixed inset-0 bg-black/50 z-[1000] flex" onClick={() => setMobileSearchOpen(false)}>
+                    <div
+                        className="flex flex-col gap-6 bg-white card h-50 w-full p-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="flex justify-end">
                             <CloseButton close={() => setMobileSearchOpen(false)} />
                         </div>
@@ -65,17 +68,24 @@ const Navbar: React.FC = () => {
                 </div>
             )}
 
-            <nav className="hidden md:block bg-white rounded-b-3xl p-3 mb-3 w-full">
-                <div className="flex items-center gap-6">
+            <nav className="hidden md:block bg-white rounded-b-3xl p-3 w-full z-50 sticky top-0">
+                <div className="flex flex-row gap-6">
                     <NavLink to="/" className="flex items-center gap-1">
                         <img src={homeSvg} alt="Лого" />
                         <h1>Мигом</h1>
                     </NavLink>
 
                     <Search />
-                    <CartWidget />
 
-                    <div ref={desktopMenuRef} className="ml-auto relative">
+                    <div ref={desktopMenuRef} className="flex flex-row relative ml-auto">
+                        {isMenuOpen && (
+                            <div className="absolute top-full right-0 z-[1001] mt-1">
+                                <Menu onClose={() => setMenuOpen(false)} />
+                            </div>
+                        )}
+
+                        <CartWidget />
+
                         <button
                             onClick={toggleMenu}
                             aria-expanded={isMenuOpen}
@@ -84,15 +94,12 @@ const Navbar: React.FC = () => {
                         >
                             <img src={profileSvg} alt="Профиль" className="w-6 h-6" />
                         </button>
-
-                        {isMenuOpen && (
-                            <Menu onClose={() => setMenuOpen(false)} />
-                        )}
                     </div>
                 </div>
             </nav>
 
-            <div className="md:hidden sticky bg-white rounded-t-3xl p-5 w-full" role="navigation">
+            {/* Мобильный навбар - FIXED внизу экрана */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 w-full z-50" role="navigation">
                 <div className="flex justify-around items-center">
                     <button onClick={() => navigate("/")}>
                         <img src={homeMobileSvg} alt="Домой" className="w-6 h-6" />
@@ -115,7 +122,7 @@ const Navbar: React.FC = () => {
                         </button>
 
                         {isMenuOpen && (
-                            <div className="absolute bottom-full right-0 mb-2 w-max">
+                            <div className="absolute bottom-full -top-40 mr-10 z-[1001]">
                                 <Menu onClose={() => setMenuOpen(false)} />
                             </div>
                         )}

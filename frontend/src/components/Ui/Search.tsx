@@ -182,6 +182,9 @@ const Search: React.FC = () => {
 
 
     const doSearch = async (value: string) => {
+
+        if (value.trim().length <= 0) return;
+
         lastQueryRef.current = value;
 
         abortRef.current?.abort();
@@ -224,8 +227,8 @@ const Search: React.FC = () => {
 
     return (
         <>
-            <div ref={wrapperRef} className="items-center focus">
-                <div className="flex items-center rounded-full px-3 py-2 shadow-sm  backdrop-blur-sm">
+            <div ref={wrapperRef} className="w-full max-w-150 relative justify-center">
+                <div className="flex items-center rounded-full px-2 py-2 shadow-sm  backdrop-blur-sm">
                     <input
                         ref={inputRef}
                         value={query}
@@ -249,8 +252,8 @@ const Search: React.FC = () => {
                     <div className="flex flex-row">
                         <button
                             onClick={() => {
-                                inputRef.current?.blur();
                                 navigate(`/search?q=${encodeURIComponent(query)}`);
+                                inputRef.current?.blur();
                             }}
                             aria-label="Перейти на страницу поиска"
                             className="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition"
@@ -274,7 +277,6 @@ const Search: React.FC = () => {
                         transform: dropdownTransform,
                         transition: "cubic-bezier(.2,.8,.2,1), opacity 180ms linear, transform 180ms ease",
                     }}
-                    aria-hidden={!isOpen}
                 >
                     <div className="max-h-[70vh] overflow-y-auto">
                         {results.length === 0 && noResults && (

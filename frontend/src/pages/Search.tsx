@@ -70,9 +70,8 @@ const SearchPage: React.FC = () => {
     if (loading) return <Loader/>;
 
     return (
-        <div className="px-3 py-4">
-            <div className="flex flex-row gap-3 items-center">
-
+        <div>
+            <div className="flex flex-row gap-3">
                 <h1 className="title">Результаты поиска:</h1>
                 <p className="text-lg text-gray-400 font-bold text-center justify-center my-auto">{q}</p>
             </div>
@@ -80,7 +79,7 @@ const SearchPage: React.FC = () => {
             <div className="flex flex-row gap-3 items-center">
 
                 {!loading && noResults && (
-                    <div className="text-center text-gray-500 py-10">
+                    <div className="text-gray-500">
                         Ничего не было найдено
                     </div>
                 )}
