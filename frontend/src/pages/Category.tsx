@@ -100,6 +100,10 @@ export default function Category(): JSX.Element {
 
                         </a>
 
+                        <div className="absolute" style={{alignSelf: "flex-end"}}>
+                            <AddInCartBtn product={product}/>
+                        </div>
+
                         <p className="product__name product__name--2lines">{product.name}</p>
 
                         <div className="flex items-center">
@@ -134,9 +138,6 @@ export default function Category(): JSX.Element {
 
                             </div>
 
-                            <div className="ml-auto mt-7">
-                                <AddInCartBtn product={product}/>
-                            </div>
                         </div>
                     </div>
                 ))}
