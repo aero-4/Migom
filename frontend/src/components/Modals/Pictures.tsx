@@ -9,7 +9,7 @@ function Pictures({ product }) {
                 src={product.photo}
                 alt={product.name}
                 onClick={() => setIsOpenPhoto(true)}
-                className="bg-gray-50 w-full min-w-[320px] rounded-3xl object-cover cursor-pointer transition-transform max-w-full"
+                className="bg-gray-50 w-full min-w-[320px] max-h-[640px] rounded-3xl object-cover cursor-pointer transition-transform"
             />
 
             {isOpenPhoto && (
