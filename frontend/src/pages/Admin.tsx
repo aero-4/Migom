@@ -43,15 +43,19 @@ import {
     ShoppingCartOutlined,
     DollarOutlined,
     ProductOutlined,
+    CalculatorFilled,
     PlusOutlined
 } from '@ant-design/icons';
+import Login from './Login';
 
 const {TabPane} = Tabs;
 const {Option} = Select;
 const {TextArea} = Input;
 
 function Admin() {
-    const {user} = useAuth();
+    const {user, isAuthenticated} = useAuth();
+    if (!isAuthenticated) return <Login/>;
+
     const [activeTab, setActiveTab] = useState('1');
     const [loading, setLoading] = useState(false);
 
@@ -87,6 +91,8 @@ function Admin() {
 
     // Продукты
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const [productsLoading, setProductsLoading] = useState(false);
     const [productStats, setProductStats] = useState({
         today: 0,
@@ -108,33 +114,24 @@ function Admin() {
         return <NotFound/>;
     }
 
-    // Загрузка пользователей
     useEffect(() => {
         if (activeTab === '1') {
             fetchUsers();
         }
-    }, [activeTab]);
-
-    // Загрузка заказов
-    useEffect(() => {
         if (activeTab === '2') {
             fetchOrders();
         }
-    }, [activeTab]);
-
-    // Загрузка платежей
-    useEffect(() => {
         if (activeTab === '3') {
             fetchPayments();
         }
-    }, [activeTab]);
-
-    // Загрузка продуктов
-    useEffect(() => {
         if (activeTab === '4') {
             fetchProducts();
         }
+        if (activeTab === "5") {
+            fetchCategories();
+        }
     }, [activeTab]);
+
 
     const fetchUsers = async () => {
         setUsersLoading(true);
@@ -220,6 +217,21 @@ function Admin() {
             message.error('Ошибка при загрузке платежей');
         } finally {
             setPaymentsLoading(false);
+        }
+    };
+
+    const fetchCategories = async () => {
+        setProductsLoading(true);
+        try {
+            const response = await fetch(config.API_URL + "/api/categories", {
+                credentials: "include"
+            });
+            const data = await response.json();
+            setCategories(data);
+        } catch (error) {
+            message.error('Ошибка при загрузке продуктов');
+        } finally {
+            setProductsLoading(false);
         }
     };
 
@@ -471,6 +483,33 @@ function Admin() {
         }
     ];
 
+    const categoriesColumns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            sorter: (a, b) => a.id - b.id
+        },
+        {
+            title: 'Название',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Фото',
+            dataIndex: 'photo',
+            key: 'photo',
+            render: (photo) => photo ? (
+                <img src={photo} alt="product" style={{width: 50, height: 50, objectFit: 'cover'}}/>
+            ) : '-'
+        },
+        {
+            title: 'Слаг',
+            dataIndex: 'slug',
+            key: 'slug',
+        },
+    ]
+
     // Колонки для таблицы продуктов
     const productColumns = [
         {
@@ -644,6 +683,21 @@ function Admin() {
                     >
                         <ProductOutlined/>
                         <span>Продукты</span>
+                    </div>
+
+                    <div
+                        onClick={() => setActiveTab('5')}
+                        style={{
+                            padding: '12px 20px',
+                            cursor: 'pointer',
+                            background: activeTab === '5' ? '#1890ff' : 'transparent',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10
+                        }}
+                    >
+                        <CalculatorFilled/>
+                        <span>Категории</span>
                     </div>
                 </div>
             </div>
@@ -900,6 +954,34 @@ function Admin() {
                         </div>
                     </div>
                 )}
+
+                {activeTab === '5' && (
+                    <div>
+                        <h2>Категории</h2>
+
+                        {/*<div style={{marginBottom: 24}}>*/}
+                        {/*    <Button*/}
+                        {/*        type="primary"*/}
+                        {/*        icon={<PlusOutlined/>}*/}
+                        {/*        onClick={() => setAddProductModal(true)}*/}
+                        {/*    >*/}
+                        {/*        Добавить продукт*/}
+                        {/*    </Button>*/}
+                        {/*</div>*/}
+
+
+                        <div style={{background: 'white', padding: 24, borderRadius: 8}}>
+                            <h3>Список продуктов</h3>
+                            <Table
+                                dataSource={categories}
+                                columns={categoriesColumns}
+                                loading={productsLoading}
+                                rowKey="id"
+                                pagination={{pageSize: 10}}
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Модальное окно добавления продукта */}
@@ -970,7 +1052,7 @@ function Admin() {
                         </Col>
                         <Col span={6}>
                             <Form.Item name="fats" label="Жиры">
-                                <InputNumber min={0} style={{width: '100%'}}/>
+                            <InputNumber min={0} style={{width: '100%'}}/>
                             </Form.Item>
                         </Col>
                         <Col span={6}>
