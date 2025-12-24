@@ -44,7 +44,8 @@ import {
     DollarOutlined,
     ProductOutlined,
     CalculatorFilled,
-    PlusOutlined
+    PlusOutlined,
+    HeatMapOutlined
 } from '@ant-design/icons';
 import Login from './Login';
 
@@ -54,12 +55,14 @@ const {TextArea} = Input;
 
 function Admin() {
     const {user, isAuthenticated} = useAuth();
-    if (!isAuthenticated) return <Login/>;
+    if (!isAuthenticated || !user) return <Login/>;
+    if (user.role !== 4) {
+        return <NotFound/>;
+    }
 
     const [activeTab, setActiveTab] = useState('1');
     const [loading, setLoading] = useState(false);
 
-    // Пользователи
     const [users, setUsers] = useState([]);
     const [usersLoading, setUsersLoading] = useState(false);
     const [userStats, setUserStats] = useState({
@@ -69,7 +72,6 @@ function Admin() {
         year: 0
     });
 
-    // Заказы
     const [orders, setOrders] = useState([]);
     const [ordersLoading, setOrdersLoading] = useState(false);
     const [orderStats, setOrderStats] = useState({
@@ -79,7 +81,6 @@ function Admin() {
         year: 0
     });
 
-    // Покупки
     const [payments, setPayments] = useState([]);
     const [paymentsLoading, setPaymentsLoading] = useState(false);
     const [paymentStats, setPaymentStats] = useState({
@@ -89,9 +90,9 @@ function Admin() {
         year: 0
     });
 
-    // Продукты
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [addresses, setAddresses] = useState([]);
 
     const [productsLoading, setProductsLoading] = useState(false);
     const [productStats, setProductStats] = useState({
@@ -105,14 +106,10 @@ function Admin() {
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
     const [photoUrl, setPhotoUrl] = useState('');
 
-    // Модальное окно для просмотра деталей
     const [detailModal, setDetailModal] = useState(false);
     const [detailData, setDetailData] = useState(null);
     const [detailType, setDetailType] = useState('');
 
-    if (user.role !== 4) {
-        return <NotFound/>;
-    }
 
     useEffect(() => {
         if (activeTab === '1') {
@@ -129,6 +126,9 @@ function Admin() {
         }
         if (activeTab === "5") {
             fetchCategories();
+        }
+        if (activeTab === "6") {
+            fetchAddresses();
         }
     }, [activeTab]);
 
@@ -259,6 +259,21 @@ function Admin() {
             };
 
             setProductStats(stats);
+        } catch (error) {
+            message.error('Ошибка при загрузке продуктов');
+        } finally {
+            setProductsLoading(false);
+        }
+    };
+
+    const fetchAddresses = async () => {
+        setProductsLoading(true);
+        try {
+            const response = await fetch(config.API_URL + "/api/addresses/all", {
+                credentials: "include"
+            });
+            const data = await response.json();
+            setAddresses(data);
         } catch (error) {
             message.error('Ошибка при загрузке продуктов');
         } finally {
@@ -471,15 +486,6 @@ function Admin() {
             title: 'Статус',
             dataIndex: 'status',
             key: 'status',
-        },
-        {
-            title: 'Действия',
-            key: 'actions',
-            render: (_, record) => (
-                <Button type="link" onClick={() => showDetails(record, 'payment')}>
-                    Подробнее
-                </Button>
-            )
         }
     ];
 
@@ -508,6 +514,56 @@ function Admin() {
             dataIndex: 'slug',
             key: 'slug',
         },
+    ]
+
+    const addressesColumns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            sorter: (a, b) => a.id - b.id,
+        },
+        {
+            title: 'Юзер',
+            dataIndex: 'user_id',
+            key: 'user_id',
+            sorter: (a, b) => a.user_id - b.user_id,
+        },
+        {
+            title: 'Город',
+            dataIndex: 'city',
+            key: 'city',
+        },{
+            title: 'Улица',
+            dataIndex: 'street',
+            key: 'street',
+        },{
+            title: 'Номер дома',
+            dataIndex: 'house_number',
+            key: 'house_number',
+        },{
+            title: 'Подъезд',
+            dataIndex: 'entrance',
+            key: 'entrance',
+        },{
+            title: 'Этаж',
+            dataIndex: 'floor',
+            key: 'floor',
+        },
+        {
+            title: 'Квартира',
+            dataIndex: 'apartment_number',
+            key: 'apartment_number',
+        },{
+            title: 'Комментарий',
+            dataIndex: 'comment',
+            key: 'comment',
+        },{
+            title: 'Оставить у двери',
+            dataIndex: 'is_leave_at_door',
+            key: 'is_leave_at_door',
+        }
+
     ]
 
     // Колонки для таблицы продуктов
@@ -698,6 +754,21 @@ function Admin() {
                     >
                         <CalculatorFilled/>
                         <span>Категории</span>
+                    </div>
+
+                    <div
+                        onClick={() => setActiveTab('6')}
+                        style={{
+                            padding: '12px 20px',
+                            cursor: 'pointer',
+                            background: activeTab === '6' ? '#1890ff' : 'transparent',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10
+                        }}
+                    >
+                        <HeatMapOutlined/>
+                        <span>Адреса</span>
                     </div>
                 </div>
             </div>
@@ -971,10 +1042,25 @@ function Admin() {
 
 
                         <div style={{background: 'white', padding: 24, borderRadius: 8}}>
-                            <h3>Список продуктов</h3>
                             <Table
                                 dataSource={categories}
                                 columns={categoriesColumns}
+                                loading={productsLoading}
+                                rowKey="id"
+                                pagination={{pageSize: 10}}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === '6' && (
+                    <div>
+                        <h2>Адреса</h2>
+
+                        <div style={{background: 'white', padding: 24, borderRadius: 8}}>
+                            <Table
+                                dataSource={addresses}
+                                columns={addressesColumns}
                                 loading={productsLoading}
                                 rowKey="id"
                                 pagination={{pageSize: 10}}
@@ -1052,7 +1138,7 @@ function Admin() {
                         </Col>
                         <Col span={6}>
                             <Form.Item name="fats" label="Жиры">
-                            <InputNumber min={0} style={{width: '100%'}}/>
+                                <InputNumber min={0} style={{width: '100%'}}/>
                             </Form.Item>
                         </Col>
                         <Col span={6}>

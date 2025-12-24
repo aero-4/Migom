@@ -7,5 +7,11 @@ from src.users.domain.entities import User
 
 async def collect_addresses(uow: IAddressUnitOfWork, user: User) -> List[Address]:
     async with uow:
-        addresses = await uow.addresses.get_all(user.id)
+        addresses = await uow.addresses.get(user.id)
+    return addresses
+
+
+async def collect_all_addresses(uow: IAddressUnitOfWork) -> List[Address]:
+    async with uow:
+        addresses = await uow.addresses.get_all()
     return addresses

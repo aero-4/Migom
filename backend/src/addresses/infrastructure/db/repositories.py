@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,8 +27,18 @@ class PGAddressRepository(IAddressRepository):
 
         return self._to_domain(obj)
 
-    async def get_all(self, user_id: int) -> list[Address]:
+
+
+
+    async def get(self, user_id: int) -> list[Address]:
         stmt = select(AddressesOrm).where(AddressesOrm.user_id == user_id)
+        result = await self.session.execute(stmt)
+        objs: list[AddressesOrm] = result.scalars().all()
+        return [self._to_domain(obj) for obj in objs]
+
+
+    async def get_all(self) -> List[Address]:
+        stmt = select(AddressesOrm)
         result = await self.session.execute(stmt)
         objs: list[AddressesOrm] = result.scalars().all()
         return [self._to_domain(obj) for obj in objs]

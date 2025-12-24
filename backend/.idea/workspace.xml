@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/strings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/strings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/addresses/application/use_cases/collect_addresses.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/addresses/application/use_cases/collect_addresses.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/addresses/domain/interfaces/address_repo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/addresses/domain/interfaces/address_repo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/addresses/infrastructure/db/repositories.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/addresses/infrastructure/db/repositories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/addresses/presentation/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/addresses/presentation/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Admin.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,7 +342,7 @@
       <workItem from="1766475310176" duration="2511000" />
       <workItem from="1766516685525" duration="2130000" />
       <workItem from="1766528569159" duration="1790000" />
-      <workItem from="1766605108887" duration="1111000" />
+      <workItem from="1766605108887" duration="2371000" />
     </task>
     <servers />
   </component>
@@ -376,6 +380,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/orders/domain/entities.py</url>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/addresses/domain/interfaces/address_repo.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

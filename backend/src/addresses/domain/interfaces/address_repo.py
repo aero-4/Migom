@@ -11,7 +11,11 @@ class IAddressRepository(abc.ABC):
         ...
 
     @abc.abstractmethod
-    async def get_all(self, user_id: int) -> List[Address]:
+    async def get(self, user_id: int) -> List[Address]:
+        ...
+
+    @abc.abstractmethod
+    async def get_all(self) -> List[Address]:
         ...
 
     @abc.abstractmethod
