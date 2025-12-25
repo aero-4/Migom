@@ -42,10 +42,5 @@ class ProductUpdateDTO(BaseModel):
 
 class SearchDataDTO(BaseModel):
     name: str | None = None
-    content: str | None = None
-    category_id: int | None = None
-    price: float | None = None
-    grams: int | None = None
-    protein: int | None = None
-    fats: int | None = None
-    carbohydrates: int | None = None
+    category_name: str | None = None
+

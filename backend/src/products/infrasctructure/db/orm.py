@@ -30,5 +30,3 @@ class ProductsOrm(Base):
         "OrderProductsOrm", back_populates="product"
     )
 
-    # order_id = mapped_column(ForeignKey("orders.id", ondelete="CASCADE"))
-    # order: Mapped["OrdersOrm"] = relationship(back_populates="products_list")

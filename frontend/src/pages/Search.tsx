@@ -16,7 +16,8 @@ type ProductItem = {
 const SearchPage: React.FC = () => {
     const [searchParams] = useSearchParams();
     const q = searchParams.get("q");
-    if (!q) return (<Search/>);
+    if (!q)
+        return <Search/>;
 
     const [results, setResults] = useState<ProductItem[]>([]);
     const [loading, setLoading] = useState(false);

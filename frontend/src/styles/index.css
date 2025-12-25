@@ -115,8 +115,7 @@ body {
 
     .badge__covered {
         @apply
-        -mr-8
-        absolute
+        ml-1
         z-10
         text-center
         px-3

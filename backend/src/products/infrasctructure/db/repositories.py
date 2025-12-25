@@ -29,13 +29,8 @@ class PGProductsRepository(IProductRepository):
         stmt = (
             select(ProductsOrm)
             .filter(
-                or_(ProductsOrm.name.ilike(f"%{search.name}%"),
-                    ProductsOrm.category_id == search.category_id,
-                    ProductsOrm.price == search.price,
-                    ProductsOrm.grams == search.grams,
-                    ProductsOrm.protein == search.protein,
-                    ProductsOrm.fats == search.fats,
-                    ProductsOrm.carbohydrates == search.carbohydrates))
+                or_(ProductsOrm.name.ilike(f"%{search.name}%"))
+            )
         )
         result = await self.session.execute(stmt)
         result: List[ProductsOrm] = result.scalars().all()

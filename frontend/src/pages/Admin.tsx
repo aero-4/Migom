@@ -1218,20 +1218,6 @@ function Admin() {
                             </Col>
                         </Row>
 
-                        <div style={{background: 'white', padding: 24, marginBottom: 24, borderRadius: 8}}>
-                            <h3>Статистика продуктов</h3>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <LineChart data={productChartData}>
-                                    <CartesianGrid strokeDasharray="3 3"/>
-                                    <XAxis dataKey="name"/>
-                                    <YAxis/>
-                                    <Tooltip/>
-                                    <Legend/>
-                                    <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{r: 8}}/>
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-
                         <div style={{background: 'white', padding: 24, borderRadius: 8}}>
                             <h3>Список продуктов</h3>
                             <Table

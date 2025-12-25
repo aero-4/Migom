@@ -1,10 +1,8 @@
 import datetime
 import pytest
 import httpx
-from httpx import Response
 
-from scripts.create_super_user import create_super_user
-from src.auth.application.use_cases.authenication import authenticate
+from src.scripts.create_super_user import create_super_user
 from src.auth.presentation.dtos import AuthUserDTO
 from src.users.infrastructure.db.orm import UserRole
 from src.users.presentation.dtos import UserCreateDTO, UserPasswordUpdateDTO, UserUpdateDTO

@@ -35,10 +35,14 @@ export default function Products({products_data = []}: { products_data?: Product
             photo: p.photo ?? p.image ?? "",
             count: typeof p.count === "number" ? p.count : Number(p.count ?? 0),
             price: typeof p.price === "number" ? p.price : Number(p.price ?? 0),
-            gramme: typeof p.gramme === "number" ? p.gramme : Number(p.gramme ?? 0),
+            grams: typeof p.grams === "number" ? p.grams : Number(p.grams ?? 0),
         }));
 
     useEffect(() => {
+        if (products_data || products_data.length > 0) {
+            return;
+        }
+
         const controller = new AbortController();
         let mounted = true;
 
@@ -64,7 +68,7 @@ export default function Products({products_data = []}: { products_data?: Product
             mounted = false;
             controller.abort();
         };
-    }, []);
+    }, [products_data]);
 
 
     return (
@@ -104,28 +108,20 @@ export default function Products({products_data = []}: { products_data?: Product
 
                                     {product.discount_price ? (
                                         <div style={{position: "relative"}} className="flex flex-col">
-                                            <p className="font-bold text-gray-500 line-through" style={{marginTop: 4}}>
-                                                {product.price} ₽
-                                            </p>
-
                                             <div className="flex flex-row" style={{alignItems: "center"}}>
-                                                <p className="text-xl md:text-2xl font-bold">
-                                                    {product.discount_price} ₽
+                                                <p className="font-bold text-gray-500 line-through" style={{marginTop: 4}}>
+                                                    {product.price} ₽
                                                 </p>
-
                                                 <p
                                                     className="badge__covered px-3"
-                                                    style={{
-                                                        position: "absolute",
-                                                        right: 8,
-                                                        top: -8,
-                                                        marginLeft: 0,
-                                                        marginTop: 0,
-                                                    }}
                                                 >
                                                     -{product.discount}%
                                                 </p>
                                             </div>
+
+                                            <p className="text-xl md:text-2xl font-bold">
+                                                {product.discount_price} ₽
+                                            </p>
                                         </div>
                                     ) : (
                                         <div>

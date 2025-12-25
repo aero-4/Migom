@@ -49,6 +49,9 @@ const Search: React.FC = () => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const lastQueryRef = useRef<string | null>(null);
 
+    const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const [focusedIndex, setFocusedIndex] = useState<number>(-1);
+
     const [dropdownStyle, setDropdownStyle] = useState<{ left: number; top: number; width: number } | null>(null);
     const [dropdownMaxHeight, setDropdownMaxHeight] = useState<string>("0px");
     const [dropdownOpacity, setDropdownOpacity] = useState<number>(0);
@@ -131,6 +134,16 @@ const Search: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (focusedIndex >= 0) {
+            const el = itemRefs.current[focusedIndex];
+            if (el) {
+                el.focus();
+                el.scrollIntoView({block: 'nearest'});
+            }
+        }
+    }, [focusedIndex]);
+
     const openDropdown = () => {
         if (!dropdownRef.current) {
             setIsOpen(true);
@@ -158,6 +171,7 @@ const Search: React.FC = () => {
             setDropdownOpacity(0);
             setDropdownTransform("translateY(-6px)");
             setDropdownMaxHeight("0px");
+            setFocusedIndex(-1);
             return;
         }
         const el = dropdownRef.current;
@@ -168,7 +182,10 @@ const Search: React.FC = () => {
             setDropdownMaxHeight("0px");
             setDropdownOpacity(0);
             setDropdownTransform("translateY(-6px)");
-            setTimeout(() => setIsOpen(false), 220);
+            setTimeout(() => {
+                setIsOpen(false);
+                setFocusedIndex(-1);
+            }, 220);
         });
     };
 
@@ -177,9 +194,8 @@ const Search: React.FC = () => {
         setDropdownOpacity(0);
         setDropdownTransform("translateY(-6px)");
         setDropdownMaxHeight("0px");
+        setFocusedIndex(-1);
     };
-
-
 
     const doSearch = async (value: string) => {
 
@@ -202,6 +218,8 @@ const Search: React.FC = () => {
             const data = await res.json();
             setResults(Array.isArray(data) ? data : []);
             setNoResults(Array.isArray(data) && data.length === 0);
+            setFocusedIndex(-1);
+            itemRefs.current = [];
         } catch (err: any) {
             if (err?.name === "AbortError") return;
             setResults([]);
@@ -244,6 +262,11 @@ const Search: React.FC = () => {
                                 e.preventDefault();
                                 goToBigSearch();
                             }
+                            if (e.key === 'ArrowDown' && results.length > 0) {
+                                e.preventDefault();
+                                // move focus to first result
+                                setFocusedIndex(0);
+                            }
                         }}
                         placeholder="Поиск..."
                         className="min-w-1/3 px-3 outline-none w-full "
@@ -267,6 +290,9 @@ const Search: React.FC = () => {
             {(isOpen || results.length > 0 || noResults || loading) && (
                 <div
                     ref={dropdownRef}
+                    role="listbox"
+                    aria-expanded={isOpen}
+                    tabIndex={-1}
                     className={`bg-white fixed z-52 rounded-[20px] md:rounded-2xl md:shadow-lg ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'} bg-transparent transition-all`}
                     style={{
                         left: dropdownStyle?.left ?? 0,
@@ -277,8 +303,32 @@ const Search: React.FC = () => {
                         transform: dropdownTransform,
                         transition: "cubic-bezier(.2,.8,.2,1), opacity 180ms linear, transform 180ms ease",
                     }}
+                    onKeyDown={(e) => {
+                        // handle key navigation when container has focus
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            setFocusedIndex(prev => Math.min(prev + 1, results.length - 1));
+                        }
+                        if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            setFocusedIndex(prev => Math.max(prev - 1, 0));
+                        }
+                        if (e.key === 'Enter' && focusedIndex >= 0) {
+                            e.preventDefault();
+                            const it = results[focusedIndex];
+                            if (it) onResultClick(it);
+                        }
+                        if (e.key === 'Escape') {
+                            e.preventDefault();
+                            closeDropdown();
+                        }
+                    }}
                 >
                     <div className="max-h-[70vh] overflow-y-auto">
+                        {loading && (
+                            <div className="p-4"><Loader/></div>
+                        )}
+
                         {results.length === 0 && noResults && (
                             <div className="p-4 text-sm text-gray-500">Ничего не найдено</div>
                         )}
@@ -286,8 +336,22 @@ const Search: React.FC = () => {
                         {showProductsAsCards ? (
                             <Products products_data={results}/>
                         ) : (
-                            results.map((r) => (
-                                <div key={r.id ?? JSON.stringify(r)} onClick={() => onResultClick(r)}>
+                            results.map((r, idx) => (
+                                <div
+                                    key={r.id ?? JSON.stringify(r)}
+                                    onClick={() => onResultClick(r)}
+                                    role="option"
+                                    aria-selected={focusedIndex === idx}
+                                    ref={el => itemRefs.current[idx] = el}
+                                    tabIndex={-1}
+                                    onMouseEnter={() => setFocusedIndex(idx)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') onResultClick(r);
+                                        if (e.key === 'ArrowDown') setFocusedIndex(prev => Math.min(prev + 1, results.length - 1));
+                                        if (e.key === 'ArrowUp') setFocusedIndex(prev => Math.max(prev - 1, 0));
+                                    }}
+                                    style={{outline: focusedIndex === idx ? '2px solid rgba(24,144,255,0.2)' : 'none'}}
+                                >
                                     <MiniCard product={r}/>
                                 </div>
                             ))
