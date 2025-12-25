@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any
 
 from fastapi import Request
@@ -26,5 +27,5 @@ def urlx_for(context: dict, name: str, **path_params: Any, ) -> str:
 
 
 # Initialize Jinja2 templates and register custom URL helper
-templates = Jinja2Templates(directory='src/templates')
+templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent / "templates"))
 templates.env.globals['url_for'] = urlx_for

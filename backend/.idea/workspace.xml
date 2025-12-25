@@ -7,13 +7,10 @@
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/products/domain/entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/domain/entities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/products/infrasctructure/db/repositories.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/infrasctructure/db/repositories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/products/presentation/dtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/products/presentation/dtos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/products/integration_test_products.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/products/integration_test_products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/users/integration_test_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/users/integration_test_users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Admin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth/presentation/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/presentation/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/infrastructure/jinja2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/infrastructure/jinja2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/payments/application/use_cases/collect_payments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/payments/application/use_cases/collect_payments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/payments/presentation/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/payments/presentation/api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -319,7 +316,8 @@
       <workItem from="1766516685525" duration="2130000" />
       <workItem from="1766528569159" duration="1790000" />
       <workItem from="1766605108887" duration="3212000" />
-      <workItem from="1766675027178" duration="11152000" />
+      <workItem from="1766675027178" duration="11692000" />
+      <workItem from="1766702087921" duration="1764000" />
     </task>
     <servers />
   </component>
@@ -354,7 +352,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BackendMigom$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1763823861717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/backend$orm.coverage" NAME="orm Coverage Results" MODIFIED="1762616445758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/products/infrasctructure/db" />
-    <SUITE FILE_PATH="coverage/Migom$.coverage" NAME=" Coverage Results" MODIFIED="1766689541734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/auth" />
+    <SUITE FILE_PATH="coverage/Migom$.coverage" NAME=" Coverage Results" MODIFIED="1766702235523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/auth" />
     <SUITE FILE_PATH="coverage/backend$engine.coverage" NAME="engine Coverage Results" MODIFIED="1761863142208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/db" />
     <SUITE FILE_PATH="coverage/backend$conftest__1_.coverage" NAME="conftest (1) Coverage Results" MODIFIED="1762453086132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/backend$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1766521623117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -371,7 +369,7 @@
     <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_users_integration_test_users_test_get_me_success.coverage" NAME="pytest for tests.integration.users.integration_test_users.test_get_me_success Coverage Results" MODIFIED="1766077780213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/users" />
     <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_orders_integration_test_orders_test_success_new_order.coverage" NAME="pytest for tests.integration.orders.integration_test_orders.test_success_new_order Coverage Results" MODIFIED="1764077583597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/orders" />
     <SUITE FILE_PATH="coverage/BackendMigom$main.coverage" NAME="main Coverage Results" MODIFIED="1766327588441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Migom$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1766690684044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Migom$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1766703407031" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/BackendMigom$.coverage" NAME=" Coverage Results" MODIFIED="1766250253438" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/products" />
     <SUITE FILE_PATH="coverage/backend$env.coverage" NAME="env Coverage Results" MODIFIED="1761862658780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/alembic" />
     <SUITE FILE_PATH="coverage/BackendMigom$create_super_user.coverage" NAME="create_super_user Coverage Results" MODIFIED="1766250098193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />

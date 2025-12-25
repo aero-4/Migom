@@ -46,7 +46,8 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                 }
             );
 
-            if (!res.ok) return;
+            if (!res.ok)
+                return;
 
             const data = await res.json();
             const newStatus = data.status as PaymentStatus;
@@ -55,6 +56,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
             if (newStatus === "success" || newStatus === "expired") {
                 stopPolling();
+                window.location.assign("/orders")
             }
         } catch (e) {
             console.error("Payment status error", e);
@@ -112,7 +114,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                         <img
                             src={successGif}
                             alt="Успешно"
-                            className="mx-auto w-40"
+                            className="mx-auto w-10"
                         />
                         <h1 className="title text-green-600">Оплачено</h1>
                     </>

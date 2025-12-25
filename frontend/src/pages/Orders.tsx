@@ -9,11 +9,11 @@ const statusMap: Record<
     { text: string; color: string }
 > = {
     "created": {text: "Создан", color: "bg-gray-300"},
-    "pending": {text: "Ждем подтверждения", color: "bg-blue-300"},
+    "pending": {text: "Оплачен, ждем подтверждения", color: "bg-blue-300"},
     "cooking": {text: "Готовится", color: "bg-brown-300"},
     "waiting-courier": {text: "Ищем курьера", color: "bg-yellow-300"},
     "delivering": {text: "В доставке", color: "bg-orange-300"},
-    "success": {text: "Успешно", color: "bg-green-300"},
+    "success": {text: "Успешно доставлен", color: "bg-green-400"},
     "error": {text: "Проблема", color: "bg-red-300"},
 };
 

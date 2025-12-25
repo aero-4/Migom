@@ -122,7 +122,7 @@ const Navbar: React.FC = () => {
                         </button>
 
                         {isMenuOpen && (
-                            <div className="absolute bottom-full -top-40 mr-10 z-[1001]">
+                            <div className="absolute bottom-full -top-50 z-10">
                                 <Menu onClose={() => setMenuOpen(false)} />
                             </div>
                         )}

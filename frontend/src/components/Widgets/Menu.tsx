@@ -28,7 +28,7 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
         >
             {isAuthenticated ? (
                 <div className="flex flex-col gap-1">
-                    <NavLink to="/profile" onClick={handleClose} className="big__button text-violet-500 bg-violet-100 px-30">
+                    <NavLink to="/profile" onClick={handleClose} className="big__button text-violet-500 bg-violet-100 px-20">
                         Профиль
                     </NavLink>
 
@@ -52,7 +52,7 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
                 </div>
             ) : (
                 <div className="flex flex-col gap-1">
-                    <NavLink to="/login" onClick={handleClose} className="big__button text-red-500 bg-red-100 px-30">
+                    <NavLink to="/login" onClick={handleClose} className="big__button text-red-500 bg-red-100 px-20">
                         Войти
                     </NavLink>
                     <NavLink to="/register" onClick={handleClose} className="big__button text-blue-500 bg-blue-100">

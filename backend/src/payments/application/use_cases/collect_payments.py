@@ -1,6 +1,8 @@
 from typing import List
 
 from src.auth.presentation.dependencies import TokenAuthDep
+from src.orders.domain.entities import OrderStatus, OrderUpdate
+from src.orders.presentation.dependencies import OrderUoWDeps
 from src.payments.domain.entities import Payment, PaymentUpdate
 from src.payments.domain.interfaces.payment_provider import IPaymentProvider
 from src.payments.infrastructure.db.orm import PaymentsStatus
@@ -12,11 +14,13 @@ async def get_payment(
         id: int,
         user: User,
         uow: PaymentUoWDeps,
+        uow_orders: OrderUoWDeps,
         provider: IPaymentProvider,
 ) -> Payment:
     async with uow:
         payment = await uow.payments.get(id, user.id)
-        status = PaymentsStatus.success if await provider.check_status(payment.label) else PaymentsStatus.waiting
+        # status = PaymentsStatus.success if await provider.check_status(payment.label) else PaymentsStatus.waiting
+        status = PaymentsStatus.success # fake
 
         if status != payment.status:
             payment_update = PaymentUpdate(id=payment.id, status=status)
@@ -24,6 +28,11 @@ async def get_payment(
 
             await uow.payments.update(payment_update)
 
+    if status == PaymentsStatus.success:
+        async with uow_orders:
+            order_data = OrderUpdate(id=payment.order_id, status=OrderStatus.PENDING)
+            order = await uow_orders.orders.update(order_data)
+            print(order)
     return payment
 
 

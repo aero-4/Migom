@@ -211,6 +211,7 @@ const DeliveryForm: React.FC<DFProps> = ({
                 const res = await fetch(config.API_URL + "/api/addresses/", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
+                    credentials: "include",
                     body: JSON.stringify(body),
                 });
                 if (!res.ok) {

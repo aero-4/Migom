@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 
 from prometheus_fastapi_instrumentator import Instrumentator
 from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
 from src.addresses.presentation.api import addresses_api_router
 from src.auth.presentation.views import auth_view_router
@@ -29,7 +30,6 @@ from src.core.config import settings
 
 BASE_DIR = Path(__file__).resolve().parent
 static_dir = BASE_DIR / "static"
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
