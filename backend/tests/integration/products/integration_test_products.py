@@ -76,7 +76,8 @@ async def create_normal_product(client):
     print(TEST_PHOTOS)
     PRICES = [999, 1999, 2199, 499, 899, 1399, 2599, 3499, 5999]
     NAME_CATS = ["Выбор пользователей", "Острее киберугроз", "Только здесь", "Новинки", "Только в доставке", "Комбо и ланчи", "Баскеты", "Бургеры"]
-    NAMES = ["Комбо \"Курица в квадрате\" оригинальное", "Острое комбо от Kaspersky «Против звонков с неизвестного»", "Шефбургер оригинальный", "Комбо с Биг Маэстро", "Веджи Чиз Ролл классический", "8 Острых Крылышек", "Большое комбо \"Курица в квадрате\" оригинальное"]
+    NAMES = ["Комбо \"Курица в квадрате\" оригинальное", "Острое комбо от Kaspersky «Против звонков с неизвестного»", "Шефбургер оригинальный", "Комбо с Биг Маэстро", "Веджи Чиз Ролл классический",
+             "8 Острых Крылышек", "Большое комбо \"Курица в квадрате\" оригинальное"]
     already_exists = []
 
     for name in NAMES:
@@ -102,7 +103,6 @@ async def create_normal_product(client):
             )
             already_exists.append(cat)
             break
-
 
         response1 = await client.post("/api/categories/", json=category_data.model_dump(mode="json"))
         category = Category(**response1.json())
@@ -285,6 +285,15 @@ async def test_success_get_all_by_name_filters(clear_db, user_factory):
 
         assert products == search_result4
 
+
+@pytest.mark.asyncio(loop_scope="session")
+async def test_success_get_all_by_category_name():
+    async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
+        search4 = SearchDataDTO(category_name="Острее киберугроз")
+        search_response4 = await client.post("/api/products/search", json=search4.model_dump())
+        search_result4 = [Product(**i) for i in search_response4.json()]
+
+        print(search_result4)
 
 
 @pytest.mark.asyncio(loop_scope="session")

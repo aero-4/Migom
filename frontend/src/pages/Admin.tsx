@@ -388,12 +388,16 @@ function Admin() {
     // Функции для категорий
     const handleAddCategory = async (values) => {
         try {
-            const response = await fetch(config.API_URL + "/api/categories", {
+            const categoryData = {
+                ...values,
+                photo: photoUrl
+            };
+            const response = await fetch(config.API_URL + "/api/categories/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(categoryData),
                 credentials: "include"
             });
 
@@ -413,12 +417,16 @@ function Admin() {
 
     const handleEditCategory = async (values) => {
         try {
+            const categoryData = {
+                ...values,
+                photo: editingPhotoUrl
+            };
             const response = await fetch(config.API_URL + `/api/categories/${editingCategory.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(categoryData),
                 credentials: "include"
             });
 
@@ -550,21 +558,6 @@ function Admin() {
             dataIndex: 'birthday',
             key: 'birthday',
             render: (date) => date ? new Date(date).toLocaleDateString() : '-'
-        },
-        {
-            title: 'Действия',
-            key: 'actions',
-            render: (_, record) => (
-                <Space>
-                    <Button
-                        type="link"
-                        icon={<EyeOutlined />}
-                        onClick={() => showDetails(record, 'user')}
-                    >
-                        Подробнее
-                    </Button>
-                </Space>
-            )
         }
     ];
 
@@ -611,7 +604,6 @@ function Admin() {
             key: 'actions',
             render: (_, record) => (
                 <Button type="link" onClick={() => showDetails(record, 'order')}>
-                    Подробнее
                 </Button>
             )
         }
@@ -693,7 +685,6 @@ function Admin() {
                         icon={<EditOutlined />}
                         onClick={() => openEditCategoryModal(record)}
                     >
-                        Редактировать
                     </Button>
                     <Popconfirm
                         title="Удалить категорию?"
@@ -707,7 +698,6 @@ function Admin() {
                             danger
                             icon={<DeleteOutlined />}
                         >
-                            Удалить
                         </Button>
                     </Popconfirm>
                 </Space>
@@ -832,14 +822,12 @@ function Admin() {
                         icon={<EyeOutlined />}
                         onClick={() => showDetails(record, 'product')}
                     >
-                        Детали
                     </Button>
                     <Button
                         type="link"
                         icon={<EditOutlined />}
                         onClick={() => openEditProductModal(record)}
                     >
-                        Редактировать
                     </Button>
                     <Popconfirm
                         title="Удалить продукт?"
@@ -853,7 +841,6 @@ function Admin() {
                             danger
                             icon={<DeleteOutlined />}
                         >
-                            Удалить
                         </Button>
                     </Popconfirm>
                 </Space>
@@ -1534,6 +1521,7 @@ function Admin() {
                                 Загрузить новое фото
                             </Button>
                         </Upload>
+
                         {(editingPhotoUrl || editingProduct?.photo) && (
                             <div style={{marginTop: 16}}>
                                 <p>Текущее фото:</p>
@@ -1571,18 +1559,25 @@ function Admin() {
                     >
                         <Input/>
                     </Form.Item>
-                    <Form.Item
-                        name="slug"
-                        label="Слаг (URL)"
-                        rules={[{required: true, message: 'Введите слаг'}]}
-                    >
-                        <Input/>
-                    </Form.Item>
-                    <Form.Item
-                        name="photo"
-                        label="URL фото"
-                    >
-                        <Input/>
+
+                    <Form.Item label="Фото">
+                        <Upload
+                            beforeUpload={(file) => handleUploadPhoto(file, false)}
+                            showUploadList={false}
+                        >
+                            <Button icon={<UploadOutlined/>} loading={uploadingPhoto}>
+                                Загрузить фото
+                            </Button>
+                        </Upload>
+                        {photoUrl && (
+                            <div style={{marginTop: 16}}>
+                                <img
+                                    src={photoUrl}
+                                    alt="Preview"
+                                    style={{maxWidth: 200, maxHeight: 200, objectFit: 'cover'}}
+                                />
+                            </div>
+                        )}
                     </Form.Item>
                 </Form>
             </Modal>
@@ -1614,15 +1609,30 @@ function Admin() {
                     <Form.Item
                         name="slug"
                         label="Слаг (URL)"
-                        rules={[{required: true, message: 'Введите слаг'}]}
+                        rules={[{required: false, message: 'Введите слаг'}]}
                     >
                         <Input/>
                     </Form.Item>
-                    <Form.Item
-                        name="photo"
-                        label="URL фото"
-                    >
-                        <Input/>
+                    <Form.Item label="Фото">
+                        <Upload
+                            beforeUpload={(file) => handleUploadPhoto(file, true)}
+                            showUploadList={false}
+                        >
+                            <Button icon={<UploadOutlined/>} loading={uploadingPhoto}>
+                                Загрузить новое фото
+                            </Button>
+                        </Upload>
+
+                        {(editingPhotoUrl || editingCategory?.photo) && (
+                            <div style={{marginTop: 16}}>
+                                <p>Текущее фото:</p>
+                                <img
+                                    src={editingPhotoUrl || editingCategory?.photo}
+                                    alt="Preview"
+                                    style={{maxWidth: 200, maxHeight: 200, objectFit: 'cover'}}
+                                />
+                            </div>
+                        )}
                     </Form.Item>
                 </Form>
             </Modal>
@@ -1636,7 +1646,7 @@ function Admin() {
                 open={detailModal}
                 onCancel={() => setDetailModal(false)}
                 footer={null}
-                width={600}
+                width={1200}
             >
                 {detailData && (
                     <pre style={{background: '#f5f5f5', padding: 16, borderRadius: 8, maxHeight: 400, overflow: 'auto'}}>

@@ -60,6 +60,7 @@ class SearchData(CustomModel):
     name: str | None = None
     content: str | None = None
     category_id: int | None = None
+    category_name: str | None = None
     price: float | None = None
     discount: int | None = None
     kilocalorie: int | None = None

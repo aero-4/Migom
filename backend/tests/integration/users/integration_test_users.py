@@ -139,3 +139,6 @@ async def test_forbidden_update_user(clear_db, user_factory):
         response = await client.patch(f"/api/users/1", json=update.model_dump(mode="json"))
         assert response.status_code == 403
         assert response.json() == {"detail": f"Permission denied"}
+
+
+

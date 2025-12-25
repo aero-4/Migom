@@ -109,6 +109,7 @@ body {
         gap-3
         p-3
         md:p-5
+        xl:p-6
         overflow-hidden
         relative
     }

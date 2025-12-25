@@ -39,7 +39,12 @@ export default function Products({products_data = []}: { products_data?: Product
         }));
 
     useEffect(() => {
-        if (products_data || products_data.length > 0) {
+        if (products_data && products_data.length > 0) {
+            setProducts(normalize(products_data));
+            return;
+        }
+
+        if (products.length > 0) {
             return;
         }
 
@@ -48,15 +53,17 @@ export default function Products({products_data = []}: { products_data?: Product
 
         const load = async () => {
             try {
-                const res = await fetch(`${config.API_URL}/api/products`, {signal: controller.signal});
+                const res = await fetch(`${config.API_URL}/api/products`, {
+                    signal: controller.signal,
+                });
                 if (!res.ok) throw new Error("No products");
+
                 const data = await res.json();
                 if (!mounted) return;
-                const normalized = normalize(Array.isArray(data) ? data : []);
-                setProducts(normalized);
+
+                setProducts(normalize(Array.isArray(data) ? data : []));
             } catch (err: any) {
-                if (!mounted) return;
-                if (err.name === "AbortError") return;
+                if (!mounted || err?.name === "AbortError") return;
                 console.error("Failed loading products:", err);
                 setProducts([]);
             }
@@ -104,7 +111,7 @@ export default function Products({products_data = []}: { products_data?: Product
 
                             <div className="flex flex-row mt-auto" style={{alignItems: "flex-end"}}>
                                 <div className="flex flex-col min-w-0">
-                                    <span className="text-gray-500 text-xs block">{product.gramme} г</span>
+                                    <span className="text-gray-500 text-xs block">{product.grams} г</span>
 
                                     {product.discount_price ? (
                                         <div style={{position: "relative"}} className="flex flex-col">

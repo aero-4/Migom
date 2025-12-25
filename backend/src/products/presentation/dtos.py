@@ -43,4 +43,4 @@ class ProductUpdateDTO(BaseModel):
 class SearchDataDTO(BaseModel):
     name: str | None = None
     category_name: str | None = None
-
+    category_id: int | None = None

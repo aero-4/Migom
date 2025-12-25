@@ -16,8 +16,6 @@ type ProductItem = {
 const SearchPage: React.FC = () => {
     const [searchParams] = useSearchParams();
     const q = searchParams.get("q");
-    if (!q)
-        return <Search/>;
 
     const [results, setResults] = useState<ProductItem[]>([]);
     const [loading, setLoading] = useState(false);
@@ -73,14 +71,14 @@ const SearchPage: React.FC = () => {
     return (
         <div>
             <div className="flex flex-row gap-3">
-                <h1 className="title">Результаты поиска:</h1>
-                <p className="text-lg text-gray-400 font-bold text-center justify-center my-auto">{q}</p>
+                <h1 className="title">Результаты по запросу</h1>
+                <p className="text-lg text-gray-400 font-bold text-center my-auto">{q}</p>
             </div>
 
             <div className="flex flex-row gap-3 items-center">
 
                 {!loading && noResults && (
-                    <div className="text-gray-500">
+                    <div className="text-gray-500 title text-lg">
                         Ничего не было найдено
                     </div>
                 )}

@@ -4,6 +4,7 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.categories.infrastructure.db.orm import CategoriesOrm
 from src.core.domain.exceptions import AlreadyExists, NotFound
 from src.products.domain.entities import Product, ProductCreate, ProductUpdate, SearchData
 from src.products.domain.interfaces.product_repo import IProductRepository
@@ -28,10 +29,19 @@ class PGProductsRepository(IProductRepository):
     async def get_by_filters(self, search: SearchData):
         stmt = (
             select(ProductsOrm)
+        )
+        stmt = (
+            stmt
+            .join(CategoriesOrm)
             .filter(
-                or_(ProductsOrm.name.ilike(f"%{search.name}%"))
+                or_(
+                    CategoriesOrm.name.ilike(f"%{search.category_name}%"),
+                    ProductsOrm.category_id == search.category_id,
+                    ProductsOrm.name.ilike(f"%{search.name}")
+                )
             )
         )
+
         result = await self.session.execute(stmt)
         result: List[ProductsOrm] = result.scalars().all()
 

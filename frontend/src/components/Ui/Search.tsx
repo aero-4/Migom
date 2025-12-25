@@ -9,7 +9,7 @@ import MiniCard from "./MiniCard.tsx";
 type SearchDataDTO = { [key: string]: any };
 type ProductItem = { [key: string]: any };
 
-const DEBOUNCE = 500;
+const DEBOUNCE = 700;
 
 export const parseInputToDTO = (raw: string): SearchDataDTO => {
     const value = raw.trim();
@@ -31,7 +31,7 @@ export const parseInputToDTO = (raw: string): SearchDataDTO => {
         return dto;
     }
     dto.name = value;
-    dto.content = value;
+    dto.category_name = value;
     return dto;
 };
 
@@ -337,7 +337,7 @@ const Search: React.FC = () => {
                             <Products products_data={results}/>
                         ) : (
                             results.map((r, idx) => (
-                                <div
+                                <div className="cursor-pointer hover:opacity-90"
                                     key={r.id ?? JSON.stringify(r)}
                                     onClick={() => onResultClick(r)}
                                     role="option"
@@ -350,7 +350,6 @@ const Search: React.FC = () => {
                                         if (e.key === 'ArrowDown') setFocusedIndex(prev => Math.min(prev + 1, results.length - 1));
                                         if (e.key === 'ArrowUp') setFocusedIndex(prev => Math.max(prev - 1, 0));
                                     }}
-                                    style={{outline: focusedIndex === idx ? '2px solid rgba(24,144,255,0.2)' : 'none'}}
                                 >
                                     <MiniCard product={r}/>
                                 </div>
