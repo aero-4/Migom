@@ -18,7 +18,10 @@ import {
     Col,
     Statistic,
     Space,
-    message
+    message,
+    Popconfirm,
+    Tag,
+    Switch
 } from 'antd';
 import {
     LineChart,
@@ -45,7 +48,10 @@ import {
     ProductOutlined,
     CalculatorFilled,
     PlusOutlined,
-    HeatMapOutlined
+    HeatMapOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    EyeOutlined
 } from '@ant-design/icons';
 import Login from './Login';
 
@@ -101,16 +107,33 @@ function Admin() {
         month: 0,
         year: 0
     });
+
+    // Модальные окна
     const [addProductModal, setAddProductModal] = useState(false);
+    const [editProductModal, setEditProductModal] = useState(false);
+    const [addCategoryModal, setAddCategoryModal] = useState(false);
+    const [editCategoryModal, setEditCategoryModal] = useState(false);
+
+    // Формы
     const [productForm] = Form.useForm();
+    const [editProductForm] = Form.useForm();
+    const [categoryForm] = Form.useForm();
+    const [editCategoryForm] = Form.useForm();
+
+    // Загрузка фото
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
     const [photoUrl, setPhotoUrl] = useState('');
+    const [editingPhotoUrl, setEditingPhotoUrl] = useState('');
+
+    // Выбранные элементы для редактирования
+    const [editingProduct, setEditingProduct] = useState(null);
+    const [editingCategory, setEditingCategory] = useState(null);
 
     const [detailModal, setDetailModal] = useState(false);
     const [detailData, setDetailData] = useState(null);
     const [detailType, setDetailType] = useState('');
 
-
+    // Загрузка данных при смене вкладки
     useEffect(() => {
         if (activeTab === '1') {
             fetchUsers();
@@ -123,6 +146,10 @@ function Admin() {
         }
         if (activeTab === '4') {
             fetchProducts();
+            // Загружаем категории для выпадающего списка
+            if (categories.length === 0) {
+                fetchCategories();
+            }
         }
         if (activeTab === "5") {
             fetchCategories();
@@ -132,7 +159,6 @@ function Admin() {
         }
     }, [activeTab]);
 
-
     const fetchUsers = async () => {
         setUsersLoading(true);
         try {
@@ -140,7 +166,6 @@ function Admin() {
             const data = await response.json();
             setUsers(data);
 
-            // Расчет статистики
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -169,7 +194,6 @@ function Admin() {
             const data = await response.json();
             setOrders(data);
 
-            // Расчет статистики
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -198,7 +222,6 @@ function Admin() {
             const data = await response.json();
             setPayments(data);
 
-            // Расчет статистики
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -229,7 +252,7 @@ function Admin() {
             const data = await response.json();
             setCategories(data);
         } catch (error) {
-            message.error('Ошибка при загрузке продуктов');
+            message.error('Ошибка при загрузке категорий');
         } finally {
             setProductsLoading(false);
         }
@@ -244,7 +267,6 @@ function Admin() {
             const data = await response.json();
             setProducts(data);
 
-            // Расчет статистики
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -275,12 +297,13 @@ function Admin() {
             const data = await response.json();
             setAddresses(data);
         } catch (error) {
-            message.error('Ошибка при загрузке продуктов');
+            message.error('Ошибка при загрузке адресов');
         } finally {
             setProductsLoading(false);
         }
     };
 
+    // Функции для продуктов
     const handleAddProduct = async (values) => {
         try {
             const productData = {
@@ -304,15 +327,139 @@ function Admin() {
                 setPhotoUrl('');
                 fetchProducts();
             } else {
-                message.error('Ошибка при добавлении продукта');
+                const errorData = await response.json();
+                message.error(errorData.detail || 'Ошибка при добавлении продукта');
             }
         } catch (error) {
             message.error('Ошибка при добавлении продукта');
         }
     };
 
-    const handleUploadPhoto = async (file) => {
-        setUploadingPhoto(true);
+    const handleEditProduct = async (values) => {
+        try {
+            const productData = {
+                ...values,
+                photo: editingPhotoUrl || editingProduct?.photo
+            };
+
+            const response = await fetch(config.API_URL + `/api/products/${editingProduct.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                message.success('Продукт успешно обновлен');
+                setEditProductModal(false);
+                setEditingProduct(null);
+                setEditingPhotoUrl('');
+                editProductForm.resetFields();
+                fetchProducts();
+            } else {
+                const errorData = await response.json();
+                message.error(errorData.detail || 'Ошибка при обновлении продукта');
+            }
+        } catch (error) {
+            message.error('Ошибка при обновлении продукта');
+        }
+    };
+
+    const handleDeleteProduct = async (id) => {
+        try {
+            const response = await fetch(config.API_URL + `/api/products/${id}`, {
+                method: 'DELETE',
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                message.success('Продукт успешно удален');
+                fetchProducts();
+            } else {
+                message.error('Ошибка при удалении продукта');
+            }
+        } catch (error) {
+            message.error('Ошибка при удалении продукта');
+        }
+    };
+
+    // Функции для категорий
+    const handleAddCategory = async (values) => {
+        try {
+            const response = await fetch(config.API_URL + "/api/categories", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                message.success('Категория успешно добавлена');
+                setAddCategoryModal(false);
+                categoryForm.resetFields();
+                fetchCategories();
+            } else {
+                const errorData = await response.json();
+                message.error(errorData.detail || 'Ошибка при добавлении категории');
+            }
+        } catch (error) {
+            message.error('Ошибка при добавлении категории');
+        }
+    };
+
+    const handleEditCategory = async (values) => {
+        try {
+            const response = await fetch(config.API_URL + `/api/categories/${editingCategory.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                message.success('Категория успешно обновлена');
+                setEditCategoryModal(false);
+                setEditingCategory(null);
+                editCategoryForm.resetFields();
+                fetchCategories();
+            } else {
+                const errorData = await response.json();
+                message.error(errorData.detail || 'Ошибка при обновлении категории');
+            }
+        } catch (error) {
+            message.error('Ошибка при обновлении категории');
+        }
+    };
+
+    const handleDeleteCategory = async (id) => {
+        try {
+            const response = await fetch(config.API_URL + `/api/categories/${id}`, {
+                method: 'DELETE',
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                message.success('Категория успешно удалена');
+                fetchCategories();
+            } else {
+                message.error('Ошибка при удалении категории');
+            }
+        } catch (error) {
+            message.error('Ошибка при удалении категории');
+        }
+    };
+
+    const handleUploadPhoto = async (file, isEditing = false) => {
+        const setUrl = isEditing ? setEditingPhotoUrl : setPhotoUrl;
+        const loadingState = setUploadingPhoto;
+
+        loadingState(true);
         const formData = new FormData();
         formData.append('file', file);
 
@@ -325,7 +472,7 @@ function Admin() {
 
             if (response.ok) {
                 const data = await response.json();
-                setPhotoUrl(data.url);
+                setUrl(data.url);
                 message.success('Фото успешно загружено');
             } else {
                 message.error('Ошибка при загрузке фото');
@@ -333,10 +480,26 @@ function Admin() {
         } catch (error) {
             message.error('Ошибка при загрузке фото');
         } finally {
-            setUploadingPhoto(false);
+            loadingState(false);
         }
 
-        return false; // Отменяем автоматическую загрузку
+        return false;
+    };
+
+    const openEditProductModal = (product) => {
+        setEditingProduct(product);
+        setEditingPhotoUrl(product.photo || '');
+        editProductForm.setFieldsValue({
+            ...product,
+            category_id: product.category_id || undefined
+        });
+        setEditProductModal(true);
+    };
+
+    const openEditCategoryModal = (category) => {
+        setEditingCategory(category);
+        editCategoryForm.setFieldsValue(category);
+        setEditCategoryModal(true);
     };
 
     const showDetails = (record, type) => {
@@ -392,9 +555,15 @@ function Admin() {
             title: 'Действия',
             key: 'actions',
             render: (_, record) => (
-                <Button type="link" onClick={() => showDetails(record, 'user')}>
-                    Подробнее
-                </Button>
+                <Space>
+                    <Button
+                        type="link"
+                        icon={<EyeOutlined />}
+                        onClick={() => showDetails(record, 'user')}
+                    >
+                        Подробнее
+                    </Button>
+                </Space>
             )
         }
     ];
@@ -506,7 +675,7 @@ function Admin() {
             dataIndex: 'photo',
             key: 'photo',
             render: (photo) => photo ? (
-                <img src={photo} alt="product" style={{width: 50, height: 50, objectFit: 'cover'}}/>
+                <img src={photo} alt="category" style={{width: 50, height: 50, objectFit: 'cover'}}/>
             ) : '-'
         },
         {
@@ -514,7 +683,37 @@ function Admin() {
             dataIndex: 'slug',
             key: 'slug',
         },
-    ]
+        {
+            title: 'Действия',
+            key: 'actions',
+            render: (_, record) => (
+                <Space>
+                    <Button
+                        type="link"
+                        icon={<EditOutlined />}
+                        onClick={() => openEditCategoryModal(record)}
+                    >
+                        Редактировать
+                    </Button>
+                    <Popconfirm
+                        title="Удалить категорию?"
+                        description="Вы уверены, что хотите удалить эту категорию?"
+                        onConfirm={() => handleDeleteCategory(record.id)}
+                        okText="Да"
+                        cancelText="Нет"
+                    >
+                        <Button
+                            type="link"
+                            danger
+                            icon={<DeleteOutlined />}
+                        >
+                            Удалить
+                        </Button>
+                    </Popconfirm>
+                </Space>
+            )
+        }
+    ];
 
     const addressesColumns = [
         {
@@ -562,9 +761,9 @@ function Admin() {
             title: 'Оставить у двери',
             dataIndex: 'is_leave_at_door',
             key: 'is_leave_at_door',
+            render: (value) => value ? 'Да' : 'Нет'
         }
-
-    ]
+    ];
 
     // Колонки для таблицы продуктов
     const productColumns = [
@@ -585,19 +784,19 @@ function Admin() {
             key: 'price',
             render: (price, record) => (
                 <span>
-          {record.discount_price ? (
-              <>
-              <span style={{textDecoration: 'line-through', color: '#999'}}>
-                {price} ₽
-              </span>
-                  <span style={{color: '#ff4d4f', marginLeft: 8}}>
-                {record.discount_price} ₽
-              </span>
-              </>
-          ) : (
-              `${price} ₽`
-          )}
-        </span>
+                    {record.discount_price ? (
+                        <>
+                            <span style={{textDecoration: 'line-through', color: '#999'}}>
+                                {price} ₽
+                            </span>
+                            <span style={{color: '#ff4d4f', marginLeft: 8}}>
+                                {record.discount_price} ₽
+                            </span>
+                        </>
+                    ) : (
+                        `${price} ₽`
+                    )}
+                </span>
             ),
             sorter: (a, b) => a.price - b.price,
         },
@@ -607,19 +806,13 @@ function Admin() {
             key: 'count',
         },
         {
-            title: 'Граммы',
-            dataIndex: 'grams',
-            key: 'grams',
-        },
-        {
-            title: 'Калории',
-            dataIndex: 'kilocalorie',
-            key: 'kilocalorie',
-        },
-        {
             title: 'Категория',
             dataIndex: 'category_id',
             key: 'category_id',
+            render: (categoryId) => {
+                const category = categories.find(c => c.id === categoryId);
+                return category ? category.name : categoryId;
+            }
         },
         {
             title: 'Фото',
@@ -633,9 +826,37 @@ function Admin() {
             title: 'Действия',
             key: 'actions',
             render: (_, record) => (
-                <Button type="link" onClick={() => showDetails(record, 'product')}>
-                    Подробнее
-                </Button>
+                <Space>
+                    <Button
+                        type="link"
+                        icon={<EyeOutlined />}
+                        onClick={() => showDetails(record, 'product')}
+                    >
+                        Детали
+                    </Button>
+                    <Button
+                        type="link"
+                        icon={<EditOutlined />}
+                        onClick={() => openEditProductModal(record)}
+                    >
+                        Редактировать
+                    </Button>
+                    <Popconfirm
+                        title="Удалить продукт?"
+                        description="Вы уверены, что хотите удалить этот продукт?"
+                        onConfirm={() => handleDeleteProduct(record.id)}
+                        okText="Да"
+                        cancelText="Нет"
+                    >
+                        <Button
+                            type="link"
+                            danger
+                            icon={<DeleteOutlined />}
+                        >
+                            Удалить
+                        </Button>
+                    </Popconfirm>
+                </Space>
             )
         }
     ];
@@ -740,7 +961,6 @@ function Admin() {
                         <ProductOutlined/>
                         <span>Продукты</span>
                     </div>
-
                     <div
                         onClick={() => setActiveTab('5')}
                         style={{
@@ -755,7 +975,6 @@ function Admin() {
                         <CalculatorFilled/>
                         <span>Категории</span>
                     </div>
-
                     <div
                         onClick={() => setActiveTab('6')}
                         style={{
@@ -1030,16 +1249,15 @@ function Admin() {
                     <div>
                         <h2>Категории</h2>
 
-                        {/*<div style={{marginBottom: 24}}>*/}
-                        {/*    <Button*/}
-                        {/*        type="primary"*/}
-                        {/*        icon={<PlusOutlined/>}*/}
-                        {/*        onClick={() => setAddProductModal(true)}*/}
-                        {/*    >*/}
-                        {/*        Добавить продукт*/}
-                        {/*    </Button>*/}
-                        {/*</div>*/}
-
+                        <div style={{marginBottom: 24}}>
+                            <Button
+                                type="primary"
+                                icon={<PlusOutlined/>}
+                                onClick={() => setAddCategoryModal(true)}
+                            >
+                                Добавить категорию
+                            </Button>
+                        </div>
 
                         <div style={{background: 'white', padding: 24, borderRadius: 8}}>
                             <Table
@@ -1074,7 +1292,11 @@ function Admin() {
             <Modal
                 title="Добавить продукт"
                 open={addProductModal}
-                onCancel={() => setAddProductModal(false)}
+                onCancel={() => {
+                    setAddProductModal(false);
+                    productForm.resetFields();
+                    setPhotoUrl('');
+                }}
                 onOk={() => productForm.submit()}
                 width={700}
             >
@@ -1124,8 +1346,17 @@ function Admin() {
                             </Form.Item>
                         </Col>
                         <Col span={8}>
-                            <Form.Item name="category_id" label="ID категории">
-                                <InputNumber style={{width: '100%'}}/>
+                            <Form.Item
+                                name="category_id"
+                                label="Категория"
+                            >
+                                <Select placeholder="Выберите категорию">
+                                    {categories.map(cat => (
+                                        <Option key={cat.id} value={cat.id}>
+                                            {cat.name}
+                                        </Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
                         </Col>
                     </Row>
@@ -1173,7 +1404,7 @@ function Admin() {
 
                     <Form.Item label="Фото">
                         <Upload
-                            beforeUpload={handleUploadPhoto}
+                            beforeUpload={(file) => handleUploadPhoto(file, false)}
                             showUploadList={false}
                         >
                             <Button icon={<UploadOutlined/>} loading={uploadingPhoto}>
@@ -1193,18 +1424,236 @@ function Admin() {
                 </Form>
             </Modal>
 
+            {/* Модальное окно редактирования продукта */}
+            <Modal
+                title="Редактировать продукт"
+                open={editProductModal}
+                onCancel={() => {
+                    setEditProductModal(false);
+                    setEditingProduct(null);
+                    setEditingPhotoUrl('');
+                    editProductForm.resetFields();
+                }}
+                onOk={() => editProductForm.submit()}
+                width={700}
+            >
+                <Form
+                    form={editProductForm}
+                    layout="vertical"
+                    onFinish={handleEditProduct}
+                >
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="name"
+                                label="Название"
+                                rules={[{required: true, message: 'Введите название'}]}
+                            >
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="price"
+                                label="Цена"
+                                rules={[{required: true, message: 'Введите цену'}]}
+                            >
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Form.Item name="content" label="Описание">
+                        <TextArea rows={3}/>
+                    </Form.Item>
+
+                    <Form.Item name="composition" label="Состав">
+                        <TextArea rows={3}/>
+                    </Form.Item>
+
+                    <Row gutter={16}>
+                        <Col span={8}>
+                            <Form.Item name="count" label="Количество">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item name="grams" label="Вес (г)">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                name="category_id"
+                                label="Категория"
+                            >
+                                <Select placeholder="Выберите категорию">
+                                    {categories.map(cat => (
+                                        <Option key={cat.id} value={cat.id}>
+                                            {cat.name}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16}>
+                        <Col span={6}>
+                            <Form.Item name="protein" label="Белки">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={6}>
+                            <Form.Item name="fats" label="Жиры">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={6}>
+                            <Form.Item name="carbohydrates" label="Углеводы">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={6}>
+                            <Form.Item name="kilocalorie" label="Калории">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16}>
+                        <Col span={8}>
+                            <Form.Item name="discount_price" label="Цена со скидкой">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item name="discount" label="Скидка (%)">
+                                <InputNumber min={0} max={100} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item name="quantity" label="Количество для скидки">
+                                <InputNumber min={0} style={{width: '100%'}}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Form.Item label="Фото">
+                        <Upload
+                            beforeUpload={(file) => handleUploadPhoto(file, true)}
+                            showUploadList={false}
+                        >
+                            <Button icon={<UploadOutlined/>} loading={uploadingPhoto}>
+                                Загрузить новое фото
+                            </Button>
+                        </Upload>
+                        {(editingPhotoUrl || editingProduct?.photo) && (
+                            <div style={{marginTop: 16}}>
+                                <p>Текущее фото:</p>
+                                <img
+                                    src={editingPhotoUrl || editingProduct?.photo}
+                                    alt="Preview"
+                                    style={{maxWidth: 200, maxHeight: 200, objectFit: 'cover'}}
+                                />
+                            </div>
+                        )}
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* Модальное окно добавления категории */}
+            <Modal
+                title="Добавить категорию"
+                open={addCategoryModal}
+                onCancel={() => {
+                    setAddCategoryModal(false);
+                    categoryForm.resetFields();
+                }}
+                onOk={() => categoryForm.submit()}
+                width={500}
+            >
+                <Form
+                    form={categoryForm}
+                    layout="vertical"
+                    onFinish={handleAddCategory}
+                >
+                    <Form.Item
+                        name="name"
+                        label="Название"
+                        rules={[{required: true, message: 'Введите название'}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        name="slug"
+                        label="Слаг (URL)"
+                        rules={[{required: true, message: 'Введите слаг'}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        name="photo"
+                        label="URL фото"
+                    >
+                        <Input/>
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* Модальное окно редактирования категории */}
+            <Modal
+                title="Редактировать категорию"
+                open={editCategoryModal}
+                onCancel={() => {
+                    setEditCategoryModal(false);
+                    setEditingCategory(null);
+                    editCategoryForm.resetFields();
+                }}
+                onOk={() => editCategoryForm.submit()}
+                width={500}
+            >
+                <Form
+                    form={editCategoryForm}
+                    layout="vertical"
+                    onFinish={handleEditCategory}
+                >
+                    <Form.Item
+                        name="name"
+                        label="Название"
+                        rules={[{required: true, message: 'Введите название'}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        name="slug"
+                        label="Слаг (URL)"
+                        rules={[{required: true, message: 'Введите слаг'}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        name="photo"
+                        label="URL фото"
+                    >
+                        <Input/>
+                    </Form.Item>
+                </Form>
+            </Modal>
+
             {/* Модальное окно деталей */}
             <Modal
                 title={`Детали ${detailType === 'user' ? 'пользователя' :
                     detailType === 'order' ? 'заказа' :
-                        detailType === 'payment' ? 'платежа' : 'продукта'}`}
+                        detailType === 'payment' ? 'платежа' :
+                            detailType === 'product' ? 'продукта' : 'элемента'}`}
                 open={detailModal}
                 onCancel={() => setDetailModal(false)}
                 footer={null}
                 width={600}
             >
                 {detailData && (
-                    <pre style={{background: '#f5f5f5', padding: 16, borderRadius: 8}}>
+                    <pre style={{background: '#f5f5f5', padding: 16, borderRadius: 8, maxHeight: 400, overflow: 'auto'}}>
                         {JSON.stringify(detailData, null, 2)}
                     </pre>
                 )}

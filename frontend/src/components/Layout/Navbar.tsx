@@ -69,8 +69,8 @@ const Navbar: React.FC = () => {
             )}
 
             <nav className="hidden md:block bg-white rounded-b-3xl p-3 w-full z-50 sticky top-0">
-                <div className="flex flex-row gap-6">
-                    <NavLink to="/" className="flex items-center gap-1">
+                <div className="flex flex-row gap-9">
+                    <NavLink to="/" className="menu__button flex-row gap-2">
                         <img src={homeSvg} alt="Лого" />
                         <h1>Мигом</h1>
                     </NavLink>
@@ -101,11 +101,11 @@ const Navbar: React.FC = () => {
             {/* Мобильный навбар - FIXED внизу экрана */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 w-full z-50" role="navigation">
                 <div className="flex justify-around items-center">
-                    <button onClick={() => navigate("/")}>
+                    <button className="menu__button" onClick={() => navigate("/")}>
                         <img src={homeMobileSvg} alt="Домой" className="w-6 h-6" />
                     </button>
 
-                    <button onClick={() => setMobileSearchOpen(true)}>
+                    <button className="menu__button"  onClick={() => setMobileSearchOpen(true)}>
                         <img src={searchMobileSvg} alt="Поиск" className="w-7 h-7" />
                     </button>
 
