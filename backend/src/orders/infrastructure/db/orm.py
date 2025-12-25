@@ -14,16 +14,16 @@ class OrderProductsOrm(Base):
     __tablename__ = "order_products"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     order_id: Mapped[int] = mapped_column(
-        ForeignKey("orders.id", ondelete="CASCADE"), primary_key=True
+        ForeignKey("orders.id", ondelete="CASCADE"), primary_key=True,
     )
     product_id: Mapped[int] = mapped_column(
-        ForeignKey("products.id", ondelete="CASCADE"), primary_key=True
+        ForeignKey("products.id", ondelete="SET NULL"), primary_key=True, nullable=True,
     )
 
     quantity: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
     amount: Mapped[int] = mapped_column(Integer, nullable=False)
     order: Mapped["OrdersOrm"] = relationship("OrdersOrm", back_populates="product_links")
-    product: Mapped["ProductsOrm"] = relationship("ProductsOrm", back_populates="order_links", lazy="selectin")
+    product: Mapped["ProductsOrm"] = relationship("ProductsOrm", back_populates="order_links", lazy="joined")
 
 
 class OrdersOrm(Base):
