@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Forms/PaymentForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Forms/PaymentForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Layout/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Layout/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Widgets/Cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Widgets/Cart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Widgets/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Widgets/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Orders.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,7 +304,7 @@
       <workItem from="1766675027178" duration="11692000" />
       <workItem from="1766702087921" duration="2052000" />
       <workItem from="1766777015677" duration="3374000" />
-      <workItem from="1766789423915" duration="646000" />
+      <workItem from="1766789423915" duration="1607000" />
     </task>
     <servers />
   </component>
