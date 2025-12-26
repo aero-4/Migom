@@ -29,7 +29,6 @@ export const CartWidget: React.FC = () => {
         close,
         toggle,
         setQty,
-        removeItem,
         clear,
         createOrder,
         createPayment

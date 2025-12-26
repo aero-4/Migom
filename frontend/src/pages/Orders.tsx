@@ -9,11 +9,11 @@ const statusMap: Record<
     { text: string; color: string }
 > = {
     "created": {text: "Создан", color: "bg-gray-300"},
-    "pending": {text: "Оплачен, ждем подтверждения", color: "bg-blue-300"},
+    "pending": {text: "Оплачен", color: "bg-blue-300"},
     "cooking": {text: "Готовится", color: "bg-brown-300"},
     "waiting-courier": {text: "Ищем курьера", color: "bg-yellow-300"},
     "delivering": {text: "В доставке", color: "bg-orange-300"},
-    "success": {text: "Успешно доставлен", color: "bg-green-400"},
+    "success": {text: "Доставлен", color: "bg-green-400"},
     "error": {text: "Проблема", color: "bg-red-300"},
 };
 
@@ -78,9 +78,12 @@ function Orders() {
                 {orders.length === 0 ? (
                     <div className="flex flex-col gap-7">
                         <p className="text-center text-gray-700">
-                            Пустота! Но Вы можете все поменять сделав первый заказ!
+                            Пустота... Но Вы можете все поменять сделав первый заказ!
                         </p>
-                        <button className="big__button full__button" onClick={() => window.location.assign("/")}>Поглядеть товары</button>
+                        <button className="big__button full__button"
+                                onClick={() => window.location.assign("/")}>
+                            Поглядеть товары
+                        </button>
                     </div>
 
                 ) : (
@@ -95,7 +98,7 @@ function Orders() {
                                 >
                                     <div className="flex items-center">
 
-                                        <h3 className="text-xl">
+                                        <h3 className="text-lg">
                                             Заказ №{order.id}
                                         </h3>
 
@@ -113,7 +116,7 @@ function Orders() {
                                             <span
                                                 className={`inline-block w-3 h-3 rounded-full ${status?.color}`}
                                             />
-                                            <p className="text-lg ">
+                                            <p className="text-sm md:text-lg">
                                                 {status?.text}
                                             </p>
                                         </div>

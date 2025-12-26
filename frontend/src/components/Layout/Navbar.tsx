@@ -10,21 +10,32 @@ import Search from "../Ui/Search.tsx";
 import Menu from "../Widgets/Menu.tsx";
 import CartWidget from "../Widgets/Cart.tsx";
 import CloseButton from "../Ui/CloseButton.tsx";
+import { useCart } from "../../context/CartContext.tsx";
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isMobileSearchOpen, setMobileSearchOpen] = useState(false);
+    const { isOpen: isCartOpen } = useCart();
 
-    const desktopMenuRef = useRef<HTMLDivElement | null>(null);
-    const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+    const desktopMenuContainerRef = useRef<HTMLDivElement | null>(null);
+    const desktopMenuWrapperRef = useRef<HTMLDivElement | null>(null);
+    const profileButtonRefDesktop = useRef<HTMLButtonElement | null>(null);
+
+    const mobileMenuContainerRef = useRef<HTMLDivElement | null>(null);
+    const mobileMenuWrapperRef = useRef<HTMLDivElement | null>(null);
+    const profileButtonRefMobile = useRef<HTMLButtonElement | null>(null);
+
+    const [placementDesktop, setPlacementDesktop] = useState<"bottom" | "top">("bottom");
+    const [placementMobile, setPlacementMobile] = useState<"bottom" | "top">("top");
+
     const navigate = useNavigate();
 
     useEffect(() => {
         function handlePointerDown(e: PointerEvent) {
             const target = e.target as Node | null;
 
-            const clickedInDesktop = desktopMenuRef.current?.contains(target) ?? false;
-            const clickedInMobile = mobileMenuRef.current?.contains(target) ?? false;
+            const clickedInDesktop = desktopMenuContainerRef.current?.contains(target) ?? false;
+            const clickedInMobile = mobileMenuContainerRef.current?.contains(target) ?? false;
 
             if (!clickedInDesktop && !clickedInMobile) {
                 setMenuOpen(false);
@@ -47,10 +58,58 @@ const Navbar: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (!isMenuOpen) return;
+
+        const measureDesktop = () => {
+            const wrapper = desktopMenuWrapperRef.current;
+            const btn = profileButtonRefDesktop.current;
+            if (!wrapper || !btn) return;
+
+            const menuHeight = wrapper.offsetHeight;
+            const btnRect = btn.getBoundingClientRect();
+
+            if (btnRect.bottom + menuHeight > window.innerHeight) {
+                setPlacementDesktop("top");
+            } else {
+                setPlacementDesktop("bottom");
+            }
+        };
+
+        const measureMobile = () => {
+            const wrapper = mobileMenuWrapperRef.current;
+            const btn = profileButtonRefMobile.current;
+            if (!wrapper || !btn) return;
+
+            const menuHeight = wrapper.offsetHeight;
+            const btnRect = btn.getBoundingClientRect();
+
+            if (btnRect.bottom + menuHeight > window.innerHeight) {
+                setPlacementMobile("top");
+            } else {
+                setPlacementMobile("bottom");
+            }
+        };
+
+        const raf = requestAnimationFrame(() => {
+            measureDesktop();
+            measureMobile();
+        });
+
+        return () => cancelAnimationFrame(raf);
+    }, [isMenuOpen]);
+
     const toggleMenu = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         setMenuOpen((v) => !v);
     };
+
+    useEffect(() => {
+        if (isCartOpen) {
+            setMenuOpen(false);
+        }
+    }, [isCartOpen]);
+
 
     return (
         <>
@@ -77,9 +136,12 @@ const Navbar: React.FC = () => {
 
                     <Search />
 
-                    <div ref={desktopMenuRef} className="flex flex-row relative ml-auto">
+                    <div ref={desktopMenuContainerRef} className="flex flex-row relative ml-auto">
                         {isMenuOpen && (
-                            <div className="absolute top-full right-0 z-[1001] mt-1">
+                            <div
+                                ref={desktopMenuWrapperRef}
+                                className={`absolute ${placementDesktop === "bottom" ? "top-full mt-1" : "bottom-full mb-1"} right-0 z-[1001]`}
+                            >
                                 <Menu onClose={() => setMenuOpen(false)} />
                             </div>
                         )}
@@ -87,6 +149,7 @@ const Navbar: React.FC = () => {
                         <CartWidget />
 
                         <button
+                            ref={profileButtonRefDesktop}
                             onClick={toggleMenu}
                             aria-expanded={isMenuOpen}
                             aria-haspopup="menu"
@@ -99,7 +162,8 @@ const Navbar: React.FC = () => {
             </nav>
 
             {/* Мобильный навбар - FIXED внизу экрана */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 w-full z-50" role="navigation">
+            <div ref={mobileMenuContainerRef}
+                 className="md:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl p-4 w-full z-50 overflow-visible">
                 <div className="flex justify-around items-center">
                     <button className="menu__button" onClick={() => navigate("/")}>
                         <img src={homeMobileSvg} alt="Домой" className="w-6 h-6" />
@@ -111,8 +175,9 @@ const Navbar: React.FC = () => {
 
                     <CartWidget />
 
-                    <div ref={mobileMenuRef} className="relative">
+                    <div className="relative">
                         <button
+                            ref={profileButtonRefMobile}
                             onClick={toggleMenu}
                             aria-expanded={isMenuOpen}
                             aria-haspopup="menu"
@@ -122,7 +187,10 @@ const Navbar: React.FC = () => {
                         </button>
 
                         {isMenuOpen && (
-                            <div className="absolute bottom-full -top-50 z-10">
+                            <div
+                                ref={mobileMenuWrapperRef}
+                                className="absolute bottom-full mb-2 right-0 z-[1001]"
+                            >
                                 <Menu onClose={() => setMenuOpen(false)} />
                             </div>
                         )}

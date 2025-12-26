@@ -12,6 +12,7 @@ type Props = {
 export default function Menu({ onClose, className = "", id }: Props): JSX.Element {
     const { isAuthenticated, user } = useAuth();
 
+
     const handleClose = () => {
         onClose?.();
     };
@@ -19,7 +20,7 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
     return (
         <div
             id={id}
-            className={`absolute z-50 right-0 shadow card border border-gray-100 ${className}`}
+            className={`z-50 shadow card border border-gray-100 ${className}`}
             role="menu"
             aria-orientation="vertical"
             onClick={(e) => {
