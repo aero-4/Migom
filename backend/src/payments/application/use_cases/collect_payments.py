@@ -17,6 +17,7 @@ async def get_payment(
         uow_orders: OrderUoWDeps,
         provider: IPaymentProvider,
 ) -> Payment:
+    status = None
     async with uow:
         payment = await uow.payments.get(id, user.id)
         # status = PaymentsStatus.success if await provider.check_status(payment.label) else PaymentsStatus.waiting
@@ -27,11 +28,14 @@ async def get_payment(
             payment.status = status
 
             await uow.payments.update(payment_update)
+            await uow.commit()
 
     if status == PaymentsStatus.success:
+
         async with uow_orders:
             order_data = OrderUpdate(id=payment.order_id, status=OrderStatus.PENDING)
             order = await uow_orders.orders.update(order_data)
+            await uow_orders.commit()
             print(order)
     return payment
 

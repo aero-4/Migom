@@ -13,4 +13,3 @@ class PaymentUpdateDTO(BaseModel):
     status: str | None = [
         PaymentsStatus.waiting, PaymentsStatus.success, PaymentsStatus.created, PaymentsStatus.expired
     ]
-    method: str | None = None

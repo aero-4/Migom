@@ -52,6 +52,6 @@ async def delete(id: int, uow: OrderUoWDeps, auth: TokenAuthDep):
 
 
 @orders_api_router.get("/{id}")
-@access_control(role=UserRole.admin)
+@access_control(role=[UserRole.admin, UserRole.user])
 async def get_one(id: int, uow: OrderUoWDeps, auth: TokenAuthDep):
     return await collect_order(id, uow)

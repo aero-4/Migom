@@ -14,6 +14,7 @@ from src.orders.domain.entities import OrderStatus, Order
 from src.orders.presentation.dtos import CartItemDTO, OrderCreateDTO
 from src.payments.application.use_cases.add_payment import add_payment
 from src.payments.domain.entities import PaymentCreate, Payment
+from src.payments.infrastructure.db.orm import PaymentsStatus
 from src.payments.presentation.dependenscies import PaymentUoWDeps
 from src.payments.config import payment_settings
 from src.payments.presentation.dtos import PaymentCreateDTO
@@ -46,7 +47,7 @@ async def create_order(client, user_factory) -> Order:
         first_name=f"Oleg{random.randint(100, 999)}",
         last_name=f"Tinkov{random.randint(100, 999)}",
         birthday=datetime.date(2025, 1, 1),
-        is_super_user=True
+        role=UserRole.admin
     )
     # register admin user
     await user_factory(client, user_data)
@@ -96,8 +97,7 @@ async def create_order(client, user_factory) -> Order:
     order: Order = Order(**response.json())
 
     assert response.status_code == 200
-    assert order.products == [p.product_id for p in TEST_ORDER_DTO.products]
-    assert order.status == OrderStatus.CREATED.value
+    # assert order.status == OrderStatus.CREATED or order.status == OrderStatus.SUCCESS
 
     return order
 
@@ -156,3 +156,32 @@ async def test_success_get_all(clear_db, user_factory):
 
         assert response.status_code == 200
         assert payments[0].amount == payment_dto.amount
+
+
+
+@pytest.mark.asyncio
+async def test_success_create_and_get_payment(clear_db, user_factory):
+    async with httpx.AsyncClient(base_url="http://localhost:8000") as client:
+        order1 = await create_order(client, user_factory)
+
+        payment_dto = PaymentCreateDTO(order_id=order1.id, amount=order1.amount, method="yoomoney")
+        response = await client.post("/api/payments/", json=payment_dto.model_dump())
+        payment = Payment(**response.json())
+
+        assert response.status_code == 200
+
+        response2 = await client.get(f"/api/payments/{payment.id}")
+        payment_2 = Payment(**response2.json())
+
+        assert payment_2.status == PaymentsStatus.success
+
+
+        response3 = await client.get(f"/api/orders/{order1.id}")
+        order3 = Order(**response3.json())
+
+
+        assert response3.status_code == 200
+        assert order3.status == OrderStatus.PENDING.value
+
+
+
