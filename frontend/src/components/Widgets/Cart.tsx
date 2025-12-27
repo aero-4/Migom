@@ -227,7 +227,8 @@ export const CartWidget: React.FC = () => {
 
                 <aside
                     onClick={(e) => e.stopPropagation()}
-                    className={`h-full w-full md:p-6 xl:max-w-180 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                    className={`h-full w-full md:p-6 xl:max-w-180 2xl:max-w-220 fixed top-0 right-0 
+                                z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
                         isOpen ? "translate-x-0" : "translate-x-full"
                     } xl:rounded-l-3xl  overflow-hidden`}
                     role="dialog"
@@ -281,18 +282,36 @@ export const CartWidget: React.FC = () => {
 
                                                             </div>
 
+                                                            <div className="ml-auto text-lg text-gray-800">
+                                                                {item.discount_price ? (
+                                                                    <div style={{position: "relative"}} className="flex flex-col">
+                                                                        <p className="font-bold text-gray-500 line-through" style={{marginTop: 4}}>
+                                                                            {item.price} ₽
+                                                                        </p>
+
+                                                                        <p className="text-lg md:text-xl font-bold">
+                                                                            {item.discount_price} ₽
+                                                                        </p>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div>
+                                                                        <p className="text-lg md:text-xl font-bold">
+                                                                            {item.price} ₽
+                                                                        </p>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
                                                         </div>
 
-                                                        <div className="mt-4 flex items-center gap-3">
+                                                        <div className="flex items-center gap-2">
                                                             <QuantityInput item={item}
                                                                            setQty={setQty}
-                                                                           />
-                                                            <div className="ml-auto text-lg text-gray-600">
-                                                                <span className="font-semibold text-gray-800">
-                                                                    {item.discount_price ? item.discount_price : item.price} ₽
-                                                                </span>
-                                                            </div>
+                                                            />
+
                                                         </div>
+
+
                                                     </div>
                                                 </li>
                                             ))}

@@ -66,7 +66,7 @@ const Product: React.FC = () => {
 
                 <div className="flex flex-col gap-12">
                     <div className="flex flex-col gap-9 my-auto">
-                        <h1 className="text-2xl md:text-4xl font-bold">{product.name}</h1>
+                        <h1 className="text-2xl md:text-3xl xl:md:text-4xl font-bold">{product.name}</h1>
 
                         <p className="text-sm text-gray-800">{product.content}</p>
 
@@ -76,17 +76,25 @@ const Product: React.FC = () => {
 
 
                         <div className="flex flex-col">
+
+
                             {product.discount_price ? (
-                                <p className="text-3xl font-bold ml-auto">
-                                    {product.discount_price} ₽
-                                </p>
+                                <div className="flex flex-col">
+                                    <p className="font-bold text-gray-500 line-through">
+                                        {product.price} ₽
+                                    </p>
+
+                                    <p className="text-2xl md:text-3xl font-bold">
+                                        {product.discount_price} ₽
+                                    </p>
+
+                                    <p className="text-sm text-gray-400 font-bold">{product.grams} г.</p>
+
+                                </div>
                             ) : (
-                                <p className="text-3xl font-bold ml-auto">
-                                    {product.price} ₽
-                                </p>
+                                <p className="text-xl md:text-2xl font-bold">{product.price} ₽</p>
                             )}
 
-                            <p className="text-sm text-gray-400">{product.grams} г</p>
                         </div>
 
 

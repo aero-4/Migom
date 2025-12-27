@@ -38,13 +38,13 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
                     </NavLink>
 
                     {user?.role === 2 && (
-                        <NavLink to="/courier" onClick={handleClose} className="big__button text-yellow-500 bg-yellow-100">
+                        <NavLink to="/courier" onClick={handleClose} className="big__button text-blue-500 bg-blue-100">
                             Меню курьеров
                         </NavLink>
                     )}
 
                     {user?.role === 3 && (
-                        <NavLink to="/cook" onClick={handleClose} className="big__button text-yellow-500 bg-yellow-100">
+                        <NavLink to="/cook" onClick={handleClose} className="big__button text-brown-500 bg-brown-100">
                             Меню поваров
                         </NavLink>
                     )}
