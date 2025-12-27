@@ -21,7 +21,7 @@ import {
     message,
     Popconfirm,
     Tag,
-    Switch
+    Switch, Menu
 } from 'antd';
 import {
     LineChart,
@@ -54,19 +54,25 @@ import {
     EyeOutlined
 } from '@ant-design/icons';
 import Login from './Login';
-
+import Layout from 'antd/es/layout/layout';
+import dayjs from 'dayjs';
 const {TabPane} = Tabs;
 const {Option} = Select;
 const {TextArea} = Input;
 
 function Admin() {
     const {user, isAuthenticated} = useAuth();
-    if (!isAuthenticated || !user) return <Login/>;
+    
+    if (!isAuthenticated || !user)
+        return <Login/>;
     if (user.role !== 4) {
         return <NotFound/>;
     }
 
-    const [activeTab, setActiveTab] = useState('1');
+
+    const [activeTab, setActiveTab] = useState(() => {
+        return localStorage.getItem('admin_active_tab') || '1';
+    });
     const [loading, setLoading] = useState(false);
 
     const [users, setUsers] = useState([]);
@@ -114,11 +120,18 @@ function Admin() {
     const [addCategoryModal, setAddCategoryModal] = useState(false);
     const [editCategoryModal, setEditCategoryModal] = useState(false);
 
+    // Пользователи: модалки и формы
+    const [addUserModal, setAddUserModal] = useState(false);
+    const [editUserModal, setEditUserModal] = useState(false);
+    const [userForm] = Form.useForm();
+    const [editUserForm] = Form.useForm();
+
     // Формы
     const [productForm] = Form.useForm();
     const [editProductForm] = Form.useForm();
     const [categoryForm] = Form.useForm();
     const [editCategoryForm] = Form.useForm();
+    const [editingUser, setEditingUser] = useState(null);
 
     // Загрузка фото
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
@@ -157,7 +170,11 @@ function Admin() {
         if (activeTab === "6") {
             fetchAddresses();
         }
+        localStorage.setItem('admin_active_tab', activeTab);
     }, [activeTab]);
+
+
+
 
     const fetchUsers = async () => {
         setUsersLoading(true);
@@ -185,6 +202,85 @@ function Admin() {
         } finally {
             setUsersLoading(false);
         }
+    };
+
+    const handleAddUser = async (values) => {
+        try {
+            const response = await fetch(config.API_URL + "/api/users", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(values),
+                credentials: "include"
+            });
+            if (response.ok) {
+                message.success('Пользователь добавлен');
+                setAddUserModal(false);
+                userForm.resetFields();
+                fetchUsers();
+            } else {
+                const err = await response.json();
+                message.error(err.detail || 'Ошибка добавления пользователя');
+            }
+        } catch (e) {
+            message.error('Ошибка добавления пользователя');
+        }
+    };
+
+    const handleEditUser = async (values) => {
+        try {
+            const payload = {
+                ...values,
+                birthday: values.birthday
+                    ? values.birthday.format('YYYY-MM-DD')
+                    : null,
+            };
+            const response = await fetch(config.API_URL + `/api/users/${editingUser.id}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload),
+                credentials: "include"
+            });
+            if (response.ok) {
+                message.success('Пользователь обновлён');
+                setEditUserModal(false);
+                setEditingUser(null);
+                editUserForm.resetFields();
+                fetchUsers();
+            } else {
+                const err = await response.json();
+                message.error(err.detail || 'Ошибка обновления пользователя');
+            }
+        } catch (e) {
+            message.error('Ошибка обновления пользователя');
+        }
+    };
+
+    const handleDeleteUser = async (id) => {
+        try {
+            const response = await fetch(config.API_URL + `/api/users/${id}`, {
+                method: 'DELETE',
+                credentials: "include"
+            });
+            if (response.ok) {
+                message.success('Пользователь удалён');
+                fetchUsers();
+            } else {
+                message.error('Ошибка удаления пользователя');
+            }
+        } catch (e) {
+            message.error('Ошибка удаления пользователя');
+        }
+    };
+
+    const openEditUserModal = (user) => {
+        setEditingUser(user);
+
+        editUserForm.setFieldsValue({
+            ...user,
+            birthday: user.birthday ? dayjs(user.birthday) : null,
+        });
+
+        setEditUserModal(true);
     };
 
     const fetchOrders = async () => {
@@ -558,7 +654,25 @@ function Admin() {
             dataIndex: 'birthday',
             key: 'birthday',
             render: (date) => date ? new Date(date).toLocaleDateString() : '-'
-        }
+        },
+        {
+            title: 'Действия',
+            key: 'actions',
+            render: (_, record) => (
+                <Space>
+                    <Button type="link" icon={<EyeOutlined />} onClick={() => showDetails(record, 'user')} />
+                    <Button type="link" icon={<EditOutlined />} onClick={() => openEditUserModal(record)} />
+                    <Popconfirm
+                        title="Удалить пользователя?"
+                        onConfirm={() => handleDeleteUser(record.id)}
+                        okText="Да"
+                        cancelText="Нет"
+                    >
+                        <Button type="link" danger icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Space>
+            )
+        },
     ];
 
     // Колонки для таблицы заказов
@@ -882,102 +996,25 @@ function Admin() {
     return (
         <div style={{display: 'flex', minHeight: '100vh'}}>
             {/* Левое меню */}
-            <div style={{
-                width: 250,
-                background: '#001529',
-                color: 'white',
-                padding: '20px 0'
-            }}>
-                <h2 style={{color: 'white', padding: '0 20px 20px', borderBottom: '1px solid #1890ff'}}>
-                    Админ-панель
-                </h2>
-                <div style={{padding: '10px 0'}}>
-                    <div
-                        onClick={() => setActiveTab('1')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '1' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <UserOutlined/>
-                        <span>Пользователи</span>
-                    </div>
-                    <div
-                        onClick={() => setActiveTab('2')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '2' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <ShoppingCartOutlined/>
-                        <span>Заказы</span>
-                    </div>
-                    <div
-                        onClick={() => setActiveTab('3')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '3' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <DollarOutlined/>
-                        <span>Покупки</span>
-                    </div>
-                    <div
-                        onClick={() => setActiveTab('4')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '4' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <ProductOutlined/>
-                        <span>Продукты</span>
-                    </div>
-                    <div
-                        onClick={() => setActiveTab('5')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '5' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <CalculatorFilled/>
-                        <span>Категории</span>
-                    </div>
-                    <div
-                        onClick={() => setActiveTab('6')}
-                        style={{
-                            padding: '12px 20px',
-                            cursor: 'pointer',
-                            background: activeTab === '6' ? '#1890ff' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10
-                        }}
-                    >
-                        <HeatMapOutlined/>
-                        <span>Адреса</span>
-                    </div>
+            <Layout.Sider width={260} style={{background: '#001529', paddingTop: 20}}>
+                <div style={{color: 'white', padding: '0 24px 18px', borderBottom: '1px solid rgba(255,255,255,0.08)'}}>
+                    <h2 style={{color: 'white', margin: 0}}>Админ-панель</h2>
                 </div>
-            </div>
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    selectedKeys={[activeTab]}
+                    onClick={({ key }) => setActiveTab(key)}
+                    style={{borderRight: 0}}
+                >
+                    <Menu.Item key="1" icon={<UserOutlined />}>Пользователи</Menu.Item>
+                    <Menu.Item key="2" icon={<ShoppingCartOutlined />}>Заказы</Menu.Item>
+                    <Menu.Item key="3" icon={<DollarOutlined />}>Покупки</Menu.Item>
+                    <Menu.Item key="4" icon={<ProductOutlined />}>Продукты</Menu.Item>
+                    <Menu.Item key="5" icon={<CalculatorFilled />}>Категории</Menu.Item>
+                    <Menu.Item key="6" icon={<HeatMapOutlined />}>Адреса</Menu.Item>
+                </Menu>
+            </Layout.Sider>
 
             {/* Основной контент */}
             <div style={{flex: 1, padding: 24, background: '#f0f2f5'}}>
@@ -1032,6 +1069,11 @@ function Admin() {
 
                         <div style={{background: 'white', padding: 24, borderRadius: 8}}>
                             <h3>Список пользователей</h3>
+                            <div style={{marginBottom: 16}}>
+                                <Button type="primary" icon={<PlusOutlined/>} onClick={() => setAddUserModal(true)}>
+                                    Добавить пользователя
+                                </Button>
+                            </div>
                             <Table
                                 dataSource={users}
                                 columns={userColumns}
@@ -1634,6 +1676,94 @@ function Admin() {
                             </div>
                         )}
                     </Form.Item>
+                </Form>
+            </Modal>
+
+            {/* Модальное окно добавления пользователя */}
+            <Modal
+                title="Добавить пользователя"
+                open={addUserModal}
+                onCancel={() => { setAddUserModal(false); userForm.resetFields(); }}
+                onOk={() => userForm.submit()}
+                width={700}
+            >
+                <Form form={userForm} layout="vertical" onFinish={handleAddUser}>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="first_name" label="Имя" rules={[{required: true}]}>
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item name="last_name" label="Фамилия">
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Form.Item name="email" label="Email" rules={[{required: true, type: 'email'}]}>
+                        <Input />
+                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="password" label="Пароль" rules={[{required: true}]}>
+                                <Input.Password />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item name="role" label="Роль" initialValue={1}>
+                                <Select>
+                                    <Option value={1}>Пользователь</Option>
+                                    <Option value={2}>Курьер</Option>
+                                    <Option value={3}>Повар</Option>
+                                    <Option value={4}>Админ</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
+            </Modal>
+
+            {/* Модальное окно редактирования пользователя */}
+            <Modal
+                title="Редактировать пользователя"
+                open={editUserModal}
+                onCancel={() => { setEditUserModal(false); setEditingUser(null); editUserForm.resetFields(); }}
+                onOk={() => editUserForm.submit()}
+                width={700}
+            >
+                <Form form={editUserForm} layout="vertical" onFinish={handleEditUser}>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="first_name" label="Имя" rules={[{required: true}]}>
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item name="last_name" label="Фамилия">
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Form.Item name="email" label="Email" rules={[{required: true, type: 'email'}]}>
+                        <Input />
+                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="role" label="Роль">
+                                <Select>
+                                    <Option value={1}>Пользователь</Option>
+                                    <Option value={2}>Курьер</Option>
+                                    <Option value={3}>Повар</Option>
+                                    <Option value={4}>Админ</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item name="birthday" label="Дата рождения">
+                                <DatePicker style={{width: '100%'}} />
+                            </Form.Item>
+                        </Col>
+                    </Row>
                 </Form>
             </Modal>
 

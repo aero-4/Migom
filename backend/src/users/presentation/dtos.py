@@ -10,7 +10,7 @@ class UserCreateDTO(CustomModel):
     password: str
     first_name: str
     last_name: str
-    birthday: datetime.date
+    birthday: datetime.date | None = None
     role: int | None = None
 
 

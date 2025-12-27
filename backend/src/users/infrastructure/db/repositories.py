@@ -51,13 +51,13 @@ class PGUserRepository(IUserRepository):
 
         return objs
 
-    async def delete(self, user: User):
-        stmt = select(UsersOrm).where(UsersOrm.id == user.id)
+    async def delete(self, id: int):
+        stmt = select(UsersOrm).where(UsersOrm.id == id)
         result = await self.session.execute(stmt)
         obj: UsersOrm = result.scalar_one_or_none()
 
         if not obj:
-            raise UserNotFound(detail=f"User with id {user.id} not found")
+            raise UserNotFound(detail=f"User with id {id} not found")
 
         await self.session.delete(obj)
         await self.session.flush()
