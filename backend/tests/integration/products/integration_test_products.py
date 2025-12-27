@@ -83,13 +83,10 @@ async def create_normal_product(client):
     for name in NAMES:
         photo_path = random.choice(TEST_PHOTOS)
         url_photo = None
-        print(photo_path)
 
         with open(photo_path, "rb") as f:
-            print(f)
             resp = await client.post("/api/files/", files={"file": f})
             url_photo = resp.json()["url"]
-            print(url_photo)
 
         category_data = None
         while True:
@@ -111,9 +108,10 @@ async def create_normal_product(client):
             name=name,
             content=f"Пирожок с манго-маракуйей и крем-чизом - это сочетание хрустящего теста с начинкой из спелого манго, свежей кислинкой маракуйи и лёгким сливочным кремом. *Продукция содержит или может содержать ракообразных или их следы, а также другие аллергены. Кроме ресторанов-исключений, указанных на сайте – https://rostics.ru/promo/noshrimps",
             composition="Филе куриное оригинальное; Томаты свежие; Салат Айсберг; Булочка бриошь; Сырная котлета; Соус на основе растительных масел со вкусом \"Блю Чиз\"",
+
             price=random.choice(PRICES),
-            discount_price=random.choice(PRICES),
-            discount=random.randint(1, 5),
+            discount=random.randint(0, 99),
+
             count=random.randint(1, 200),
             grams=random.randint(1, 200),
             protein=random.randint(1, 200),
@@ -122,6 +120,7 @@ async def create_normal_product(client):
             kilocalorie=random.randint(1, 200),
             category_id=category.id,
             photo=url_photo,
+            # discount_price=None if random.randint(0, 1) == 0 else random.randint(1, 99),
         )
 
         response2 = await client.post("/api/products/", json=product.model_dump())

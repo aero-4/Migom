@@ -2,6 +2,7 @@ import {JSX, useEffect, useState} from "react";
 import AddInCartBtn from "../components/Ui/AddInCartButton.tsx";
 import config from "../../config.ts";
 import {useParams} from "react-router-dom";
+import Products from "../components/Widgets/Products.tsx";
 
 type Product = {
     id?: string;
@@ -78,71 +79,6 @@ export default function Category(): JSX.Element {
     }, []);
 
     return (
-        <>
-            <div className="mt-3 p-1
-                            grid
-                            grid-cols-2
-                            sm:grid-cols-2
-                            md:grid-cols-3
-                            lg:grid-cols-4
-                            gap-2">
-
-
-                {products.map(product => (
-                    <div
-                        key={product.id ?? product.slug}
-                        className="product__card"
-                    >
-                        <a href={`/product/${product.id}`}>
-
-                            <img src={product.photo}
-                                 alt="Фото продукта"
-                                 className="product__img"/>
-
-                        </a>
-
-                        <div className="absolute" style={{alignSelf: "flex-end"}}>
-                            <AddInCartBtn product={product}/>
-                        </div>
-
-                        <p className="product__name product__name--2lines">{product.name}</p>
-
-                        <div className="flex items-center">
-                            <div className="flex flex-col">
-                                <span className="text-gray-500 text-xs block">
-                                    {product.gramme} г
-                                </span>
-
-                                {product.discount_price ? (
-                                    <div className="flex flex-col">
-                                        <p className="font-bold text-gray-500 line-through">
-                                            {product.price} ₽
-                                        </p>
-
-                                        <p className="text-xl md:text-2xl font-bold">
-                                            {product.discount_price} ₽
-                                        </p>
-
-                                        <p className="badge__covered ml-11">
-                                            -{product.discount}%
-                                        </p>
-
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <p className="text-xl md:text-2xl font-bold">
-                                            {product.price} ₽
-                                        </p>
-                                    </div>
-                                )}
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </>
+        <Products products_data={products}/>
     );
 }

@@ -7,7 +7,7 @@ class ProductCreateDTO(BaseModel):
     name: str
     content: str
     composition: str
-    price: float
+    price: int
     category_id: int
     count: int
     grams: int
@@ -15,7 +15,7 @@ class ProductCreateDTO(BaseModel):
     fats: int
     carbohydrates: int
     kilocalorie: int | None = None
-    discount_price: float | None = None
+    discount_price: int | None = None
     discount: int | None = None
     photo: str | None = None
 
@@ -24,8 +24,8 @@ class ProductUpdateDTO(BaseModel):
     name: str | None = None
     content: str | None = None
     composition: str | None = None
-    price: float | None = None
-    discount_price: float | None = None
+    price: int | None = None
+    discount_price: int | None = None
     discount: int | None = None
     count: int | None = None
     grams: int | None = None

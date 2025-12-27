@@ -88,7 +88,7 @@ export default function Products({products_data = []}: { products_data?: Product
                       `}
                 >
                     {products.map((product) => (
-                        <div key={product.id ?? product.slug} className="product__card ">
+                        <div key={product.id ?? product.slug} className="product__card">
                             <a href={`/product/${product.id}`}>
                                 <img
                                     src={product.photo}

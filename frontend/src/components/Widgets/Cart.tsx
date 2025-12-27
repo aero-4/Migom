@@ -227,9 +227,9 @@ export const CartWidget: React.FC = () => {
 
                 <aside
                     onClick={(e) => e.stopPropagation()}
-                    className={`h-full w-full md:p-6 xl:max-w-160 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                    className={`h-full w-full md:p-6 xl:max-w-180 2xl:max-w-220 fixed top-0 right-0 z-50 transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
                         isOpen ? "translate-x-0" : "translate-x-full"
-                    } md:rounded-l-3xl  overflow-hidden`}
+                    } xl:rounded-l-3xl  overflow-hidden`}
                     role="dialog"
                     aria-modal="true"
                 >
@@ -302,12 +302,17 @@ export const CartWidget: React.FC = () => {
                             </div>
 
                             <div className="mt-auto flex flex-col">
-                                <div className="p-3 flex flex-col">
+                                <div className="p-3 flex flex-col ">
 
-                                    <div className="mb-6 flex flex-row items-center justify-center w-full">
-                                        <div className="text-gray-600 p-3">К оплате:</div>
-                                        <div className="justify-center font-bold text-2xl md:text-3xl text-gray-900">
-                                            {totalPrice.toLocaleString()} ₽
+                                    <div className="mb-6 flex flex-col items-center justify-center w-full">
+                                        <div className="flex flex-row items-center justify-center w-full">
+                                            <div className="text-gray-600 p-3">К оплате:</div>
+                                            <div className="justify-center font-bold text-2xl md:text-3xl text-gray-900">
+                                                {totalPrice.toLocaleString()} ₽
+                                            </div>
+
+                                            <h1 className="badge__covered">Доставим бесплатно</h1>
+
                                         </div>
                                     </div>
 

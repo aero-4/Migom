@@ -49,6 +49,12 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
                         </NavLink>
                     )}
 
+                    {user?.role === 4 && (
+                        <NavLink to="/admin" onClick={handleClose} className="big__button text-green-500 bg-green-100">
+                            Админ панель
+                        </NavLink>
+                    )}
+
                     <ExitButton />
                 </div>
             ) : (

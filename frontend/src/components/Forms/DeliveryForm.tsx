@@ -575,6 +575,7 @@ const DeliveryForm: React.FC<DFProps> = ({
                                 onCheckedChange={(v) => update({leaveAtDoor: v})}
                                 label="Оставить у двери"
                             />
+
                         </>
                     ) : (
                         <div className="justify-center items-center">
@@ -587,7 +588,7 @@ const DeliveryForm: React.FC<DFProps> = ({
                         </div>
                     )}
 
-                    <div className="h-24 md:h-28" aria-hidden/>
+
                 </div>
 
                 <div className="sticky bottom-0 bg-white p-2 sm:p-4 flex flex-col gap-1">

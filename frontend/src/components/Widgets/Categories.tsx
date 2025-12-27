@@ -49,6 +49,7 @@ export default function Categories(): JSX.Element {
                             src={category.photo}
                             alt="Фото категории"
                             className="cat__img"
+                            loading="lazy"
                         />
                         <span
                             className="cat__name">

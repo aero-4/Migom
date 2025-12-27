@@ -7,7 +7,7 @@ class Product(CustomModel):
     name: str
     content: str
     composition: str
-    price: float
+    price: int
     count: int
     grams: int
     protein: int
@@ -16,7 +16,7 @@ class Product(CustomModel):
     kilocalorie: int
     photo: str | None = None
     category_id: int | None = None
-    discount_price: float | None = None
+    discount_price: int | None = None
     discount: int | None = None
     quantity: int | None = None
 
@@ -25,7 +25,7 @@ class ProductCreate(CustomModel):
     name: str
     content: str
     composition: str
-    price: float
+    price: int
     kilocalorie: int
     count: int
     grams: int
@@ -34,7 +34,7 @@ class ProductCreate(CustomModel):
     carbohydrates: int
     photo: str | None = None
     category_id: int | None = None
-    discount_price: float | None = None
+    discount_price: int | None = None
     discount: int | None = None
 
 
@@ -43,8 +43,8 @@ class ProductUpdate(CustomModel):
     name: str | None = None
     content: str | None = None
     composition: str | None = None
-    price: float | None = None
-    discount_price: float | None = None
+    price: int | None = None
+    discount_price: int | None = None
     discount: int | None = None
     count: int | None = None
     kilocalorie: int | None = None
