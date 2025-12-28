@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 @lru_cache
 def get_redis_client() -> Redis:
+    print(settings.REDIS_URL)
     return Redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 
@@ -18,6 +19,6 @@ async def check_redis_connection() -> bool:
         await get_redis_client().ping()
         logger.info("Redis is connected")
         return True
-    except Exception:
-        logging.warning("Redis is not connected")
+    except Exception as ex:
+        logging.exception("Redis is not connected", exc_info=True)
         return False

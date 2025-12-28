@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -28,11 +29,15 @@ from src.core.config import settings
 
 BASE_DIR = Path(__file__).resolve().parent
 static_dir = BASE_DIR / "static"
+origins = os.getenv("CORS_ORIGINS", ["http://127.0.0.1:8002",
+                                     "http://127.0.0.1:8001",
+                                     "http://127.0.0.1:8000"])
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await check_redis_connection()
-    # await create_and_delete_tables_db()
+    await create_and_delete_tables_db()
     yield
 
 
@@ -58,9 +63,7 @@ Instrumentator().instrument(app).expose(app, endpoint='/__internal_metrics__')
 # middlewares
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8002",
-                   "http://127.0.0.1:8001",
-                   "http://127.0.0.1:8000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

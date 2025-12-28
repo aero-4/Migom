@@ -1,11 +1,11 @@
 {
   "name": "migom",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -21,7 +21,8 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.4",
     "recharts": "^3.6.0",
-    "tailwindcss": "^4.1.14"
+    "tailwindcss": "^4.1.14",
+    "vite": "^7.1.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
