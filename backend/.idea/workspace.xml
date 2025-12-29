@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.env" beforeDir="false" afterPath="$PROJECT_DIR$/../.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../infra/nginx/nginx.prod.conf.template" beforeDir="false" afterPath="$PROJECT_DIR$/../infra/nginx/nginx.prod.conf.template" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logs/postgresql/postgresql.json" beforeDir="false" afterPath="$PROJECT_DIR$/../logs/postgresql/postgresql.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logs/postgresql/postgresql.log" beforeDir="false" afterPath="$PROJECT_DIR$/../logs/postgresql/postgresql.log" afterDir="false" />
     </list>
@@ -311,6 +304,7 @@
       <workItem from="1766828755003" duration="8247000" />
       <workItem from="1766858740652" duration="3660000" />
       <workItem from="1767006842842" duration="611000" />
+      <workItem from="1767033851085" duration="234000" />
     </task>
     <servers />
   </component>
