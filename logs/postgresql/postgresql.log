@@ -28,3 +28,19 @@
 2025-12-28 19:08:59.884 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
 2025-12-28 19:21:34.036 UTC [1] LOG:  ending log output to stderr
 2025-12-28 19:21:34.036 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 10:42:26.594 UTC [1] LOG:  ending log output to stderr
+2025-12-29 10:42:26.594 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 10:55:04.298 UTC [1] LOG:  ending log output to stderr
+2025-12-29 10:55:04.298 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:24:36.583 UTC [1] LOG:  ending log output to stderr
+2025-12-29 11:24:36.583 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:25:39.163 UTC [1] LOG:  ending log output to stderr
+2025-12-29 11:25:39.163 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:34:19.678 UTC [47] LOG:  ending log output to stderr
+2025-12-29 11:34:19.678 UTC [47] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:34:20.671 UTC [1] LOG:  ending log output to stderr
+2025-12-29 11:34:20.671 UTC [1] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:44:22.118 UTC [48] LOG:  ending log output to stderr
+2025-12-29 11:44:22.118 UTC [48] HINT:  Future log output will go to log destination "jsonlog".
+2025-12-29 11:44:22.567 UTC [1] LOG:  ending log output to stderr
+2025-12-29 11:44:22.567 UTC [1] HINT:  Future log output will go to log destination "jsonlog".

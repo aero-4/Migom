@@ -36,7 +36,7 @@ origins = os.getenv("CORS_ORIGINS", ["http://127.0.0.1:8002",
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await check_redis_connection()
+    # await check_redis_connection()
     await create_and_delete_tables_db()
     yield
 
