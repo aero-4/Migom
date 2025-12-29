@@ -19,7 +19,7 @@
 - Integration Tests - tests/integration
 - Functional Tests - tests/funtional
 
-Запуск тестов осуществляется через команду
+Запуск всех тестов осуществляется через команду
 
 ```pytest tests```
 
