@@ -1,8 +1,5 @@
-FROM node:18 AS build
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci --legacy-peer-deps
-COPY . .
-
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ .
 RUN npm run build

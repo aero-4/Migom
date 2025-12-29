@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logs/postgresql/postgresql.json" beforeDir="false" afterPath="$PROJECT_DIR$/../logs/postgresql/postgresql.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logs/postgresql/postgresql.log" beforeDir="false" afterPath="$PROJECT_DIR$/../logs/postgresql/postgresql.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,6 +304,7 @@
       <workItem from="1766858740652" duration="3660000" />
       <workItem from="1767006842842" duration="611000" />
       <workItem from="1767033851085" duration="234000" />
+      <workItem from="1767046073097" duration="599000" />
     </task>
     <servers />
   </component>

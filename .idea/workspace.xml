@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/logs/postgresql/postgresql.json" beforeDir="false" afterPath="$PROJECT_DIR$/logs/postgresql/postgresql.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/postgresql/postgresql.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/postgresql/postgresql.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,24 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/zangetsu/PycharmProjects/Migom&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\zangetsu\\PycharmProjects\\Migom\\frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/zangetsu/PycharmProjects/Migom/frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "C:\\Users\\zangetsu\\PycharmProjects\\Migom\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -67,18 +66,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\frontend" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests\integration\products" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\core\infrastructure" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\templates" />
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests\functional\core" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\frontend" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\users\presentation" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\payments\application\use_cases" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src" />
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\auth\presentation" />
-      <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\tests" />
     </key>
   </component>
   <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
@@ -155,10 +154,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.frontend: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.app: Compose Deployment" />
         <item itemvalue="npm.preview" />
-        <item itemvalue="Docker.docker-compose.yml.frontend: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -291,6 +290,7 @@
       <workItem from="1766861926767" duration="2482000" />
       <workItem from="1766931685146" duration="14525000" />
       <workItem from="1767003628167" duration="9264000" />
+      <workItem from="1767033852275" duration="5074000" />
     </task>
     <servers />
   </component>
