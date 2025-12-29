@@ -15,17 +15,20 @@
 #### Тесты:
 Тесты находятся в папке tests
 
-Unit Tests - tests/unit
-Integration Tests - tests/integration
-Functional Tests - tests/funtional
+- Unit Tests - tests/unit
+- Integration Tests - tests/integration
+- Functional Tests - tests/funtional
 
-Запуск тестов осуществляется через 
+Запуск тестов осуществляется через команду
+
 ```pytest tests```
 
 
 #### Запуск:
 Запуск бекенда осуществляется через команду
+
 ```uvicorn src:app --reload```
 
 или через main.py
+
 ```python main.py```
