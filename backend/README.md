@@ -11,3 +11,21 @@
 - products - (CRUD товаров, поиск товаров)
 - users (работа с пользователями, вывод информации о себе, смена пароля)
 - admin (CRUD-операции со всеми сущностями базы данных)
+
+#### Тесты:
+Тесты находятся в папке tests
+
+Unit Tests - tests/unit
+Integration Tests - tests/integration
+Functional Tests - tests/funtional
+
+Запуск тестов осуществляется через 
+```pytest tests```
+
+
+#### Запуск:
+Запуск бекенда осуществляется через команду
+```uvicorn src:app --reload```
+
+или через main.py
+```python main.py```
