@@ -141,11 +141,6 @@ async def test_failed_logout_user(clear_db, user_factory):
 @pytest.mark.asyncio(loop_scope="session")
 async def test_create_all_users_roles(user_factory):
     async with httpx.AsyncClient(base_url='http://localhost:8000') as client:
-        TEST_USER_DTO.role = UserRole.user
-        TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
-        await user_factory(client, TEST_USER_DTO)
-        print(f"Role - {UserRole.user} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
-
         TEST_USER_DTO.role = UserRole.admin
         TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
         await user_factory(client, TEST_USER_DTO)
@@ -160,4 +155,9 @@ async def test_create_all_users_roles(user_factory):
         TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
         await user_factory(client, TEST_USER_DTO)
         print(f"Role - {UserRole.cook} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
+
+        TEST_USER_DTO.role = UserRole.user
+        TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
+        await user_factory(client, TEST_USER_DTO)
+        print(f"Role - {UserRole.user} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
 
