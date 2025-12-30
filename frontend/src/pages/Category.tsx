@@ -3,6 +3,7 @@ import AddInCartBtn from "../components/Ui/AddInCartButton.tsx";
 import config from "../../config.ts";
 import {useParams} from "react-router-dom";
 import Products from "../components/Widgets/Products.tsx";
+import Loader from "../components/Loaders/Loader.tsx";
 
 type Product = {
     id?: string;
@@ -18,7 +19,7 @@ type Product = {
 export default function Category(): JSX.Element {
     const {id} = useParams();
     const [products, setProducts] = useState<Product[]>([]);
-
+    const [isLoading, setLoading] = useState(false)
     const genUuid = (): string => {
         if (typeof crypto !== "undefined" && typeof (crypto as any).randomUUID === "function") {
             return (crypto as any).randomUUID();
@@ -41,6 +42,7 @@ export default function Category(): JSX.Element {
         let mounted = true;
 
         const load = async () => {
+            setLoading(true)
             try {
                 const res = await fetch(
                     `${config.API_URL}/api/products/search`,
@@ -61,12 +63,12 @@ export default function Category(): JSX.Element {
             } catch (err: any) {
                 if (!mounted) return;
                 if (err.name === "AbortError") {
-                    // запрос отменён, ничего не делаем
                     return;
                 }
                 console.error("Failed loading products:", err);
-                // безопасное поведение при ошибке — пустой список или предыдущие данные
                 setProducts([]);
+            } finally {
+                setLoading(false)
             }
         };
 
@@ -77,6 +79,8 @@ export default function Category(): JSX.Element {
             controller.abort();
         };
     }, []);
+
+    if (isLoading) return <Loader/>;
 
     return (
         <Products products_data={products}/>

@@ -44,7 +44,7 @@ export default function Products({products_data = []}: { products_data?: Product
         if (loadedRef.current) return ;
         loadedRef.current = true;
 
-        if (products_data?.length) {
+        if (products_data?.length && products.length > 0) {
             setProducts(normalize(products_data));
             return;
         }
