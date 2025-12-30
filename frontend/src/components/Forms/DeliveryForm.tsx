@@ -230,9 +230,10 @@ const DeliveryForm: React.FC<DFProps> = ({
                 };
             } else {
                 const body = buildUpdateDTO(addr);
-                const res = await fetch(`/api/addresses/${addr.id}`, {
+                const res = await fetch(`${config.API_URL}/api/addresses/${addr.id}`, {
                     method: "PATCH",
                     headers: {"Content-Type": "application/json"},
+                    credentials: "include",
                     body: JSON.stringify(body),
                 });
                 if (!res.ok) {
@@ -288,7 +289,7 @@ const DeliveryForm: React.FC<DFProps> = ({
         if (!id) return;
         setDeletingId(id);
         try {
-            const res = await fetch(`/api/addresses/${id}`, {method: "DELETE"});
+            const res = await fetch(`${config.API_URL}/api/addresses/${id}`, {method: "DELETE", credentials: "include"});
             if (!res.ok) {
                 throw new Error(`Ошибка удаления: ${res.status}`);
             }
