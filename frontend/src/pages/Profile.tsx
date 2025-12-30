@@ -27,16 +27,30 @@ function Profile(): JSX.Element {
         <>
             <h1 className="title justify-start">Профиль</h1>
 
-            <div className="card gap-9 items-center text-center">
-                <div className="justify-center flex flex-row gap-1">
-                    <p>{user.first_name}</p>
-                    <p>{user.last_name}</p>
+            <div className="card p-18 gap-6 items-center text-center">
+                <div>
+                    <h1 className="title text-sm my-0">Имя и Фамилия:</h1>
+
+                    <div className="flex flex-row gap-1">
+                        <p>{user.first_name}</p>
+                        <p>{user.last_name}</p>
+                    </div>
                 </div>
-                <p>{user.birthday}</p>
-                <p>{user.email}</p>
+                <div>
+                    <h1 className="title text-sm my-0">Дата рождения:</h1>
+
+                    <p>{user.birthday ?? "Не указано"}</p>
+                </div>
+
+                <div>
+                    <h1 className="title text-sm my-0">Почта:</h1>
+
+                    <p>{user.email}</p>
+                </div>
+
 
                 <div className="w-full max-w-md">
-                    <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                         <button type="button" onClick={() => setModalOpen(true)}
                                 className="big__button bg-blue-100 text-blue-500">
                             Сменить пароль
