@@ -73,60 +73,174 @@ async def create_product(client, product=None):
 
 async def create_normal_product(client):
     TEST_PHOTOS = [os.path.join("normal", i) for i in os.listdir("normal")]
-    print(TEST_PHOTOS)
-    PRICES = [999, 1999, 2199, 499, 899, 1399, 2599, 3499, 5999]
-    NAME_CATS = ["Выбор пользователей", "Острее киберугроз", "Только здесь", "Новинки", "Только в доставке", "Комбо и ланчи", "Баскеты", "Бургеры"]
-    NAMES = ["Комбо \"Курица в квадрате\" оригинальное", "Острое комбо от Kaspersky «Против звонков с неизвестного»", "Шефбургер оригинальный", "Комбо с Биг Маэстро", "Веджи Чиз Ролл классический",
-             "8 Острых Крылышек", "Большое комбо \"Курица в квадрате\" оригинальное"]
-    already_exists = []
 
-    for name in NAMES:
+    CATEGORIES = [
+        "Выбор пользователей",
+        "Бургеры",
+        "Комбо и ланчи",
+        "Острые блюда",
+        "Закуски",
+        "Баскеты",
+        "Новинки",
+    ]
+
+    PRODUCTS = [
+        {
+            "name": "Шефбургер оригинальный",
+            "content": "Классический бургер с сочным куриным филе в хрустящей панировке и свежими овощами.",
+            "composition": "Куриное филе; Булочка бриошь; Салат Айсберг; Томаты; Фирменный соус",
+            "price_range": (189, 329),
+            "grams": [180, 200, 220],
+        },
+        {
+            "name": "Шефбургер острый",
+            "content": "Острый бургер с куриным филе и пикантным соусом для любителей яркого вкуса.",
+            "composition": "Куриное филе; Булочка бриошь; Перец халапеньо; Соус острый",
+            "price_range": (199, 349),
+            "grams": [180, 200, 220],
+        },
+        {
+            "name": "Бургер с сырной котлетой",
+            "content": "Сытный бургер с сырной котлетой, свежими овощами и мягкой булочкой.",
+            "composition": "Сырная котлета; Булочка; Салат; Соус",
+            "price_range": (209, 359),
+            "grams": [190, 210, 230],
+        },
+        {
+            "name": "Комбо с курицей",
+            "content": "Бургер с курицей, картофель фри и напиток — отличный вариант для обеда.",
+            "composition": "Бургер куриный; Картофель фри; Напиток",
+            "price_range": (459, 699),
+            "grams": [520, 580, 620],
+        },
+        {
+            "name": "Острое комбо",
+            "content": "Набор для тех, кто любит поострее: бургер, фри и острый соус.",
+            "composition": "Острый бургер; Картофель фри; Соус",
+            "price_range": (499, 749),
+            "grams": [540, 600, 660],
+        },
+        {
+            "name": "8 острых крылышек",
+            "content": "Куриные крылышки в острой глазури с насыщенным вкусом специй.",
+            "composition": "Крылышки куриные; Острая глазурь; Специи",
+            "price_range": (399, 599),
+            "grams": [300, 340, 380],
+        },
+        {
+            "name": "12 крылышек BBQ",
+            "content": "Крылышки в соусе BBQ с дымным ароматом и мягким вкусом.",
+            "composition": "Крылышки куриные; Соус BBQ",
+            "price_range": (549, 799),
+            "grams": [420, 480, 540],
+        },
+        {
+            "name": "Картофель фри стандартный",
+            "content": "Хрустящий картофель фри, обжаренный до золотистой корочки.",
+            "composition": "Картофель; Растительное масло; Соль",
+            "price_range": (129, 189),
+            "grams": [120, 150, 180],
+        },
+        {
+            "name": "Картофель фри большой",
+            "content": "Увеличенная порция картофеля фри для настоящих ценителей.",
+            "composition": "Картофель; Растительное масло; Соль",
+            "price_range": (179, 249),
+            "grams": [220, 260, 300],
+        },
+        {
+            "name": "Куриные наггетсы 6 шт",
+            "content": "Нежные куриные наггетсы в хрустящей панировке.",
+            "composition": "Куриное филе; Панировка; Специи",
+            "price_range": (199, 279),
+            "grams": [160, 180],
+        },
+        {
+            "name": "Куриные наггетсы 9 шт",
+            "content": "Увеличенная порция куриных наггетсов для компании.",
+            "composition": "Куриное филе; Панировка; Специи",
+            "price_range": (269, 359),
+            "grams": [240, 270],
+        },
+        {
+            "name": "Большой баскет",
+            "content": "Большой набор курицы и закусок для компании.",
+            "composition": "Куриные кусочки; Картофель фри; Соусы",
+            "price_range": (1099, 1799),
+            "grams": [900, 1000, 1100],
+        },
+        {
+            "name": "Семейный баскет",
+            "content": "Сытный набор для всей семьи с разнообразием вкусов.",
+            "composition": "Курица; Наггетсы; Фри; Соусы",
+            "price_range": (1399, 2199),
+            "grams": [1200, 1300, 1400],
+        },
+        {
+            "name": "Соус сырный",
+            "content": "Нежный сливочный соус с выраженным сырным вкусом.",
+            "composition": "Сыр; Сливки; Специи",
+            "price_range": (59, 89),
+            "grams": [30, 40],
+        },
+        {
+            "name": "Соус кисло-сладкий",
+            "content": "Лёгкий соус с балансом сладости и кислинки.",
+            "composition": "Томатная основа; Сахар; Специи",
+            "price_range": (59, 89),
+            "grams": [30, 40],
+        },
+    ]
+
+    created_categories = {}
+
+    for tpl in PRODUCTS:
         photo_path = random.choice(TEST_PHOTOS)
-        url_photo = None
 
         with open(photo_path, "rb") as f:
             resp = await client.post("/api/files/", files={"file": f})
             url_photo = resp.json()["url"]
 
-        category_data = None
-        while True:
-            cat = random.choice(NAME_CATS)
-            if cat in already_exists:
-                continue
-
-            category_data = CategoryCreateDTO(
-                name=cat,
-                photo=url_photo
+        cat_name = random.choice(CATEGORIES)
+        if cat_name not in created_categories:
+            cat_dto = CategoryCreateDTO(name=cat_name, photo=url_photo)
+            resp_cat = await client.post(
+                "/api/categories/",
+                json=cat_dto.model_dump(mode="json")
             )
-            already_exists.append(cat)
-            break
+            created_categories[cat_name] = Category(**resp_cat.json())
 
-        response1 = await client.post("/api/categories/", json=category_data.model_dump(mode="json"))
-        category = Category(**response1.json())
+        category = created_categories[cat_name]
 
-        product = ProductCreateDTO(
-            name=name,
-            content=f"Пирожок с манго-маракуйей и крем-чизом - это сочетание хрустящего теста с начинкой из спелого манго, свежей кислинкой маракуйи и лёгким сливочным кремом. *Продукция содержит или может содержать ракообразных или их следы, а также другие аллергены. Кроме ресторанов-исключений, указанных на сайте – https://rostics.ru/promo/noshrimps",
-            composition="Филе куриное оригинальное; Томаты свежие; Салат Айсберг; Булочка бриошь; Сырная котлета; Соус на основе растительных масел со вкусом \"Блю Чиз\"",
+        price = random.randint(*tpl["price_range"])
+        discount = random.choice([0, 5, 10, 15, 20])
+        grams = random.choice(tpl["grams"])
 
-            price=random.choice(PRICES),
-            discount=random.randint(0, 99),
-
-            count=random.randint(1, 200),
-            grams=random.randint(1, 200),
-            protein=random.randint(1, 200),
-            fats=random.randint(1, 200),
-            carbohydrates=random.randint(1, 200),
-            kilocalorie=random.randint(1, 200),
+        product_dto = ProductCreateDTO(
+            name=tpl["name"],
+            content=tpl["content"],
+            composition=tpl["composition"],
+            price=price,
+            discount=discount,
+            count=random.randint(20, 500),
+            grams=grams,
+            protein=random.randrange(10, 40, 5),
+            fats=random.randrange(8, 35, 5),
+            carbohydrates=random.randrange(15, 60, 5),
+            kilocalorie=random.randrange(180, 700, 20),
             category_id=category.id,
             photo=url_photo,
-            # discount_price=None if random.randint(0, 1) == 0 else random.randint(1, 99),
         )
 
-        response2 = await client.post("/api/products/", json=product.model_dump())
-        product_created = Product(**response2.json())
+        resp_product = await client.post(
+            "/api/products/",
+            json=product_dto.model_dump()
+        )
 
-        assert product_created.name == product.name
+        product_created = Product(**resp_product.json())
+        assert product_created.name == product_dto.name
+
+
 
 
 @pytest.mark.asyncio(loop_scope="session")

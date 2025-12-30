@@ -37,19 +37,19 @@ export default function Menu({ onClose, className = "", id }: Props): JSX.Elemen
                         Мои заказы
                     </NavLink>
 
-                    {user?.role === 2 && (
+                    {user.role === 2 && (
                         <NavLink to="/courier" onClick={handleClose} className="big__button text-blue-500 bg-blue-100">
                             Меню курьеров
                         </NavLink>
                     )}
 
-                    {user?.role === 3 && (
+                    {user.role === 3 && (
                         <NavLink to="/cook" onClick={handleClose} className="big__button text-brown-500 bg-brown-100">
                             Меню поваров
                         </NavLink>
                     )}
 
-                    {user?.role === 4 && (
+                    {user.role === 4 && (
                         <NavLink to="/admin" onClick={handleClose} className="big__button text-green-500 bg-green-100">
                             Админ панель
                         </NavLink>

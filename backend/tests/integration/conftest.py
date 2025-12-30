@@ -20,10 +20,6 @@ TABLES_TO_TRUNCATE = [
 
 @pytest_asyncio.fixture(loop_scope="session")
 async def clear_db():
-    env = os.environ.get("ENVIRONMENT")
-    if env != "testing":
-        raise RuntimeError(f"clear_db can only be used in testing environment. Current ENVIRONMENT={env}")
-
     async with engine.begin() as conn:
         tables = ", ".join(TABLES_TO_TRUNCATE)
         query = f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE;"

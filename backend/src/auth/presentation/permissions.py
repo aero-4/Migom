@@ -42,7 +42,6 @@ class access_control:
         return None
 
     async def verify_request(self, *args, **kwargs) -> bool:
-
         if not self.current_user or not self.current_user.role:
             raise AuthRequired()
 

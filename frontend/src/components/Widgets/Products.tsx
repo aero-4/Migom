@@ -19,6 +19,8 @@ type Product = {
 export default function Products({products_data = []}: { products_data?: Product[] }): JSX.Element {
     const [products, setProducts] = useState<Product[]>(products_data);
     const wrapperRef = useRef<HTMLDivElement | null>(null);
+    const loadedRef = useRef(false);
+
 
     const genUuid = (): string => {
         if (typeof crypto !== "undefined" && typeof (crypto as any).randomUUID === "function") {
@@ -39,12 +41,11 @@ export default function Products({products_data = []}: { products_data?: Product
         }));
 
     useEffect(() => {
-        if (products_data && products_data.length > 0) {
-            setProducts(normalize(products_data));
-            return;
-        }
+        if (loadedRef.current) return ;
+        loadedRef.current = true;
 
-        if (products.length > 0) {
+        if (products_data?.length) {
+            setProducts(normalize(products_data));
             return;
         }
 
@@ -53,10 +54,11 @@ export default function Products({products_data = []}: { products_data?: Product
 
         const load = async () => {
             try {
-                const res = await fetch(`${config.API_URL}/api/products`, {
+                const res = await fetch(`${config.API_URL}/api/products/`, {
                     signal: controller.signal,
                 });
-                if (!res.ok) throw new Error("No products");
+                if (!res.ok)
+                    throw new Error("No products");
 
                 const data = await res.json();
                 if (!mounted) return;
@@ -75,7 +77,7 @@ export default function Products({products_data = []}: { products_data?: Product
             mounted = false;
             controller.abort();
         };
-    }, [products_data]);
+    }, []);
 
 
     return (

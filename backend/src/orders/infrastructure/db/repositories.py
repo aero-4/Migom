@@ -66,7 +66,7 @@ class PGOrdersRepository(IOrderRepository):
                 order_id=obj.id,
                 product_id=product.id,
                 quantity=item.quantity,
-                amount=product.price
+                amount=product.discount_price if product.discount_price else product.price
             )
             links.append(link)
             total_amount += item.quantity * product.discount_price if product.discount_price else item.quantity * product.price

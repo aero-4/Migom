@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 @lru_cache
 def get_redis_client() -> Redis:
-    print(settings.REDIS_URL)
     return Redis.from_url(settings.REDIS_URL, decode_responses=True)
 
 

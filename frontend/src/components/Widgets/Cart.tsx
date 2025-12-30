@@ -5,6 +5,7 @@ import CloseButton from "../Ui/CloseButton.tsx";
 import {useAuth} from "../../context/AuthContext.tsx";
 import PaymentForm from "../Forms/PaymentForm.tsx";
 import {DeliveryForm} from "../Forms/DeliveryForm.tsx";
+import config from "../../../config.ts";
 
 export type DeliveryAddress = {
     id?: number | string;
@@ -50,7 +51,7 @@ export const CartWidget: React.FC = () => {
             setLoadingAddresses(true);
 
             try {
-                const res = await fetch("/api/addresses/", {signal});
+                const res = await fetch(config.API_URL + "/api/addresses/", {signal, credentials: "include"}, );
 
                 if (!res.ok) {
                     if (res.status === 401 || res.status === 403) {
@@ -250,8 +251,7 @@ export const CartWidget: React.FC = () => {
                                 <div className="overflow-y-auto">
                                     {items.length === 0 ? (
                                         <div className="flex flex-col my-auto text-center items-center justify-center text-gray-600">
-                                            <div className="text-3xl font-medium">Корзина пуста</div>
-
+                                            <div className="text-xl font-medium">Корзина пуста</div>
                                             <div className="text-sm mt-2">Добавьте товары и они появятся тут</div>
                                         </div>
                                     ) : (
