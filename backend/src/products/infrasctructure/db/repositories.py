@@ -37,7 +37,7 @@ class PGProductsRepository(IProductRepository):
                 or_(
                     CategoriesOrm.name.ilike(f"%{search.category_name}%"),
                     ProductsOrm.category_id == search.category_id,
-                    ProductsOrm.name.ilike(f"%{search.name}")
+                    ProductsOrm.name.ilike(f"%{search.name}%")
                 )
             )
         )

@@ -31,7 +31,7 @@ function Profile(): JSX.Element {
                 <div>
                     <h1 className="title text-sm my-0">Имя и Фамилия:</h1>
 
-                    <div className="flex flex-row gap-1">
+                    <div className="flex flex-row gap-1 justify-center">
                         <p>{user.first_name}</p>
                         <p>{user.last_name}</p>
                     </div>
@@ -50,6 +50,7 @@ function Profile(): JSX.Element {
 
 
                 <div className="w-full max-w-md">
+
                 <div className="flex flex-col gap-1">
                         <button type="button" onClick={() => setModalOpen(true)}
                                 className="big__button bg-blue-100 text-blue-500">
