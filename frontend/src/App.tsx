@@ -8,6 +8,7 @@ import Orders from "./pages/Orders.tsx";
 import Courier from "./pages/Courier.tsx";
 import Cook from "./pages/Cook.tsx";
 import Admin from './pages/Admin.tsx';
+import Documents from './pages/Documents.tsx';
 
 const Home = lazy(() => import('./pages/Home.tsx'));
 const Login = lazy(() => import('./pages/Login.tsx'));
@@ -34,6 +35,7 @@ function App(): JSX.Element {
                     <Route path="login" element={<Login/>}/>
                     <Route path="search" element={<SearchPage/>}/>
                     <Route path="*" element={<NotFound/>}/>
+                    <Route path="/documents/:name" element={<Documents/>}/>
                 </Route>
             </Routes>
         </Suspense>
