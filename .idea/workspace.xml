@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f860411-ead3-41ca-9280-aa1a784d7646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/core/infrastructure/redis.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/core/infrastructure/redis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/orders/infrastructure/db/repositories.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/orders/infrastructure/db/repositories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tests/integration/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/integration/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tests/integration/products/integration_test_products.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/integration/products/integration_test_products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Widgets/Cart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Widgets/Cart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Widgets/Products.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Widgets/Products.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/category.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/profile.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/search.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/functional/auth/functional_test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/functional/auth/functional_test_auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +67,7 @@
       <map>
         <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
         <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
       </map>
     </option>
   </component>
@@ -89,7 +87,7 @@
       <recent name="C:\Users\zangetsu\PycharmProjects\Migom\backend\src\auth\presentation" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Docker.docker-compose.yml.db: Compose Deployment">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Migom" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -174,7 +172,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.frontend: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
@@ -313,6 +310,9 @@
       <workItem from="1767003628167" duration="9264000" />
       <workItem from="1767033852275" duration="5074000" />
       <workItem from="1767087790697" duration="3356000" />
+      <workItem from="1767100385491" duration="5123000" />
+      <workItem from="1767168981461" duration="388000" />
+      <workItem from="1767169389679" duration="251000" />
     </task>
     <servers />
   </component>
@@ -328,7 +328,7 @@
     <SUITE FILE_PATH="coverage/backend$.coverage" NAME=" Coverage Results" MODIFIED="1763478822940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/orders" />
     <SUITE FILE_PATH="coverage/backend$engine.coverage" NAME="engine Coverage Results" MODIFIED="1761863142208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/db" />
     <SUITE FILE_PATH="coverage/backend$conftest__1_.coverage" NAME="conftest (1) Coverage Results" MODIFIED="1762453086132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/Migom$main.coverage" NAME="main Coverage Results" MODIFIED="1767095323138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/src" />
+    <SUITE FILE_PATH="coverage/Migom$main.coverage" NAME="main Coverage Results" MODIFIED="1767100954882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/src" />
     <SUITE FILE_PATH="coverage/backend$config.coverage" NAME="config Coverage Results" MODIFIED="1761854763161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
     <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_users_integration_test_users_test_get_me_success.coverage" NAME="pytest for tests.integration.users.integration_test_users.test_get_me_success Coverage Results" MODIFIED="1766077780213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/users" />
     <SUITE FILE_PATH="coverage/BackendMigom$pytest_for_tests_integration_orders_integration_test_orders_test_success_new_order.coverage" NAME="pytest for tests.integration.orders.integration_test_orders.test_success_new_order Coverage Results" MODIFIED="1764077583597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/orders" />

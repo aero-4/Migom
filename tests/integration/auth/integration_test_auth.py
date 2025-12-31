@@ -135,3 +135,6 @@ async def test_failed_logout_user(clear_db, user_factory):
             assert response3.json() == {"detail": "Authentication required"}
 
 
+
+
+
