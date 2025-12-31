@@ -8,10 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/category.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/profile.gif" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/media/search.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/functional/auth/functional_test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/functional/auth/functional_test_auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/auth/integration_test_auth.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -312,7 +309,7 @@
       <workItem from="1767087790697" duration="3356000" />
       <workItem from="1767100385491" duration="5123000" />
       <workItem from="1767168981461" duration="388000" />
-      <workItem from="1767169389679" duration="251000" />
+      <workItem from="1767169389679" duration="1282000" />
     </task>
     <servers />
   </component>
