@@ -152,15 +152,17 @@ async def test_create_all_users_roles(user_factory):
         await user_factory(client, TEST_USER_DTO)
         print(f"Role - {UserRole.admin} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
 
+        TEST_USER_DTO.role = UserRole.cook
+        TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
+        await user_factory(client, TEST_USER_DTO)
+        print(f"Role - {UserRole.cook} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
+
         TEST_USER_DTO.role = UserRole.courier
         TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
         await user_factory(client, TEST_USER_DTO)
         print(f"Role - {UserRole.courier} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
 
-        TEST_USER_DTO.role = UserRole.cook
-        TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
-        await user_factory(client, TEST_USER_DTO)
-        print(f"Role - {UserRole.cook} {TEST_USER_DTO.email} {TEST_USER_DTO.password}")
+
 
         TEST_USER_DTO.role = UserRole.user
         TEST_USER_DTO.email = f"test{random.randint(1000, 9999)}@gmail.com"
