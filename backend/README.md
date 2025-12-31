@@ -1,6 +1,6 @@
-#### Stack Backend: Python 3.12, FastAPI, SQLAlchemy, Redis, Pydantic, PostgresSQL, Pytest, Prometheus, Docker, Docker Compose.
+#### Stack: Python 3.12, FastAPI, SQLAlchemy, Redis, Pydantic, PostgresSQL, Pytest, Prometheus, Docker, Docker Compose.
 
-### Реализованные сервисы:
+## Реализованные сервисы:
 
 - addresses - (создание адресов для заказов)
 - auth - (JWT авторизация пользователей, авторизация, регистрация, логаут, рефреш access токена)
@@ -13,7 +13,7 @@
 - admin (CRUD-операции со всеми сущностями базы данных)
 
 
-#### Тесты:
+## Тесты:
 Тесты находятся в папке tests
 
 - Unit Tests - tests/unit
@@ -25,7 +25,7 @@
 ```pytest tests```
 
 
-#### Запуск:
+## Запуск:
 Запуск бекенда осуществляется через команду
 
 ```uvicorn src:app --reload```
